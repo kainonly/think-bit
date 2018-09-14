@@ -1,0 +1,21 @@
+{
+  "name": "kain/bit",
+  "description": "ThinkPHP Extend Lib",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "kain",
+      "email": "zhangtqx@vip.qq.com"
+    }
+  ],
+  "require": {
+    "ext-json": "*",
+    "ext-redis": "*",
+    "ext-mongodb": "*",
+    "topthink/framework": "5.1.*",
+    "firebase/php-jwt": "^5.0",
+    "nesbot/carbon": "^2.1",
+    "mongodb/mongodb": "^1.4",
+    "php-amqplib/php-amqplib": "^2.7"
+  }
+}
