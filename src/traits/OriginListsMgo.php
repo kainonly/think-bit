@@ -1,9 +1,9 @@
 <?php
 
-namespace bit\traits;
+namespace think\bit\traits;
 
-use bit\facade\Mongo;
-use bit\validate;
+use think\bit\facade\Mongo;
+use think\bit\validate;
 
 trait OriginListsMgo
 {

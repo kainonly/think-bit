@@ -1,8 +1,8 @@
 <?php
 
-namespace bit\traits;
+namespace think\bit\traits;
 
-use bit\facade\MongoDB;
+use think\bit\facade\Mongo;
 use think\Validate;
 
 trait DeleteMgo
@@ -23,7 +23,7 @@ trait DeleteMgo
             ];
         }
 
-        $result = MongoDB::mgo($this->model)->deleteMany($this->post['where'])->isAcknowledged();
+        $result = Mongo::collection($this->model)->deleteMany($this->post['where'])->isAcknowledged();
 
         if ($result) {
             if (method_exists($this, '__deleteAfterHooks')) {

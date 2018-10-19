@@ -1,8 +1,8 @@
 <?php
 
-namespace bit\traits;
+namespace think\bit\traits;
 
-use bit\facade\Mongo;
+use think\bit\facade\Mongo;
 use MongoDB\BSON\ObjectId;
 use think\Validate;
 

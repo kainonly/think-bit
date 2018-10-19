@@ -1,6 +1,6 @@
 <?php
 
-namespace bit\lifecycle;
+namespace think\bit\lifecycle;
 
 interface DeleteAfterHooks
 {

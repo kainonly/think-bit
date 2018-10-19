@@ -1,6 +1,6 @@
 <?php
 
-namespace bit\middleware;
+namespace think\bit\middleware;
 
 use think\Request;
 use think\response\Json;

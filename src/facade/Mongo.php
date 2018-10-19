@@ -1,8 +1,8 @@
 <?php
 
-namespace bit\facade;
+namespace think\bit\facade;
 
-use bit\common\BitMongoDB;
+use think\bit\common\BitMongoDB;
 use think\Facade;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace bit\middleware;
+namespace think\bit\middleware;
 
 use Firebase\JWT\JWT;
 use Exception;

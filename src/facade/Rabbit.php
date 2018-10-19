@@ -2,7 +2,7 @@
 
 namespace bit\facade;
 
-use bit\common\BitRabbitMQ;
+use think\bit\common\BitRabbitMQ;
 use Closure;
 use Symfony\Component\Cache\Traits\RedisTrait;
 use think\Facade;

@@ -1,11 +1,11 @@
 <?php
 
-namespace bit\traits;
+namespace think\bit\traits;
 
 use think\Db;
 use think\db\Query;
 use think\Exception;
-use bit\validate;
+use think\bit\validate;
 
 trait OriginListsModel
 {

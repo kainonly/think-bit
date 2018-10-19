@@ -1,8 +1,8 @@
 <?php
 
-namespace bit\facade;
+namespace think\bit\facade;
 
-use bit\common\BitRedis;
+use think\bit\common\BitRedis;
 use Closure;
 use think\Facade;
 

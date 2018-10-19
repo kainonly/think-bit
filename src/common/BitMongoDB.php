@@ -1,6 +1,6 @@
 <?php
 
-namespace bit\common;
+namespace think\bit\common;
 
 class BitMongoDB
 {

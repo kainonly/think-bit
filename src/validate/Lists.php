@@ -1,6 +1,6 @@
 <?php
 
-namespace bit\validate;
+namespace think\bit\validate;
 
 use think\Validate;
 

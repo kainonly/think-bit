@@ -1,6 +1,6 @@
 <?php
 
-namespace bit\traits;
+namespace think\bit\traits;
 
 use think\Db;
 
