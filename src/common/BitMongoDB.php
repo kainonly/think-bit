@@ -17,11 +17,11 @@ class BitMongoDB
 
     /**
      * TODO:Mongo集合
-     * @param $collection
+     * @param $collection_name
      * @return \MongoDB\Collection
      */
-    public function mgo($collection)
+    public function collection($collection_name)
     {
-        return $this->client->selectCollection($collection);
+        return $this->client->selectCollection($collection_name);
     }
 }

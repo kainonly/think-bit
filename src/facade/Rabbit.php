@@ -8,11 +8,11 @@ use Symfony\Component\Cache\Traits\RedisTrait;
 use think\Facade;
 
 /**
- * Class RabbitMQ
+ * Class Rabbit
  * @method static channel(Closure $closure) 创建消息队列通道
  * @package bit\facade
  */
-class RabbitMQ extends Facade
+class Rabbit extends Facade
 {
     protected static function getFacadeClass()
     {

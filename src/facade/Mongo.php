@@ -6,11 +6,11 @@ use bit\common\BitMongoDB;
 use think\Facade;
 
 /**
- * Class Redis
- * @method static \MongoDB\Collection mgo($collection)
+ * Class Mongo
+ * @method static \MongoDB\Collection collection($collection_name)
  * @package bit\facade
  */
-class MongoDB extends Facade
+class Mongo extends Facade
 {
     protected static function getFacadeClass()
     {
