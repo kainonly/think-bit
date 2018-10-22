@@ -2,7 +2,7 @@
 
 namespace bit\common;
 
-use bit\facade\Redis;
+use think\bit\facade\Redis;
 
 abstract class Bedis
 {

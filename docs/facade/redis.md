@@ -1,6 +1,25 @@
 # Redis
 
-#### 基础处理
+#### 配置
+
+在config文件中创建 `redis.php`
+
+```php
+<?php
+return [
+    'connect' => 'localhost',
+    'port' => '6379',
+    'auth' => '123',
+    'select' => 0
+];
+```
+
+- `connect` 连接地址
+- `port` 端口
+- `auth` 验证密码
+- `select` 库
+
+#### 定义库
 
 ##### `Redis::model($index = null)`
 
@@ -9,12 +28,13 @@
 设置一个字符串缓存
 
 ```php
-Redis::model(0)->set('name', 'kain');
+use think\bit\facade\Redis;
+Redis::model()->set('name', 'kain');
 ```
 
 > 选择redis库之后返回phpredis对象，使用使用方法请看 https://github.com/phpredis/phpredis
 
-#### 事务处理
+#### 事务
 
 ##### `Redis::transaction(Closure $closure)`
 
@@ -23,10 +43,15 @@ Redis::model(0)->set('name', 'kain');
 执行一段缓存事务设置
 
 ```php
-Redis::transaction(function (\Redis $redis) {
-    $redis->set('name1', 'kain');
-    $redis->set('name2', 'php');
+use think\bit\facade\Redis;
+$result = Redis::transaction(function (\Redis $redis) {
+    return (
+        $redis->set('name1', 'js') &&
+        $redis->set('name2', 'php')
+    );
 });
+// true or false
+dump($result);
 ```
 
 > 事务将返回 `true` 或 `false`
