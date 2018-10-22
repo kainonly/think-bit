@@ -1,8 +1,8 @@
 <?php
 
-namespace think\bit\common;
+namespace bit\common;
 
-use think\bit\facade\Redis;
+use bit\facade\Redis;
 
 abstract class Bedis
 {
