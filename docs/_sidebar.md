@@ -1,4 +1,6 @@
-* [快速开始](/)
+* [简介](/)
+* [快速开始](start)
+* [辅助控制器](base)
 * [Mysql 通用处理](sql/index)
     * [获取数据](sql/get)
     * [原始列表](sql/originLists)

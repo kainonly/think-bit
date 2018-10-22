@@ -23,7 +23,8 @@ trait GetModel
             }
             $condition = $this->get_condition;
             if (isset($this->post['where'])) $condition = array_merge(
-                $condition, $this->post['where']
+                $condition,
+                $this->post['where']
             );
             $data = Db::name($this->model)
                 ->where($normal)

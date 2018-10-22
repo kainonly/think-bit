@@ -1,4 +1,4 @@
-const RUNTIME = 'NGX-BIT'
+const RUNTIME = 'Think-Bit'
 const HOSTNAME_WHITELIST = [
     self.location.hostname,
     'fonts.gstatic.com',
