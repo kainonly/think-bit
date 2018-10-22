@@ -1,0 +1,24 @@
+{
+  "name": "think-bit",
+  "version": "1.0.0",
+  "description": "ThinkPHP Extend Lib",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "docs": "docsify serve ./docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kainonly/think-bit.git"
+  },
+  "keywords": [
+    "thinkphp-extend"
+  ],
+  "author": "kain",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kainonly/think-bit/issues"
+  },
+  "homepage": "https://github.com/kainonly/think-bit#readme"
+}
