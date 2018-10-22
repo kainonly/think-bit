@@ -2,9 +2,6 @@
   "name": "think-bit",
   "version": "1.0.0",
   "description": "ThinkPHP Extend Lib",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
     "docs": "docsify serve ./docs"
   },
