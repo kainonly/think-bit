@@ -1,6 +1,6 @@
 <?php
 
-namespace bit\facade;
+namespace think\bit\facade;
 
 use think\bit\common\BitRabbitMQ;
 use Closure;
