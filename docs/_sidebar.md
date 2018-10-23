@@ -17,7 +17,6 @@
     * [删除数据](nosql/delete)
 * [中间件](middleware/index)
     * [CORS 跨域资源共享](middleware/cors)
-    * [JWT 跨域认证标准](middleware/jwt)
 * [扩展门面](facade/index)
     * [Redis](facade/redis)
     * [MongoDB](facade/mongodb)
