@@ -6,7 +6,12 @@ use think\bit\facade\Mongo;
 use MongoDB\BSON\ObjectId;
 use think\Validate;
 
-trait GetMgo
+/**
+ * MongoDB获取数据
+ * Trait GetMongoDB
+ * @package think\bit\traits
+ */
+trait GetMongoDB
 {
     public function get()
     {

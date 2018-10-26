@@ -5,7 +5,12 @@ namespace think\bit\traits;
 use think\bit\facade\Mongo;
 use think\bit\validate;
 
-trait ListsMgo
+/**
+ * MongoDB获取分页列表
+ * Trait ListsMongoDB
+ * @package think\bit\traits
+ */
+trait ListsMongoDB
 {
     public function lists()
     {

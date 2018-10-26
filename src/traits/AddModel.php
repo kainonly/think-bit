@@ -4,6 +4,11 @@ namespace think\bit\traits;
 
 use think\Db;
 
+/**
+ * 关系型模型新增处理
+ * Trait AddModel
+ * @package think\bit\traits
+ */
 trait AddModel
 {
     public function add()
@@ -25,7 +30,7 @@ trait AddModel
             'error' => 0,
             'msg' => 'fail'
         ];
-        
+
         // 执行事务写入
         $transaction = Db::transaction(function () {
             // 判断是否有后置处理

@@ -1,6 +1,6 @@
 # 简介
 
-> 基于ThinkPHP5对 RESTful API 扩展库
+> 基于ThinkPHP5对 RESTful API 功能增强库
 
 #### 安装
 
@@ -11,7 +11,6 @@ composer require kain/think-bit
 #### 依赖
 
 - `topthink/framework` ThinkPHP核心
-- `firebase/php-jwt` PHP JSON Web Token库
 - `nesbot/carbon` 时间处理库
 - `mongodb/mongodb` MongoDB PHP Library
 - `php-amqplib/php-amqplib` PHP RabbitMQ

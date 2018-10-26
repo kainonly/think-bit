@@ -7,6 +7,11 @@ use think\db\Query;
 use think\Exception;
 use think\bit\validate;
 
+/**
+ * 关系型数据模型获取列表
+ * Trait OriginListsModel
+ * @package think\bit\traits
+ */
 trait OriginListsModel
 {
     public function originLists()

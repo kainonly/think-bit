@@ -5,6 +5,11 @@ namespace think\bit\traits;
 use think\Db;
 use think\Validate;
 
+/**
+ * 关系型模型删除处理
+ * Trait DeleteModel
+ * @package think\bit\traits
+ */
 trait DeleteModel
 {
     public function delete()
