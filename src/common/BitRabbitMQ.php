@@ -22,7 +22,7 @@ class BitRabbitMQ
     }
 
     /**
-     * TODO:消息队列闭包通道
+     * 消息队列闭包通道
      * @param Closure $closure
      */
     public function channel(Closure $closure)

@@ -5,7 +5,7 @@ namespace think\bit\lifecycle;
 interface OriginListsCustom
 {
     /**
-     * TODO:自定义无分页数据返回
+     * 自定义无分页数据返回
      * @param array $lists
      * @return array
      */

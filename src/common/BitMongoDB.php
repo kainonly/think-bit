@@ -16,7 +16,7 @@ class BitMongoDB
     }
 
     /**
-     * TODO:Mongo集合
+     * Mongo集合
      * @param $collection_name
      * @return \MongoDB\Collection
      */

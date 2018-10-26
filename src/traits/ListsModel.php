@@ -15,34 +15,42 @@ trait ListsModel
 {
     public function lists()
     {
-        // TODO:验证分页参数
+        // 通用验证
         $validate = new validate\Lists;
         if (!$validate->scene('page')->check($this->post)) return [
             'error' => 1,
             'msg' => $validate->getError()
         ];
         try {
+            // 判断是否存在条件
             $condition = $this->lists_condition;
             if (isset($this->post['where'])) $condition = array_merge(
-                $condition, $this->post['where']
+                $condition,
+                $this->post['where']
             );
+
+            // 模糊搜索
             $like = function (Query $query) {
                 if (isset($this->post['like'])) foreach ($this->post['like'] as $key => $like) {
                     if (empty($like['value'])) continue;
                     $query->where($like['field'], 'like', "%{$like['value']}%");
                 }
             };
+
+            // 分页计算
             $total = Db::name($this->model)->where($condition)->where($like)->count();
             $divided = $total % $this->post['page']['limit'] == 0;
             if ($divided) $max = $total / $this->post['page']['limit'];
             else $max = ceil($total / $this->post['page']['limit']);
             if ($max == 0) $max = $max + 1;
-            // TODO:页码超出最大分页数
+
+            // 页码超出最大分页数
             if ($this->post['page']['index'] > $max) return [
                 'error' => 1,
-                'msg' => lang('page index between')
+                'msg' => 'fail:page_max'
             ];
-            // TODO:分页查询
+
+            // 分页查询
             $lists = Db::name($this->model)
                 ->where($condition)
                 ->where($like)
@@ -62,7 +70,7 @@ trait ListsModel
         } catch (Exception $e) {
             return [
                 'error' => 1,
-                'msg' => (string)$e->getMessage()
+                'msg' => $e->getMessage()
             ];
         }
     }

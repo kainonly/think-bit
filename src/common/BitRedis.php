@@ -19,7 +19,7 @@ class BitRedis
     }
 
     /**
-     * TODO:Redis操作类
+     * Redis操作类
      * @param null $index 库索引
      * @return Redis
      */
@@ -30,7 +30,7 @@ class BitRedis
     }
 
     /**
-     * TODO:Redis事务处理
+     * Redis事务处理
      * @param Closure $closure
      * @return boolean
      */

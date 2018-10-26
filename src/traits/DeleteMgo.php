@@ -9,28 +9,26 @@ trait DeleteMgo
 {
     public function delete()
     {
-        // TODO:删除基本参数验证，主键为数组
+        // 通用验证
         $validate = Validate::make($this->delete_validate);
         if (!$validate->check($this->post)) return [
             'error' => 1,
             'msg' => $validate->getError()
         ];
+
+        // 判断是否有前置处理
         if (method_exists($this, '__deleteBeforeHooks')) {
             $before_result = $this->__deleteBeforeHooks();
-            if (!$before_result) return [
-                'error' => 1,
-                'msg' => 'before hooks failed!'
-            ];
+            if (!$before_result) return $this->delete_before_result;
         }
-
+        
+        // 执行删除
         $result = Mongo::collection($this->model)->deleteMany($this->post['where'])->isAcknowledged();
-
         if ($result) {
+            // 判断是否有后置处理
             if (method_exists($this, '__deleteAfterHooks')) {
-                if (!$this->__deleteAfterHooks()) return [
-                    'error' => 1,
-                    'msg' => 'fail'
-                ]; else return [
+                if (!$this->__deleteAfterHooks()) return $this->delete_after_result;
+                else return [
                     'error' => 0,
                     'msg' => 'ok'
                 ];
@@ -40,7 +38,7 @@ trait DeleteMgo
             ];
         } else return [
             'error' => 1,
-            'msg' => 'fail'
+            'msg' => 'fail:delete'
         ];
     }
 }
