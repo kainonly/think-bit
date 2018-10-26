@@ -60,9 +60,7 @@ abstract class BitController extends Controller
      * 单条数据验证器
      * @var array
      */
-    protected $get_validate = [
-        'id' => 'require'
-    ];
+    protected $get_validate = ['id' => 'require'];
 
     /**
      * 单条数据制约条件
@@ -113,7 +111,7 @@ abstract class BitController extends Controller
     ];
 
     /**
-     * 删除自定义后置返回
+     * 修改自定义后置返回
      * @var array
      */
     protected $edit_after_result = [
