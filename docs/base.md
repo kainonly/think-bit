@@ -1,14 +1,16 @@
-# 辅助控制器 - BitController
+# BitController
 
-> 辅助控制器是使用通用处理的重要组成部分，则需要使用通用处理时需要继承辅助控制器
+- `model`
 
-##### `model`
+- 模型名称
+- 命名规则需要与ThinkPHP一致，对应数据表即可
 
-- 模型名称，模型名称需要对应数据表，命名规则与ThinkPHP一致
-
-例如定义 `admin` 模块
+例如：定义 `k_admin` 数据表的模型名称
 
 ```php
+// 如果 database.php 配置中没有设定前缀，则需要
+$this->model = 'k_admin';
+// 如果已设定前缀，按照ThinkPHP规则即可
 $this->model = 'admin';
 ```
 
