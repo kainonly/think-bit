@@ -26,7 +26,7 @@ return [
 定义 Redis 操作模型
 
 - `$index` 库号
-- 返回 `<Redis>`
+- 返回 `<\Redis>`
 
 例子.设置一个字符串缓存
 
@@ -56,7 +56,7 @@ Redis::transaction(function (\Redis $redis) {
 });// true or false
 ```
 
-> 门面 Redis 基于 phpredis ，详情参考 https://github.com/phpredis/phpredis
+> 门面 `Redis` 基于 phpredis ，详情参考 https://github.com/phpredis/phpredis
 
 #### Bedis
 
