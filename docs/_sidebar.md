@@ -22,11 +22,11 @@
     * [EditMongoDB](traits/editMongoDB)
     * [DeleteMongoDB](traits/deleteMongoDB)
 * 生命周期
-    * [GetCustom]
-    * [OriginListsCustom]
-    * [AddBeforeHooks]
-    * [AddAfterHooks]
-    * [EditBeforeHooks]
-    * [EditAfterHooks]
-    * [DeleteBeforeHooks]
-    * [DeleteAfterHooks]
+    * [GetCustom](lifecycle/getCustom)
+    * [OriginListsCustom](lifecycle/originListsCustom)
+    * [AddBeforeHooks](lifecycle/addBeforeHooks)
+    * [AddAfterHooks](lifecycle/addAfterHooks)
+    * [EditBeforeHooks](lifecycle/editBeforeHooks)
+    * [EditAfterHooks](lifecycle/editAfterHooks)
+    * [DeleteBeforeHooks](lifecycle/deleteBeforeHooks)
+    * [DeleteAfterHooks](lifecycle/deleteAfterHooks)
