@@ -1,11 +1,13 @@
 # Redis
 
+Redis 是一个开源的使用ANSI C语言编写、遵守BSD协议、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。
+它通常被称为数据结构服务器，因为值（value）可以是 字符串(String), 哈希(Map), 列表(list), 集合(sets) 和 有序集合(sorted sets)等类型。
+
 #### 配置
 
-在config文件中创建 `redis.php`
+在ThinkPHP项目中下创建 `config/redis.php`
 
 ```php
-<?php
 return [
     'connect' => 'localhost',
     'port' => '6379',
@@ -17,48 +19,48 @@ return [
 - `connect` 连接地址
 - `port` 端口
 - `auth` 验证密码
-- `select` 库
+- `select` 库号
 
-#### 定义库
+#### model ($index = null)
 
-##### `Redis::model($index = null)`
+定义 Redis 操作模型
 
-- `index` redis 库
+- `$index` 库号
+- 返回 `<Redis>`
 
-设置一个字符串缓存
+例子.设置一个字符串缓存
 
 ```php
 use think\bit\facade\Redis;
-Redis::model()->set('name', 'kain');
+
+Redis::model()->set('hello', 'world');
 ```
 
-> 选择redis库之后返回phpredis对象，使用使用方法请看 https://github.com/phpredis/phpredis
+#### transaction(Closure $closure)
 
-#### 事务
+定义 Redis 事务处理
 
-##### `Redis::transaction(Closure $closure)`
-
-- `closure` 闭包函数 `function (\Redis $redis)`
+- `$closure` 函数定义为 `function (\Redis $redis)`
+- 返回 `<bool>`
 
 执行一段缓存事务设置
 
 ```php
 use think\bit\facade\Redis;
-$result = Redis::transaction(function (\Redis $redis) {
+
+Redis::transaction(function (\Redis $redis) {
     return (
         $redis->set('name1', 'js') &&
         $redis->set('name2', 'php')
     );
-});
-// true or false
-dump($result);
+});// true or false
 ```
 
-> 事务将返回 `true` 或 `false`
+> 门面 Redis 基于 phpredis ，详情参考 https://github.com/phpredis/phpredis
 
-#### 模型
+#### Bedis
 
-> Redis在给我们带来优异的读写性能时，同时也带来了恢复性差、团队协作性困难等问题，因此建议在我们所使用到的缓存键中分别定义缓存的生产方式、获取方式以及恢复方式等。
+Redis 在给我们带来优异的读写性能时，同时也带来了恢复性差、团队协作性困难等问题，因此建议在我们所使用到的缓存键中分别定义缓存的生产方式、获取方式以及恢复方式等，Bedis则是这样一个抽象类。
 
 为人员缓存定义缓存列表类
 
@@ -72,59 +74,28 @@ class Person extends Bedis
 {
     protected $key = 'person_lists';
 
-    /**
-     * 生产缓存
-     * @param $key
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     */
     function factory($key)
     {
         $data = Db::name('any')->where(['id' => $key])->find();
         $this->redis->hSet($this->key, $key, msgpack_pack($data));
     }
 
-    /**
-     * 获取缓存
-     * @param $key
-     * @return array
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     */
     function get($key)
     {
         $this->unusual();
         return msgpack_unpack($this->redis->hGet($this->key, $key));
     }
 
-    /**
-     * 删除缓存
-     * @param $key
-     */
     function delete($key)
     {
         $this->redis->hDel($this->key, $key);
     }
 
-    /**
-     * 非正常判断
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     */
     private function unusual()
     {
         if (!$this->redis->exists($this->key)) $this->repair();
     }
 
-    /**
-     * 恢复缓存
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     */
     private function repair()
     {
         $rows = Db::name('any')->select();
@@ -154,7 +125,7 @@ $person->get('1');
 ```php
 Redis::transaction(function (\Redis $redis) {
     $person = new Person($redis);
-});
+    $car = new Car($redis);
+    return ($person->factory('1') && $car->factory('1'));
+});// true or false
 ```
-
-> 当然这只是为了解决团队协作与缓存恢复等问题的一种设计方式，正常情况下我们还需要补充异常处理与一些特殊的判断。
