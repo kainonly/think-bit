@@ -1,214 +1,84 @@
 # BitController
 
-- `model`
+BitController 是辅助框架的主控制器，使用辅助处理则需要继承该控制器
 
-- 模型名称
-- 命名规则需要与ThinkPHP一致，对应数据表即可
+#### model
 
-例如：定义 `k_admin` 数据表的模型名称
+模型名称，命名规则与ThinkPHP一致，对应数据表即可
 
-```php
-// 如果 database.php 配置中没有设定前缀，则需要
-$this->model = 'k_admin';
-// 如果已设定前缀，按照ThinkPHP规则即可
-$this->model = 'admin';
-```
+#### post
 
-##### `post`
+请求包含的数据，在控制器中可直接使用 `$this->post['any']`
 
-- 请求数据，请求中包含的数据
+#### lists_origin_condition
 
-在控制器中可直接使用
+列表数据从后端设定制约条件，默认 `[]`
 
-```php
-$this->post['any']
-```
+#### lists_origin_orders
 
-##### `lists_origin_condition`
+列表数据设定排序，默认 `create_time desc`
 
-- 后端无分页列表数据制约条件
-- 默认 `[]`
+#### lists_origin_field
 
-##### `lists_origin_orders`
+列表数据指定返回字段，设置中 `[0]` 为字段名称，`[1]` 为是否为排除，默认为 `['update_time,create_time', true]`
 
-- 无分页列表数据排序
-- 默认 `create_time desc`
+#### lists_condition
 
-##### `lists_origin_field`
+分页列表数据从后端设定制约条件，默认 `[]`
 
-- 无分页列表数据返回字段
+#### lists_orders
 
-默认为
+分页列表数据排序，默认 `create_time desc`
 
-```php
-['update_time,create_time', true]
-```
+#### lists_field
 
-> 设置时 `lists_origin_field[0]` 为字段名称，`lists_origin_field[1]` 为是否为排除
+分页列表数据指定返回字段，设置中 `[0]` 为字段名称，`[1]` 为是否为排除，默认为 `['update_time,create_time', true]`
 
-例如，分页列表排除字段 `create_time` 的返回结果
 
-```php
-$this->lists_origin_field = ['create_time', true];
-```
+#### get_validate
 
-##### `lists_condition`
+单条数据验证器，遵循ThinkPHP `<\think\Validate>`独立验证，默认为 `['id' => 'require']`
 
-- 后端列表数据制约条件
-- 默认 `[]`
+#### get_condition
 
-##### `lists_orders`
+单条数据制约条件，默认 `[]`
 
-- 列表排序
-- 默认 `create_time desc`
+#### get_field
 
-##### `lists_field`
+单条数据返回字段，默认为 `['update_time,create_time', true]`
 
-- 列表数据返回字段
+#### add_before_result
 
-默认为
+新增自定义前置返回，默认为 `['error' => 1,'msg' => 'fail:before']`
 
-```php
-['update_time,create_time', true]
-```
+#### add_after_result
 
-> 设置时 `lists_orders[0]` 为字段名称，`lists_orders[1]` 为是否为排除
+新增自定义后置返回，默认为 `['error' => 1,'msg' => 'fail:after']`
 
-例如，分页列表排除字段 `create_time` 的返回结果
+#### edit_validate
 
-```php
-$this->lists_orders = ['create_time', true];
-```
+修改数据验证器，遵循ThinkPHP `<\think\Validate>`独立验证，默认为 `['id' => 'require','switch' => 'bool']`
 
-##### `get_validate`
+#### edit_before_result
 
-- 单条数据验证器
+修改自定义前置返回，默认为 `['error' => 1,'msg' => 'fail:before']`
 
-默认为
+#### edit_after_result
 
-```php
-['id' => 'require']
-```
+修改自定义后置返回，默认为 `['error' => 1,'msg' => 'fail:after']`
 
-##### `get_condition`
+#### edit_status_switch
 
-- 单条数据制约条件
-- 默认 `[]`
+是否为状态切换请求，在编辑处理中可获取状态 `true` 或 `false`
 
-##### `get_field`
+#### delete_validate
 
-- 单条数据返回字段
+删除数据验证器，遵循ThinkPHP `<\think\Validate>`独立验证，默认为 `['id' => 'require']`
 
-默认为
+#### delete_before_result
 
-```php
-['update_time,create_time', true]
-```
+删除自定义前置返回，默认为 `['error' => 1,'msg' => 'fail:before']`
 
-##### `add_before_result`
+#### delete_after_result
 
-- 新增自定义前置返回
-
-默认为
-
-```php
-[
-    'error' => 1,
-    'msg' => 'fail:before'
-]
-```
-
-##### `$add_after_result`
-
-- 新增自定义后置返回
-
-默认为
-
-```php
-[
-    'error' => 1,
-    'msg' => 'fail:after'
-]
-```
-
-##### `edit_validate`
-
-- 修改数据验证器
-
-默认为
-
-```php
-[
-    'id' => 'require',
-    'switch' => 'bool'
-]
-```
-
-##### `edit_before_result`
-
-- 修改自定义前置返回
-
-默认为
-
-```php
-[
-    'error' => 1,
-    'msg' => 'fail:before'
-]
-```
-
-##### `edit_after_result`
-
-- 修改自定义后置返回
-
-默认为
-
-```php
-[
-    'error' => 1,
-    'msg' => 'fail:after'
-]
-```
-
-##### `edit_status_switch`
-
-- 状态切换请求
-- 默认 `false`
-
-##### `delete_validate`
-
-- 删除数据验证器
-
-默认为
-
-```php
-[
-    'id' => 'require'
-]
-```
-
-##### `delete_before_result`
-
-- 删除自定义前置返回
-
-默认为
-
-```php
-[
-    'error' => 1,
-    'msg' => 'fail:before'
-]
-```
-
-##### `delete_after_result`
-
-- 删除自定义后置返回
-
-默认为
-
-```php
-[
-    'error' => 1,
-    'msg' => 'fail:after'
-]
-```
+删除自定义后置返回，默认为 `['error' => 1,'msg' => 'fail:after']`

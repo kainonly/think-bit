@@ -42,4 +42,4 @@ Rabbit::channel(function (AMQPChannel $channel) {
 });
 ```
 
-> `Rabbit` 是对官方 php-amqplib 的门面定义，操作可参考 http://www.rabbitmq.com/tutorials/tutorial-one-php.html
+> `Rabbit` 是对官方 php-amqplib 的门面定义，操作可参考 http://www.rabbitmq.com/tutorials

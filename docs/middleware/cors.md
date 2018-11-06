@@ -1,11 +1,12 @@
 # CORS 跨域资源共享
 
+跨域资源共享(CORS) 是一种机制，它使用额外的 HTTP 头来告诉浏览器  让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。
+
 #### 配置
 
-在config中创建 `cors.php`
+在ThinkPHP项目中下创建 `config/cors.php`
 
 ```php
-<?php
 return [
     'allow_origin' => [
         'http://localhost',
@@ -24,13 +25,28 @@ return [
 - `methods` 允许请求类型
 - `headers` 允许请求头部
 
-在config中 `middleware.php` 加入
+修改ThinkPHP项目中 `config/middleware.php`
 
 ```php
-<?php
 return [
     'cors' => \bit\middleware\Cors::class,
 ];
 ```
 
-> 在控制器中使用中间件请参考，https://www.kancloud.cn/manual/thinkphp5_1/564279
+在控制器中使用
+
+```php
+namespace app\index\controller;
+
+use think\Controller;
+
+class Index extends Controller
+{
+    protected $middleware = ['cors'];
+
+    public function index()
+    {
+        return 'index';
+    }
+}
+```
