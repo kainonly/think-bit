@@ -9,12 +9,18 @@
     * [MongoDB](facade/mongodb)
     * [RabbitMQ](facade/rabbitmq)
 * 请求特性
-    * [GetModel](sql/get)
-    * [OriginListsModel](sql/originLists)
-    * [ListsModel](sql/lists)
-    * [AddModel](sql/add)
-    * [EditModel](sql/edit)
-    * [DeleteModel](sql/delete)
+    * [GetModel](traits/getModel)
+    * [OriginListsModel](traits/originListsModel)
+    * [ListsModel](traits/listsModel)
+    * [AddModel](traits/addModel)
+    * [EditModel](traits/editModel)
+    * [DeleteModel](traits/deleteModel)
+    * [GetMongoDB](traits/getMongoDB)
+    * [OriginListsMongoDB](traits/originListsMongoDB)
+    * [ListsMongoDB](traits/listsMongoDB)
+    * [AddMongoDB](traits/addMongoDB)
+    * [EditMongoDB](traits/editMongoDB)
+    * [DeleteMongoDB](traits/deleteMongoDB)
 * 生命周期
     * [GetCustom]
     * [OriginListsCustom]
