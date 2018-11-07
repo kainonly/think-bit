@@ -28,7 +28,7 @@ class NoBodyClass extends Base implements DeleteAfterHooks {
         $result = checkChildExist($this->post['id']);//false
         if(!$result) $this->delete_after_result = [
             'error'=> 1,
-            'msg'=>'you msg'
+            'msg'=> 'you msg'
         ];
         return $result;
     }

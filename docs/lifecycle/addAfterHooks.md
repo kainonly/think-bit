@@ -29,7 +29,7 @@ class NoBodyClass extends Base implements AddAfterHooks {
         $result = someone();//false
         if(!$result) $this->add_after_result = [
             'error'=> 1,
-            'msg'=>'you msg'
+            'msg'=> 'you msg'
         ];
         return $result;
     }

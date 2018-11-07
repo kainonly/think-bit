@@ -28,7 +28,7 @@ class NoBodyClass extends Base implements EditAfterHooks {
         $result = checkChildExist($this->post['id']);//false
         if(!$result) $this->edit_after_result = [
             'error'=> 1,
-            'msg'=>'you msg'
+            'msg'=> 'you msg'
         ];
         return $result;
     }
@@ -42,3 +42,7 @@ class NoBodyClass extends Base implements EditAfterHooks {
 #### $this->edit_after_result
 
 自定义返回，默认为 `['error' => 1,'msg' => 'fail:after']`
+
+#### $this->edit_status_switch
+
+是否为状态切换请求
