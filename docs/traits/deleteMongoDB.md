@@ -8,7 +8,7 @@ DeleteMongoDB 是针对删除数据的通用请求处理，仅支持 MongoDB PHP
 
 > 条件选择： `post['where']` 必须存在
 
-- `post['where]` 需满足 MongoDB CRUD operation，例如 `['name' => 'test']`
+- `post['where]` 需满足 MongoDB CRUD operation，例如 `['id' => 'xxx']`，主键将自动转换为ObjectId
 
 #### 引入特性
 
