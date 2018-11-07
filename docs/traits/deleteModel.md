@@ -1,1 +1,3 @@
 # DeleteModel
+
+DeleteModel 是针对删除数据的通用请求处理，支持ThinkPHP下定义的数据库

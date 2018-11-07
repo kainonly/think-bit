@@ -34,7 +34,6 @@ BitController 是辅助框架的主控制器，使用辅助处理则需要继承
 
 分页列表数据指定返回字段，设置中 `[0]` 为字段名称，`[1]` 为是否为排除，默认为 `['update_time,create_time', true]`
 
-
 #### get_validate
 
 单条数据验证器，遵循ThinkPHP `<\think\Validate>`独立验证，默认为 `['id' => 'require']`

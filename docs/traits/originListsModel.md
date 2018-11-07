@@ -1,1 +1,3 @@
 # OriginListsModel
+
+OriginListsModel 是针对列表数据的通用请求处理，支持ThinkPHP下定义的数据库
