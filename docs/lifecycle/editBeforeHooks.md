@@ -15,7 +15,7 @@ class NoBodyClass extends Base implements EditBeforeHooks {
 }
 ```
 
-#### __editBeforeHooks()
+#### overrides __editBeforeHooks()
 
 - 返回 `true` 为前置处理成功，返回 `false` 为处理失败，自定义返回结果可使用 `edit_before_result`  
 

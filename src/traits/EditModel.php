@@ -5,11 +5,6 @@ namespace think\bit\traits;
 use think\Db;
 use think\Validate;
 
-/**
- * 关系型模型修改处理
- * Trait EditModel
- * @package think\bit\traits
- */
 trait EditModel
 {
     public function edit()

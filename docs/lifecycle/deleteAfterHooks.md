@@ -15,7 +15,7 @@ class NoBodyClass extends Base implements DeleteAfterHooks {
 }
 ```
 
-#### __deleteAfterHooks()
+#### overrides __deleteAfterHooks()
 
 - 返回 `true` 为后置处理成功，返回 `false` 为处理失败，自定义返回结果可使用 `delete_after_result`  
 

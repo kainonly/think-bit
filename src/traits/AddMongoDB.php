@@ -5,11 +5,6 @@ namespace think\bit\traits;
 use think\bit\facade\Mongo;
 use MongoDB\BSON\UTCDateTime;
 
-/**
- * MongoDB新增处理
- * Trait AddMongoDB
- * @package think\bit\traits
- */
 trait AddMongoDB
 {
     public function add()

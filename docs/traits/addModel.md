@@ -37,18 +37,18 @@ class NoBodyClass extends Validate
 }
 ```
 
-#### __addBeforeHooks()
+#### overrides __addBeforeHooks()
 
 自定义前置处理
 
-#### add_before_result
+#### $this->add_before_result
 
 新增自定义前置返回，默认为 `['error' => 1,'msg' => 'fail:before']`
 
-#### __addAfterHooks($pk)
+#### overrides __addAfterHooks($pk)
 
 自定义后置处理
 
-#### add_after_result
+#### $this->add_after_result
 
 新增自定义后置返回，默认为 `['error' => 1,'msg' => 'fail:after']`

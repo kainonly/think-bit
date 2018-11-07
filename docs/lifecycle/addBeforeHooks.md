@@ -15,7 +15,7 @@ class NoBodyClass extends Base implements AddBeforeHooks {
 }
 ```
 
-#### __addBeforeHooks()
+#### overrides __addBeforeHooks()
 
 - 返回 `true` 为前置处理成功，返回 `false` 为处理失败，自定义返回结果可使用 `add_before_result`  
 

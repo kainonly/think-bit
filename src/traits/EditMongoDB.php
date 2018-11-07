@@ -7,11 +7,6 @@ use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\UTCDateTime;
 use think\Validate;
 
-/**
- * MongoDB修改处理
- * Trait EditMongoDB
- * @package think\bit\traits
- */
 trait EditMongoDB
 {
     public function edit()

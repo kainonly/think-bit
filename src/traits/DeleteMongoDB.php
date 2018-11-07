@@ -5,11 +5,6 @@ namespace think\bit\traits;
 use think\bit\facade\Mongo;
 use think\Validate;
 
-/**
- * MongoDB删除处理
- * Trait DeleteMongoDB
- * @package think\bit\traits
- */
 trait DeleteMongoDB
 {
     public function delete()

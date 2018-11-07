@@ -7,11 +7,6 @@ use think\db\Query;
 use think\Exception;
 use think\bit\validate;
 
-/**
- * 关系型数据模型获取分页列表
- * Trait ListsModel
- * @package bit\traits
- */
 trait ListsModel
 {
     public function lists()

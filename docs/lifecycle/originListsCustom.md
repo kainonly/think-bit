@@ -18,7 +18,7 @@ class NoBodyClass extends Base implements OriginListsCustom {
 }
 ```
 
-#### __originListsCustomReturn(Array $lists)
+#### overrides __originListsCustomReturn(Array $lists)
 
 - `lists` 是默认获取到的列表数据
 - 返回通用请求对象

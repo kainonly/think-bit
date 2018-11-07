@@ -5,11 +5,6 @@ namespace think\bit\traits;
 use think\bit\facade\Mongo;
 use think\bit\validate;
 
-/**
- * MongoDB获取数据列表
- * Trait OriginListsMongoDB
- * @package think\bit\traits
- */
 trait OriginListsMongoDB
 {
     public function originLists()

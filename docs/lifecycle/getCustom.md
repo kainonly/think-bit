@@ -18,7 +18,7 @@ class NoBodyClass extends Base implements GetCustom {
 }
 ```
 
-#### __getCustomReturn(Array $data)
+#### overrides __getCustomReturn(Array $data)
 
 - `data` 是默认获取到的单条数据
 - 返回通用请求对象

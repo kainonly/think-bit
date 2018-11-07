@@ -15,7 +15,7 @@ class NoBodyClass extends Base implements DeleteBeforeHooks {
 }
 ```
 
-#### __deleteBeforeHooks()
+#### overrides __deleteBeforeHooks()
 
 - 返回 `true` 为前置处理成功，返回 `false` 为处理失败，自定义返回结果可使用 `delete_before_result`  
 

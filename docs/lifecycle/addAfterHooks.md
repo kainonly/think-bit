@@ -15,7 +15,7 @@ class NoBodyClass extends Base implements AddAfterHooks {
 }
 ```
 
-#### __addAfterHooks($pk)
+#### overrides __addAfterHooks($pk)
 
 - `$pk` 通用处理后的主键
 - 返回 `true` 为后置处理成功，返回 `false` 为处理失败，自定义返回结果可使用 `add_after_result`  

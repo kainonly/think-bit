@@ -15,7 +15,7 @@ class NoBodyClass extends Base implements EditAfterHooks {
 }
 ```
 
-#### __editAfterHooks()
+#### overrides __editAfterHooks()
 
 - 返回 `true` 为后置处理成功，返回 `false` 为处理失败，自定义返回结果可使用 `edit_after_result`  
 

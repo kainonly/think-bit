@@ -6,11 +6,6 @@ use think\Db;
 use think\Exception;
 use think\Validate;
 
-/**
- * 关系型数据模型获取数据
- * Trait GetModel
- * @package think\bit\traits
- */
 trait GetModel
 {
     public function get()
