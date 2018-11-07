@@ -1,1 +1,3 @@
 # DeleteBeforeHooks
+
+删除数据的通用请求处理前置自定义周期
