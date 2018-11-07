@@ -1,12 +1,6 @@
 # RabbitMQ
 
-RabbitMQ 是一个由 Erlang 语言开发的 AMQP 的开源实现。
-
-RabbitMQ 最初起源于金融系统，用于在分布式系统中存储转发消息，在易用性、扩展性、高可用性等方面表现不俗。
-
-#### 配置
-
-在ThinkPHP项目中下创建 `config/rabbitmq.php`
+在ThinkPHP项目中下创建 `config/rabbitmq.php`，设置配置
 
 ```php
 return [
