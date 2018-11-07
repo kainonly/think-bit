@@ -59,3 +59,9 @@ class NoBodyClass extends Base {
 #### overrides __getCustomReturn()
 
 自定义返回数据
+
+#### 返回数据
+
+- `error` 响应状态
+- `data` 返回单个数据
+- `msg` 回馈代码

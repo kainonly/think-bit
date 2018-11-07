@@ -65,3 +65,9 @@ class NoBodyClass extends Base {
 单条数据返回字段，默认为 `['update_time,create_time', true]`
 
 > `$this->get_field[0]` 为指定字段，`$this->get_field[1]` 为是否排除
+
+#### 返回数据
+
+- `error` 响应状态
+- `data` 返回单个数据
+- `msg` 回馈代码

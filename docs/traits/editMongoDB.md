@@ -78,3 +78,8 @@ class NoBodyClass extends Validate
 #### $this->edit_after_result
 
 新增自定义后置返回，默认为 `['error' => 1,'msg' => 'fail:after']`
+
+#### 返回数据
+
+- `error` 响应状态
+- `msg` 回馈代码
