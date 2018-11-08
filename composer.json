@@ -9,13 +9,9 @@
     }
   ],
   "require": {
-    "ext-json": "*",
-    "ext-redis": "*",
-    "ext-mongodb": "*",
     "topthink/framework": "5.1.*",
     "nesbot/carbon": "^2.1",
-    "mongodb/mongodb": "^1.4",
-    "php-amqplib/php-amqplib": "^2.7"
+    "mongodb/mongodb": "^1.4"
   },
   "autoload": {
     "psr-4": {
