@@ -10,8 +10,7 @@
   ],
   "require": {
     "topthink/framework": "5.1.*",
-    "nesbot/carbon": "^2.1",
-    "mongodb/mongodb": "^1.4"
+    "nesbot/carbon": "^2.1"
   },
   "autoload": {
     "psr-4": {
