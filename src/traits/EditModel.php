@@ -37,7 +37,7 @@ trait EditModel
 
         // 执行修改事务
         $result_fail = [
-            'error' => 0,
+            'error' => 1,
             'msg' => 'fail'
         ];
         $transaction = Db::transaction(function () {

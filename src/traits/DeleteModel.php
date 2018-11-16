@@ -23,7 +23,7 @@ trait DeleteModel
         }
 
         $result_fail = [
-            'error' => 0,
+            'error' => 1,
             'msg' => 'fail'
         ];
 

@@ -22,7 +22,7 @@ trait AddModel
             if (!$before_result) return $this->add_before_result;
         }
         $result_fail = [
-            'error' => 0,
+            'error' => 1,
             'msg' => 'fail'
         ];
 
