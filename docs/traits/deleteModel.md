@@ -4,7 +4,7 @@ DeleteModel 是针对删除数据的通用请求处理，支持ThinkPHP下定义
 
 #### 周期流程
 
-执行通用请求 -> 验证器 -> (是否前置处理) -> 条件选择 -> 通用处理 -> (是否后置处理) -> 返回通用处理请求
+执行通用请求 -> 验证器 -> (是否前置处理) -> 条件选择 -> (是否含事务前置处理) -> 通用处理 -> (是否后置处理) -> 返回通用处理请求
 
 > 条件选择：如果请求参数存 `post['id']`，那么 `post['where']` 存在即成为附加条件；如果 `post['id']` 不存在参数中，那么 `post['where']` 为主要条件
 
@@ -45,9 +45,17 @@ class NoBodyClass extends Base {
 
 自定义前置处理
 
-#### $this->edit_before_result
+#### $this->delete_before_result
 
 新增自定义前置返回，默认为 `['error' => 1,'msg' => 'fail:before']`
+
+#### overrides __deletePrepHooks()
+
+自定义含事务前置处理，介于事务开启之后通用处理之前
+
+#### $this->delete_prep_result
+
+新增自定义前置返回，默认为 `['error' => 1,'msg' => 'fail:prep']`
 
 #### overrides __deleteAfterHooks()
 

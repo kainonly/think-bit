@@ -26,4 +26,5 @@
     * [EditBeforeHooks](lifecycle/editBeforeHooks)
     * [EditAfterHooks](lifecycle/editAfterHooks)
     * [DeleteBeforeHooks](lifecycle/deleteBeforeHooks)
+    * [DeletePrepHooks](lifecycle/deletePrepHooks.md)
     * [DeleteAfterHooks](lifecycle/deleteAfterHooks)

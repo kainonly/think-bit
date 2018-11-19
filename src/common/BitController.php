@@ -142,6 +142,11 @@ abstract class BitController extends Controller
         'msg' => 'fail:before'
     ];
 
+    protected $delete_prep_result = [
+        'error' => 1,
+        'msg' => 'fail:prep'
+    ];
+
     /**
      * 删除自定义后置返回
      * @var array

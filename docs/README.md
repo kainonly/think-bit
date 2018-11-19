@@ -109,6 +109,10 @@ class Base extends BitController
 
 删除自定义前置返回，默认为 `['error' => 1,'msg' => 'fail:before']`
 
+##### - delete_prep_result
+
+删除自定义含事务前置返回，默认为 `['error' => 1,'msg' => 'fail:prep']`
+
 ##### - delete_after_result
 
 删除自定义后置返回，默认为 `['error' => 1,'msg' => 'fail:after']`
@@ -206,6 +210,10 @@ class Base extends BitController
 ##### - DeleteBeforeHooks
 
 删除数据的通用请求处理前置自定义周期
+
+##### - DeletePrepHooks
+
+删除数据的通用请求处理含事务前置自定义周期
 
 ##### - DeleteAfterHooks
 

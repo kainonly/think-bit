@@ -29,13 +29,22 @@ trait DeleteModel
 
         // 执行事务删除
         $transaction = Db::transaction(function () {
+            if (method_exists($this, '__deletePrepHooks')) {
+                $prep_result = $this->__deletePrepHooks();
+                if (!$prep_result) {
+                    Db::rollback();
+                    $result_fail = $this->delete_prep_result;
+                    return false;
+                }
+            }
+
             // 判断是通用主键删除或条件删除
             if (isset($this->post['id'])) {
                 $result = Db::name($this->model)->where('id', 'in', $this->post['id'])->delete();
             } else {
                 $result = Db::name($this->model)->where($this->post['where'])->delete();
             }
-            
+
             // 判断是否有后置处理
             if (method_exists($this, '__deleteAfterHooks')) {
                 $after_result = $this->__deleteAfterHooks();
