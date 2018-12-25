@@ -1,6 +1,8 @@
 # RabbitMQ
 
-在ThinkPHP项目中下创建 `config/rabbitmq.php`，设置配置
+RabbitMQ 是处理消息队列的门面，首先创建 `config/rabbitmq.php`，设置配置
+
+> 需要安装依赖 `composer require php-amqplib/php-amqplib`
 
 ```php
 return [
@@ -36,4 +38,4 @@ Rabbit::channel(function (AMQPChannel $channel) {
 });
 ```
 
-> `Rabbit` 是对官方 php-amqplib 的门面定义，操作可参考 http://www.rabbitmq.com/tutorials
+> `Rabbit` 更多操作可参考 http://www.rabbitmq.com/tutorials

@@ -1,6 +1,6 @@
 # Cipher
 
-在ThinkPHP项目中下创建 `config/cipher.php`，设置配置
+Cipher 是对称加密门面，首先要创建 `config/cipher.php`，设置配置
 
 ```php
 return [
@@ -11,6 +11,8 @@ return [
 
 - `key` 加密密钥
 - `iv` 偏移量
+
+> 需要安装依赖 `composer require phpseclib/phpseclib`
 
 #### encrypt(string $context)
 
@@ -38,14 +40,14 @@ dump(Cipher::decrypt($secret));
 
 #### encryptArray(Array $data)
 
-加密数组为密文
+加密数组为密文（需要msgpack支持）
 
 - `data` 数组
 - 返回密文
 
 #### decryptArray(string $secret)
 
-解密密文为数组
+解密密文为数组（需要msgpack支持）
 
 - `secret` 密文
 - 返回数组

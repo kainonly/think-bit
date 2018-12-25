@@ -50,4 +50,4 @@ Mongo::collection($this->collection)->findOne([
 ]);
 ```
 
-> 调用后返回 `\MongoDB\Collection`，`Mongo` 是对官方 MongoDB PHP Library 的门面定义，操作可参考 https://docs.mongodb.com/php-library/current
+> MongoDB PHP Library 更多操作可参考 https://docs.mongodb.com/php-library/current

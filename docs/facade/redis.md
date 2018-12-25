@@ -51,7 +51,7 @@ Redis::transaction(function (\Redis $redis) {
 });// true or false
 ```
 
-> 门面 `Redis` 基于 phpredis ，详情参考 https://github.com/phpredis/phpredis
+> phpredis 更多详情参考 https://github.com/phpredis/phpredis
 
 #### Bedis
 
