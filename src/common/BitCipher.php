@@ -26,7 +26,7 @@ class BitCipher
      * @param string $context 明文
      * @return string 密文
      */
-    public function Encrypt(string $context)
+    public function encrypt(string $context)
     {
         return base64_encode($this->cipher->encrypt($context));
     }
@@ -36,7 +36,7 @@ class BitCipher
      * @param string $secret
      * @return string 明文
      */
-    public function Decrypt(string $secret)
+    public function decrypt(string $secret)
     {
         return $this->cipher->decrypt(base64_decode($secret));
     }
@@ -46,7 +46,7 @@ class BitCipher
      * @param array $data 数组
      * @return string 密文
      */
-    public function EncryptArray(Array $data)
+    public function encryptArray(Array $data)
     {
         return base64_encode($this->cipher->encrypt(msgpack_pack($data)));
     }
@@ -56,7 +56,7 @@ class BitCipher
      * @param string $secret 密文
      * @return array 数组
      */
-    public function DecryptArray(string $secret)
+    public function decryptArray(string $secret)
     {
         return msgpack_unpack($this->cipher->decrypt(base64_decode($secret)));
     }
