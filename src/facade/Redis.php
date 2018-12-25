@@ -3,8 +3,8 @@
 namespace think\bit\facade;
 
 use think\bit\common\BitRedis;
-use Closure;
 use think\Facade;
+use Closure;
 
 /**
  * Class Redis

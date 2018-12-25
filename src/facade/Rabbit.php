@@ -3,9 +3,8 @@
 namespace think\bit\facade;
 
 use think\bit\common\BitRabbitMQ;
-use Closure;
-use Symfony\Component\Cache\Traits\RedisTrait;
 use think\Facade;
+use Closure;
 
 /**
  * Class Rabbit

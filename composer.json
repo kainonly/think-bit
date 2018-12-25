@@ -8,15 +8,15 @@
       "email": "zhangtqx@vip.qq.com"
     }
   ],
-  "require": {
-    "topthink/framework": "5.1.*"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "6.2"
-  },
   "autoload": {
     "psr-4": {
       "think\\bit\\": "src/"
     }
+  },
+  "require": {
+    "topthink/framework": "5.1.*"
+  },
+  "require-dev": {
+    "phpseclib/phpseclib": "^2.0"
   }
 }
