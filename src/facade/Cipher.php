@@ -6,7 +6,7 @@ use think\bit\common\BitCipher;
 use think\Facade;
 
 /**
- * Class Redis
+ * Class Cipher
  * @method static encrypt(string $context) 加密明文
  * @method static decrypt(string $secret) 解密密文
  * @method static encryptArray(Array $data) 加密数组为密文
