@@ -9,7 +9,7 @@ trait EditModel
 {
     public function edit()
     {
-        // TODO:通用验证
+        // 通用验证
         $validate = Validate::make($this->edit_validate);
         if (!$validate->check($this->post)) return [
             'error' => 1,
@@ -17,7 +17,7 @@ trait EditModel
         ];
 
         // 判断是否为开关请求
-        if (isset($this->post['switch']) && $this->post['switch']) {
+        if (isset($this->post['switch']) && !empty($this->post['switch'])) {
             $this->edit_status_switch = true;
         } else {
             $validate = validate($this->model);
@@ -32,41 +32,43 @@ trait EditModel
         $this->post['update_time'] = time();
         if (method_exists($this, '__editBeforeHooks')) {
             $before_result = $this->__editBeforeHooks();
-            if (!$before_result) return $this->edit_before_result;
+            if (!$before_result) {
+                return $this->edit_before_result;
+            }
         }
 
-        // 执行修改事务
-        $result_fail = [
-            'error' => 1,
-            'msg' => 'fail'
-        ];
         $transaction = Db::transaction(function () {
             // 判断是通用主键或条件修改
-            if (isset($this->post['id'])) {
+            if (isset($this->post['id']) && !empty($this->post['id'])) {
                 unset($this->post['where']);
-                $result = Db::name($this->model)->update($this->post);
-            } else {
+                Db::name($this->model)->update($this->post);
+            } elseif (isset($this->post['where']) &&
+                !empty($this->post['where']) &&
+                is_array($this->post['where'])) {
                 $condition = $this->post['where'];
                 unset($this->post['where']);
-                $result = Db::name($this->model)->where($condition)->update($this->post);
+                Db::name($this->model)->where($condition)->update($this->post);
+            } else {
+                return false;
             }
 
             // 判断是否有后置处理
             if (method_exists($this, '__editAfterHooks')) {
                 $after_result = $this->__editAfterHooks();
                 if (!$after_result) {
-                    $result_fail = $this->edit_after_result;
+                    $this->edit_fail_result = $this->edit_after_result;
                     Db::rollback();
+                    return false;
                 }
-                return $result && $after_result;
-            } else {
-                return $result;
             }
+
+            return true;
         });
         if ($transaction) return [
             'error' => 0,
             'msg' => 'ok'
-        ];
-        else return $result_fail;
+        ]; else {
+            return $this->edit_fail_result;
+        }
     }
 }

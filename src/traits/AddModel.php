@@ -21,10 +21,6 @@ trait AddModel
             $before_result = $this->__addBeforeHooks();
             if (!$before_result) return $this->add_before_result;
         }
-        $result_fail = [
-            'error' => 1,
-            'msg' => 'fail'
-        ];
 
         // 执行事务写入
         $transaction = Db::transaction(function () {
@@ -32,19 +28,39 @@ trait AddModel
             if (!method_exists($this, '__addAfterHooks')) {
                 return Db::name($this->model)->insert($this->post);
             } else {
-                $result_id = Db::name($this->model)->insertGetId($this->post);
+                // 已存在主键id
+                if (isset($this->post['id']) && !empty($this->post['id'])) {
+                    $result_id = $this->post['id'];
+                    $result = Db::name($this->model)->insert($this->post);
+
+                    if (!$result) {
+                        Db::rollback();
+                        return false;
+                    }
+                } else {
+                    $result_id = Db::name($this->model)->insertGetId($this->post);
+                }
+
+                if (!$result_id) {
+                    Db::rollback();
+                    return false;
+                }
+
                 $after_result = $this->__addAfterHooks($result_id);
                 if (!$after_result) {
-                    $result_fail = $this->add_after_result;
+                    $this->add_fail_result = $this->add_after_result;
                     Db::rollback();
+                    return false;
                 }
-                return $result_id && $after_result;
+
+                return true;
             }
         });
         if ($transaction) return [
             'error' => 0,
             'msg' => 'ok'
-        ];
-        else return $result_fail;
+        ]; else {
+            return $this->add_fail_result;
+        }
     }
 }

@@ -56,13 +56,17 @@ trait ListsModel
                 ->page($this->post['page']['index'])
                 ->select();
 
-            return [
-                'error' => 0,
-                'data' => [
-                    'lists' => $lists,
-                    'total' => $total,
-                ]
-            ];
+            if (method_exists($this, '__listsCustomReturn')) {
+                return $this->__listsCustomReturn($lists, $total);
+            } else {
+                return [
+                    'error' => 0,
+                    'data' => [
+                        'lists' => $lists,
+                        'total' => $total,
+                    ]
+                ];
+            }
         } catch (Exception $e) {
             return [
                 'error' => 1,

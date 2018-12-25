@@ -2,9 +2,7 @@
 
 namespace think\bit\common;
 
-
 use think\Controller;
-use bit\traits\OriginListsModel;
 
 abstract class BitController extends Controller
 {
@@ -80,7 +78,7 @@ abstract class BitController extends Controller
      */
     protected $add_before_result = [
         'error' => 1,
-        'msg' => 'fail:before'
+        'msg' => 'error:before_fail'
     ];
 
     /**
@@ -89,7 +87,16 @@ abstract class BitController extends Controller
      */
     protected $add_after_result = [
         'error' => 1,
-        'msg' => 'fail:after'
+        'msg' => 'error:after_fail'
+    ];
+
+    /**
+     * 新增通用错误
+     * @var array
+     */
+    protected $add_fail_result = [
+        'error' => 1,
+        'msg' => 'error:insert_fail'
     ];
 
     /**
@@ -107,7 +114,12 @@ abstract class BitController extends Controller
      */
     protected $edit_before_result = [
         'error' => 1,
-        'msg' => 'fail:before'
+        'msg' => 'error:before_fail'
+    ];
+
+    protected $edit_fail_result = [
+        'error' => 1,
+        'msg' => 'error:fail'
     ];
 
     /**
@@ -116,7 +128,7 @@ abstract class BitController extends Controller
      */
     protected $edit_after_result = [
         'error' => 1,
-        'msg' => 'fail:after'
+        'msg' => 'error:after_fail'
     ];
 
     /**
@@ -139,12 +151,25 @@ abstract class BitController extends Controller
      */
     protected $delete_before_result = [
         'error' => 1,
-        'msg' => 'fail:before'
+        'msg' => 'error:before_fail'
     ];
 
+    /**
+     * 事务开启之后，数据执行之前
+     * @var array
+     */
     protected $delete_prep_result = [
         'error' => 1,
-        'msg' => 'fail:prep'
+        'msg' => 'error:prep_fail'
+    ];
+
+    /**
+     * 删除通用错误
+     * @var array
+     */
+    protected $delete_fail_result = [
+        'error' => 1,
+        'msg' => 'error:fail'
     ];
 
     /**
@@ -153,7 +178,7 @@ abstract class BitController extends Controller
      */
     protected $delete_after_result = [
         'error' => 1,
-        'msg' => 'fail:after'
+        'msg' => 'error:after_fail'
     ];
 
 

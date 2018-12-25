@@ -22,45 +22,51 @@ trait DeleteModel
             if (!$before_result) return $this->delete_before_result;
         }
 
-        $result_fail = [
-            'error' => 1,
-            'msg' => 'fail'
-        ];
-
         // 执行事务删除
         $transaction = Db::transaction(function () {
             if (method_exists($this, '__deletePrepHooks')) {
                 $prep_result = $this->__deletePrepHooks();
                 if (!$prep_result) {
+                    $this->delete_fail_result = $this->delete_prep_result;
                     Db::rollback();
-                    $result_fail = $this->delete_prep_result;
                     return false;
                 }
             }
 
             // 判断是通用主键删除或条件删除
-            if (isset($this->post['id'])) {
+            if (isset($this->post['id']) && !empty($this->post['id'])) {
                 $result = Db::name($this->model)->where('id', 'in', $this->post['id'])->delete();
-            } else {
+            } elseif (isset($this->post['where']) &&
+                !empty($this->post['where']) &&
+                is_array($this->post['where'])) {
                 $result = Db::name($this->model)->where($this->post['where'])->delete();
+            } else {
+                Db::rollback();
+                return false;
+            }
+
+            if (!$result) {
+                Db::rollback();
+                return false;
             }
 
             // 判断是否有后置处理
             if (method_exists($this, '__deleteAfterHooks')) {
                 $after_result = $this->__deleteAfterHooks();
                 if (!$after_result) {
-                    $result_fail = $this->delete_after_result;
+                    $this->delete_fail_result = $this->delete_after_result;
                     Db::rollback();
+                    return false;
                 }
-                return $result && $after_result;
-            } else {
-                return $result;
             }
+
+            return true;
         });
         if ($transaction) return [
             'error' => 0,
             'msg' => 'ok'
-        ];
-        else return $result_fail;
+        ]; else {
+            return $this->delete_fail_result;
+        }
     }
 }
