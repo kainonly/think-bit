@@ -16,7 +16,7 @@
     * [DeleteModel](traits/deleteModel)
 * 生命周期
     * [GetCustom](lifecycle/getCustom)
-    * [ListsCustom](lifecycle/ListsCustom)
+    * [ListsCustom](lifecycle/listsCustom)
     * [OriginListsCustom](lifecycle/originListsCustom)
     * [AddBeforeHooks](lifecycle/addBeforeHooks)
     * [AddAfterHooks](lifecycle/addAfterHooks)
