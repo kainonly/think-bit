@@ -7,10 +7,10 @@ use think\Facade;
 
 /**
  * Class Tools
- * @method static listToTree($list = [], $pk = 'id', $pid = 'parent', $child = 'children', $root = 0) 把返回的数据集转换成Tree
- * @method static uuid($version = 'v4', $namespace = null, $name = null) 生成uuid
- * @method static random() 随机数16位
- * @method static randomShort() 随机数8位
+ * @method static array listToTree($list = [], $pk = 'id', $pid = 'parent', $child = 'children', $root = 0) 把返回的数据集转换成Tree
+ * @method static string|null uuid($version = 'v4', $namespace = null, $name = null) 生成uuid
+ * @method static string random() 随机数16位
+ * @method static string randomShort() 随机数8位
  * @package bit\facade
  */
 class Tools extends Facade

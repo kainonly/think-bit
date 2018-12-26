@@ -8,8 +8,8 @@ use Closure;
 
 /**
  * Class Redis
- * @method static \Redis model($index = null)
- * @method static transaction(Closure $closure)
+ * @method static \Redis model($index = null) Redis操作类
+ * @method static boolean transaction(Closure $closure) Redis事务处理
  * @package bit\facade
  */
 class Redis extends Facade
