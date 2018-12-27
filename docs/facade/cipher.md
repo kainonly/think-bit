@@ -14,18 +14,22 @@ return [
 
 > 需要安装依赖 `composer require phpseclib/phpseclib`
 
-#### encrypt(string $context)
+#### encrypt(string $context, $key = null, $iv = null)
 
 加密明文
 
 - `context` 明文
+- `key` 自定义密钥
+- `iv` 自定义偏移量
 - 返回密文
 
-#### decrypt(string $secret)
+#### decrypt(string $secret, $key = null, $iv = null)
 
 解密密文
 
 - `secret` 密文
+- `key` 自定义密钥
+- `iv` 自定义偏移量
 - 返回明文
 
 例子.加密明文、解密密文
@@ -38,18 +42,22 @@ dump($secret);
 dump(Cipher::decrypt($secret));
 ```
 
-#### encryptArray(Array $data)
+#### encryptArray(Array $data, $key = null, $iv = null)
 
 加密数组为密文（需要msgpack支持）
 
 - `data` 数组
+- `key` 自定义密钥
+- `iv` 自定义偏移量
 - 返回密文
 
-#### decryptArray(string $secret)
+#### decryptArray(string $secret, $key = null, $iv = null)
 
 解密密文为数组（需要msgpack支持）
 
 - `secret` 密文
+- `key` 自定义密钥
+- `iv` 自定义偏移量
 - 返回数组
 
 例子.加密数组为密文、解密密文为数组
