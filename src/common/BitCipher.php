@@ -3,6 +3,7 @@
 namespace think\bit\common;
 
 use phpseclib\Crypt\AES;
+use think\facade\Config;
 
 /**
  * Class BitCipher
@@ -15,10 +16,13 @@ class BitCipher
 
     public function __construct()
     {
-        $config = config('cipher.');
         $this->cipher = new AES();
-        $this->cipher->setKey($config['key']);
-        $this->cipher->setIV($config['iv']);
+        if (Config::has('cipher.key')) {
+            $this->cipher->setKey(Config::get('key'));
+        }
+        if (Config::has('cipher.iv')) {
+            $this->cipher->setIV(Config::get('iv'));
+        }
     }
 
     /**
