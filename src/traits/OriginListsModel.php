@@ -7,6 +7,15 @@ use think\db\Query;
 use think\Exception;
 use think\bit\validate;
 
+/**
+ * Trait OriginListsModel
+ * @package think\bit\traits
+ * @property string model 模型名称
+ * @property array post POST请求
+ * @property array lists_origin_condition 固定条件
+ * @property array lists_origin_field 固定返回字段
+ * @property string lists_origin_orders 排序设定
+ */
 trait OriginListsModel
 {
     public function originLists()

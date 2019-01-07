@@ -4,6 +4,15 @@ namespace think\bit\traits;
 
 use think\Db;
 
+/**
+ * Trait AddModel
+ * @package think\bit\traits
+ * @property string model 模型名称
+ * @property array post POST请求
+ * @property array add_before_result 前置返回结果
+ * @property array add_after_result 后置返回结果
+ * @property array add_fail_result 新增执行失败结果
+ */
 trait AddModel
 {
     public function add()

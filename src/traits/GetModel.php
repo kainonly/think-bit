@@ -6,6 +6,15 @@ use think\Db;
 use think\Exception;
 use think\Validate;
 
+/**
+ * Trait GetModel
+ * @package think\bit\traits
+ * @property string model 模型名称
+ * @property array post POST请求
+ * @property array get_validate 前置验证器
+ * @property array get_condition 固定条件
+ * @property array get_field 固定返回字段
+ */
 trait GetModel
 {
     public function get()

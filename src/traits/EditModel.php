@@ -5,6 +5,16 @@ namespace think\bit\traits;
 use think\Db;
 use think\Validate;
 
+/**
+ * Trait EditModel
+ * @package think\bit\traits
+ * @property string model 模型名称
+ * @property array post POST请求
+ * @property array edit_validate 前置验证器
+ * @property array edit_before_result 前置返回结果
+ * @property array edit_after_result 后置返回结果
+ * @property array edit_fail_result 新增执行失败结果
+ */
 trait EditModel
 {
     public function edit()
