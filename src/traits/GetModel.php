@@ -12,6 +12,7 @@ use think\Validate;
  * @property string model 模型名称
  * @property array post POST请求
  * @property array get_validate 前置验证器
+ * @property array get_before_result 前置返回结果
  * @property array get_condition 固定条件
  * @property array get_field 固定返回字段
  */
@@ -25,6 +26,11 @@ trait GetModel
             'error' => 1,
             'msg' => $validate->getError()
         ];
+
+        if (method_exists($this, '__getBeforeHooks')) {
+            $before_result = $this->__getBeforeHooks();
+            if (!$before_result) return $this->get_before_result;
+        }
 
         try {
             $normal = [];

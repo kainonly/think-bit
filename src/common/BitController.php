@@ -19,37 +19,55 @@ abstract class BitController extends Controller
     protected $post = [];
 
     /**
-     * 后端无分页列表数据制约条件
+     * 列表数据前置返回
+     * @var array
+     */
+    protected $lists_origin_before_result = [
+        'error' => 1,
+        'msg' => 'error:before_fail'
+    ];
+
+    /**
+     * 列表数据固定条件
      * @var array
      */
     protected $lists_origin_condition = [];
 
     /**
-     * 无分页列表数据排序
+     * 列表数据排序设定
      * @var string
      */
     protected $lists_origin_orders = 'create_time desc';
 
     /**
-     * 无分页列表数据返回字段
+     * 列表数据固定返回字段
      * @var array
      */
     protected $lists_origin_field = ['update_time,create_time', true];
 
     /**
-     * 后端列表数据制约条件
+     * 分页数据前置返回
+     * @var array
+     */
+    protected $lists_before_result = [
+        'error' => 1,
+        'msg' => 'error:before_fail'
+    ];
+
+    /**
+     * 分页列表数据固定条件
      * @var array
      */
     protected $lists_condition = [];
 
     /**
-     * 列表排序
+     * 分页数据排序设定
      * @var string
      */
     protected $lists_orders = 'create_time desc';
 
     /**
-     * 列表数据返回字段
+     * 分页数据固定返回字段
      * @var array
      */
     protected $lists_field = ['update_time,create_time', true];
@@ -61,13 +79,22 @@ abstract class BitController extends Controller
     protected $get_validate = ['id' => 'require'];
 
     /**
-     * 单条数据制约条件
+     * 单条数据前置返回
+     * @var array
+     */
+    protected $get_before_result = [
+        'error' => 1,
+        'msg' => 'error:before_fail'
+    ];
+
+    /**
+     * 单条数据固定条件
      * @var array
      */
     protected $get_condition = [];
 
     /**
-     * 单条数据返回字段
+     * 单条数据固定返回字段
      * @var array
      */
     protected $get_field = ['update_time,create_time', true];
@@ -82,7 +109,7 @@ abstract class BitController extends Controller
     ];
 
     /**
-     * 新增自定义后置返回
+     * 新增后置返回结果
      * @var array
      */
     protected $add_after_result = [
@@ -91,7 +118,7 @@ abstract class BitController extends Controller
     ];
 
     /**
-     * 新增通用错误
+     * 新增执行失败返回结果
      * @var array
      */
     protected $add_fail_result = [

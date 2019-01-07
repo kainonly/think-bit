@@ -12,6 +12,7 @@ use think\bit\validate;
  * @package think\bit\traits
  * @property string model 模型名称
  * @property array post POST请求
+ * @property array lists_origin_before_result 前置返回结果
  * @property array lists_origin_condition 固定条件
  * @property array lists_origin_field 固定返回字段
  * @property string lists_origin_orders 排序设定
@@ -26,6 +27,11 @@ trait OriginListsModel
             'error' => 1,
             'msg' => $validate->getError()
         ];
+
+        if (method_exists($this, '__originListsBeforeHooks')) {
+            $before_result = $this->__originListsBeforeHooks();
+            if (!$before_result) return $this->lists_origin_before_result;
+        }
 
         try {
             // 是否存在条件
