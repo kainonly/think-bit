@@ -12,12 +12,13 @@ class SmsString extends Bedis
      * 生成1分钟的手机验证计时缓存
      * @param string $phone 手机号
      * @param string $code 验证码
+     * @param int $timeout 超时设置，默认60秒
      * @return bool
      */
-    function factory($phone, $code)
+    function factory(string $phone, string $code, int $timeout = 60)
     {
         try {
-            return $this->redis->set($this->key . $phone, $code, 60);
+            return $this->redis->set($this->key . $phone, $code, $timeout);
         } catch (\Exception $e) {
             return false;
         }
@@ -27,11 +28,16 @@ class SmsString extends Bedis
      * 验证手机验证码
      * @param string $phone 手机号
      * @param string $code 验证码
+     * @param boolean $once 验证一次有效
      * @return bool
      */
-    function check($phone, $code)
+    function check(string $phone, string $code, bool $once = false)
     {
-        return $code === $this->redis->get($phone);
+        $result = ($code === $this->redis->get($phone));
+        if ($once && $result) {
+            $this->redis->delete($this->key . $phone);
+        }
+        return $result;
     }
 
 }
