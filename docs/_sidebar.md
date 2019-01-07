@@ -6,6 +6,8 @@
     * [RabbitMQ](facade/rabbitmq)
     * [Cipher](facade/cipher)
     * [Tools](facade/tools)
+* Bedis Class
+    * [SmsString](bedis/smsString)
 * CURD Traits
     * [GetModel](traits/getModel)
     * [OriginListsModel](traits/originListsModel)
