@@ -41,4 +41,4 @@ class NoBodyClass extends Base implements DeleteBeforeHooks {
 
 #### $this->delete_before_result
 
-自定义返回，默认为 `['error' => 1,'msg' => 'fail:before']`
+自定义返回，默认为 `['error' => 1,'msg' => 'error:before_fail']`

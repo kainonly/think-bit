@@ -1,22 +1,30 @@
 * [简介](/)
-* 中间件
-    * [CORS 跨域资源共享](middleware/cors)
-* 门面与扩展
+* Facade & Middleware
+    * [CORS](middleware/cors)
     * [Redis](facade/redis)
     * [MongoDB](facade/mongodb)
     * [RabbitMQ](facade/rabbitmq)
     * [Cipher](facade/cipher)
     * [Tools](facade/tools)
-* 请求特性
+* CURD Traits
     * [GetModel](traits/getModel)
     * [OriginListsModel](traits/originListsModel)
     * [ListsModel](traits/listsModel)
     * [AddModel](traits/addModel)
     * [EditModel](traits/editModel)
     * [DeleteModel](traits/deleteModel)
-* 生命周期
+    * [GetMongoDB](traits/getMongoDB)
+    * [OriginListsMongoDB](traits/originListsMongoDB)
+    * [ListsMongoDB](traits/listsMongoDB)
+    * [AddMongoDB](traits/addMongoDB)
+    * [EditMongoDB](traits/editMongoDB)
+    * [DeleteMongoDB](traits/deleteMongoDB)
+* CURD Lifecycle
+    * [GetBeforeHooks](lifecycle/getBeforeHooks)
     * [GetCustom](lifecycle/getCustom)
+    * [ListsBeforeHooks](lifecycle/listsBeforeHooks)
     * [ListsCustom](lifecycle/listsCustom)
+    * [OriginListsBeforeHooks](lifecycle/originListsBeforeHooks)
     * [OriginListsCustom](lifecycle/originListsCustom)
     * [AddBeforeHooks](lifecycle/addBeforeHooks)
     * [AddAfterHooks](lifecycle/addAfterHooks)
@@ -25,10 +33,3 @@
     * [DeleteBeforeHooks](lifecycle/deleteBeforeHooks)
     * [DeletePrepHooks](lifecycle/deletePrepHooks.md)
     * [DeleteAfterHooks](lifecycle/deleteAfterHooks)
-* MongoDB请求特性
-    * [GetMongoDB](traits/getMongoDB)
-    * [OriginListsMongoDB](traits/originListsMongoDB)
-    * [ListsMongoDB](traits/listsMongoDB)
-    * [AddMongoDB](traits/addMongoDB)
-    * [EditMongoDB](traits/editMongoDB)
-    * [DeleteMongoDB](traits/deleteMongoDB)

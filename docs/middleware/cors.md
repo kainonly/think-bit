@@ -1,4 +1,4 @@
-# CORS 跨域资源共享
+# CORS
 
 在ThinkPHP项目中下创建 `config/cors.php`
 

@@ -41,7 +41,7 @@ class NoBodyClass extends Base implements EditBeforeHooks {
 
 #### $this->edit_before_result
 
-自定义返回，默认为 `['error' => 1,'msg' => 'fail:before']`
+自定义返回，默认为 `['error' => 1,'msg' => 'error:before_fail']`
 
 #### $this->edit_status_switch
 
