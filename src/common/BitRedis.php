@@ -13,7 +13,7 @@ class BitRedis
     {
         $config = config('redis.');
         $this->redis = new Redis();
-        $this->redis->pconnect($config['connect'], $config['port']);
+        $this->redis->connect($config['connect'], $config['port']);
         $this->redis->auth($config['auth']);
         $this->redis->select($config['select']);
     }
