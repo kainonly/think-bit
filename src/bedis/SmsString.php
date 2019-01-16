@@ -33,7 +33,7 @@ class SmsString extends Bedis
      */
     function check(string $phone, string $code, bool $once = false)
     {
-        $result = ($code === $this->redis->get($phone));
+        $result = ($code === $this->redis->get($this->key . $phone));
         if ($once && $result) {
             $this->redis->delete($this->key . $phone);
         }
