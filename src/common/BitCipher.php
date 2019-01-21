@@ -32,7 +32,7 @@ class BitCipher
      * @param string $iv 自定义偏移量
      * @return string 密文
      */
-    public function encrypt(string $context, $key = null, $iv = null)
+    public function encrypt($context, $key = null, $iv = null)
     {
         if (!empty($key)) {
             $this->cipher->setKey($key);
@@ -52,7 +52,7 @@ class BitCipher
      * @param string $iv 自定义偏移量
      * @return string 明文
      */
-    public function decrypt(string $secret, $key = null, $iv = null)
+    public function decrypt($secret, $key = null, $iv = null)
     {
         if (!empty($key)) {
             $this->cipher->setKey($key);
@@ -92,7 +92,7 @@ class BitCipher
      * @param string $iv 自定义偏移量
      * @return array 数组
      */
-    public function decryptArray(string $secret, $key = null, $iv = null)
+    public function decryptArray($secret, $key = null, $iv = null)
     {
         if (!empty($key)) {
             $this->cipher->setKey($key);

@@ -15,7 +15,7 @@ class SmsString extends Bedis
      * @param int $timeout 超时设置，默认60秒
      * @return bool
      */
-    function factory(string $phone, string $code, int $timeout = 60)
+    function factory($phone, $code, $timeout = 60)
     {
         try {
             return $this->redis->set($this->key . $phone, $code, $timeout);
@@ -31,7 +31,7 @@ class SmsString extends Bedis
      * @param boolean $once 验证一次有效
      * @return bool
      */
-    function check(string $phone, string $code, bool $once = false)
+    function check($phone, $code, $once = false)
     {
         $result = ($code === $this->redis->get($this->key . $phone));
         if ($once && $result) {
