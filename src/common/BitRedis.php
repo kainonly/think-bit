@@ -5,7 +5,7 @@ namespace think\bit\common;
 use Redis;
 use Closure;
 
-class BitRedis
+final class BitRedis
 {
     private $redis;
 

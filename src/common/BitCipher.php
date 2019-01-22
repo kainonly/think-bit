@@ -8,9 +8,9 @@ use think\facade\Config;
 /**
  * Class BitCipher
  * @package think\bit\common
- * @see composer require phpseclib/phpseclib
+ * @property AES $cipher
  */
-class BitCipher
+final class BitCipher
 {
     private $cipher;
 

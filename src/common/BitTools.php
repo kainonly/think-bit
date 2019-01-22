@@ -4,7 +4,7 @@ namespace think\bit\common;
 
 use Ramsey\Uuid\Uuid;
 
-class BitTools
+final class BitTools
 {
     /**
      * 把返回的数据集转换成Tree

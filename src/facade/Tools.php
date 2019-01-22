@@ -13,7 +13,7 @@ use think\Facade;
  * @method static string randomShort() 随机数8位
  * @package bit\facade
  */
-class Tools extends Facade
+final class Tools extends Facade
 {
     protected static function getFacadeClass()
     {

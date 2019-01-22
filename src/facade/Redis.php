@@ -12,7 +12,7 @@ use Closure;
  * @method static boolean transaction(Closure $closure) Redis事务处理
  * @package bit\facade
  */
-class Redis extends Facade
+final class Redis extends Facade
 {
     protected static function getFacadeClass()
     {

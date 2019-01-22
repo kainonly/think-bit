@@ -13,7 +13,7 @@ use think\Facade;
  * @method static array decryptArray(string $secret, $key = null, $iv = null) 解密密文为数组
  * @package bit\facade
  */
-class Cipher extends Facade
+final class Cipher extends Facade
 {
     protected static function getFacadeClass()
     {
