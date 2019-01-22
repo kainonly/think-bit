@@ -3,6 +3,7 @@
 namespace think\bit\common;
 
 use Closure;
+use think\bit\common\rabbitmq\Exchange;
 use think\facade\Env;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -24,11 +25,11 @@ class BitRabbitMQ
      * 创建信道
      * @param Closure $closure
      */
-    public function channel(Closure $closure,
-                            $channel_id = null,
-                            $reply_code = 0,
-                            $reply_text = '',
-                            $method_sig = array(0, 0))
+    public function start(Closure $closure,
+                          $channel_id = null,
+                          $reply_code = 0,
+                          $reply_text = '',
+                          $method_sig = array(0, 0))
     {
         $this->rabbitmq = new AMQPStreamConnection(
             Env::get('rabbitmq.hostname', 'localhost'),
@@ -44,9 +45,18 @@ class BitRabbitMQ
     }
 
     /**
+     * 获取信道
+     * @return AMQPChannel
+     */
+    public function channel()
+    {
+        return $this->channel;
+    }
+
+    /**
      * 创建消息对象
      * @param string|array $text 文本
-     * @param array $config
+     * @param array $config 配置
      * @return AMQPMessage
      */
     public function message($text = '', array $config = [])
@@ -64,6 +74,7 @@ class BitRabbitMQ
      */
     public function publish($text = '', array $config = [])
     {
+
         $config = array_merge([
             'exchange' => '',
             'routing_key' => '',
@@ -71,8 +82,6 @@ class BitRabbitMQ
             'immediate' => false,
             'ticket' => null
         ], $config);
-
-        dump($config);
 
         $this->channel->basic_publish(
             $this->message($text),
@@ -85,12 +94,32 @@ class BitRabbitMQ
     }
 
     /**
-     * 创建队列对象
-     * @param string $queue_name 队列名称
+     * 确认消息
+     * @param string $delivery_tag 标识
+     * @param bool $multiple 批量处理
+     */
+    public function ack($delivery_tag, $multiple = false)
+    {
+        $this->channel->basic_ack($delivery_tag, $multiple);
+    }
+
+    /**
+     * 交换器操作类
+     * @param $exchange
+     * @return Exchange
+     */
+    public function exchange($exchange)
+    {
+        return new Exchange($this->channel, $exchange);
+    }
+
+    /**
+     * 队列操作类
+     * @param string $queue 队列名称
      * @return Queue
      */
-    public function queue($queue_name)
+    public function queue($queue)
     {
-        return new Queue($this->channel, $queue_name);
+        return new Queue($this->channel, $queue);
     }
 }

@@ -5,45 +5,47 @@ namespace think\bit\common\rabbitmq;
 use PhpAmqpLib\Channel\AMQPChannel;
 
 /**
- * Class Queue
+ * Class Exchange
  * @package think\bit\common\rabbitmq
  * @property AMQPChannel $channel 信道
- * @property string $queue 队列名称
+ * @property string $exchange 交换器名称
  */
-class Queue
+class Exchange
 {
     private $channel;
-    private $queue;
+    private $exchange;
 
-    public function __construct(AMQPChannel $channel, $queue)
+    public function __construct(AMQPChannel $channel, $exchange)
     {
         $this->channel = $channel;
-        $this->queue = $queue;
+        $this->exchange = $exchange;
     }
 
     /**
-     * 声明队列
-     * @param array $config 配置数组
+     * 声明交换器
+     * @param string $type 交换器类型
+     * @param array $config 配置
      * @return mixed|null
      */
-    public function create(array $config = [])
+    public function create($type, array $config = [])
     {
         $config = array_merge([
             'passive' => false,
             'durable' => false,
-            'exclusive' => false,
             'auto_delete' => true,
+            'internal' => false,
             'nowait' => false,
             'arguments' => [],
             'ticket' => null
         ], $config);
 
-        return $this->channel->queue_declare(
-            $this->queue,
+        return $this->channel->exchange_declare(
+            $this->exchange,
+            $type,
             $config['passive'],
             $config['durable'],
-            $config['exclusive'],
             $config['auto_delete'],
+            $config['internal'],
             $config['nowait'],
             $config['arguments'],
             $config['ticket']
@@ -51,12 +53,12 @@ class Queue
     }
 
     /**
-     * 绑定队列
-     * @param string $exchange 交换器
-     * @param array $config 配置数组
+     * 起源交换器绑定交换器
+     * @param string $destination 绑定交换器
+     * @param array $config 配置
      * @return mixed|null
      */
-    public function bind($exchange, array $config = [])
+    public function bind($destination, array $config = [])
     {
         $config = array_merge([
             'routing_key' => '',
@@ -65,9 +67,9 @@ class Queue
             'ticket' => null
         ], $config);
 
-        return $this->channel->queue_bind(
-            $this->queue,
-            $exchange,
+        return $this->channel->exchange_bind(
+            $destination,
+            $this->exchange,
             $config['routing_key'],
             $config['nowait'],
             $config['arguments'],
@@ -76,49 +78,32 @@ class Queue
     }
 
     /**
-     * 解除绑定
-     * @param string $exchange 交换器
-     * @param array $config 配置数组
+     * 起源交换器解除绑定的交换器
+     * @param string $destination 绑定交换器
+     * @param array $config 配置
      * @return mixed
      */
-    public function unbind($exchange, array $config = [])
+    public function unbind($destination, array $config = [])
     {
         $config = array_merge([
             'routing_key' => '',
+            'nowait' => false,
             'arguments' => [],
             'ticket' => null
         ], $config);
 
-        return $this->channel->queue_unbind(
-            $this->queue,
-            $exchange,
+        return $this->channel->exchange_unbind(
+            $destination,
+            $this->exchange,
             $config['routing_key'],
+            $config['nowait'],
             $config['arguments'],
             $config['ticket']
         );
     }
 
     /**
-     * 清除队列
-     * @param array $config 配置数组
-     * @return mixed|null
-     */
-    public function purge(array $config = [])
-    {
-        $config = array_merge([
-            'nowait' => false,
-            'ticket' => null
-        ], $config);
-
-        return $this->channel->queue_purge(
-            $this->queue,
-            $config['nowait'],
-            $config['ticket']
-        );
-    }
-
-    /**
-     * 删除队列
+     * 删除交换器
      * @param array $config 配置数组
      * @return mixed|null
      */
@@ -126,15 +111,13 @@ class Queue
     {
         $config = array_merge([
             'if_unused' => false,
-            'if_empty' => false,
             'nowait' => false,
             'ticket' => null
         ], $config);
 
-        return $this->channel->queue_delete(
-            $this->queue,
+        return $this->channel->exchange_delete(
+            $this->exchange,
             $config['if_unused'],
-            $config['if_empty'],
             $config['nowait'],
             $config['ticket']
         );
