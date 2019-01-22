@@ -3,6 +3,7 @@
 namespace think\bit\facade;
 
 use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 use think\bit\common\BitRabbitMQ;
 use PhpAmqpLib\Message\AMQPMessage;
 use think\bit\common\rabbitmq\Exchange;
@@ -12,7 +13,9 @@ use Closure;
 
 /**
  * Class Rabbit
- * @method static void start(Closure $closure) 创建信道
+ * @method static void start(Closure $closure, array $config = [], array $args = []) 创建默认信道
+ * @method static void connect(Closure $closure, array $config, array $args = []) 创建自定义信道
+ * @method static AMQPStreamConnection native() 获取连接
  * @method static AMQPChannel channel() 获取信道
  * @method static AMQPMessage message(string|array $text = '', array $config = []) 创建消息
  * @method static void publish(string|array $text = '', array $config = []) 发布消息

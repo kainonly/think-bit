@@ -3,12 +3,12 @@
 namespace think\bit\common;
 
 use Closure;
-use think\bit\common\rabbitmq\Exchange;
-use think\facade\Env;
+use think\facade\Config;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use think\bit\common\rabbitmq\Queue;
+use think\bit\common\rabbitmq\Exchange;
 
 /**
  * Class BitRabbitMQ
@@ -16,32 +16,117 @@ use think\bit\common\rabbitmq\Queue;
  * @property AMQPStreamConnection $rabbitmq
  * @property AMQPChannel $channel
  */
-class BitRabbitMQ
+final class BitRabbitMQ
 {
+    private static $default_args = [
+        'virualhost' => '/',
+        'insist' => false,
+        'login_method' => 'AMQPLAIN',
+        'login_response' => null,
+        'locale' => 'en_US',
+        'connection_timeout' => 3.0,
+        'read_write_timeout' => 3.0,
+        'context' => null,
+        'keepalive' => false,
+        'heartbeat' => 0,
+        'channel_rpc_timeout' => 0.0
+    ];
+
     private $rabbitmq;
     private $channel;
 
     /**
-     * 创建信道
+     * 创建默认信道
      * @param Closure $closure
+     * @param array $args 连接参数
+     * @param array $config 操作配置
      */
-    public function start(Closure $closure,
-                          $channel_id = null,
-                          $reply_code = 0,
-                          $reply_text = '',
-                          $method_sig = array(0, 0))
+    public function start(Closure $closure, array $args = [], array $config = [])
+    {
+        // 组合连接参数
+        $args = array_merge(BitRabbitMQ::$default_args, Config::get('rabbitmq.'), $args);
+        // 初始化连接
+        $this->createConnection($args);
+        // 创建信道
+        $this->createChannel($closure, $config);
+    }
+
+    /**
+     * 创建自定义信道
+     * @param Closure $closure
+     * @param array $args 连接参数
+     * @param array $config 操作配置
+     */
+    public function connect(Closure $closure, array $args = [], array $config = [])
+    {
+        // 组合连接参数
+        $args = array_merge(BitRabbitMQ::$default_args, $args);
+        // 初始化连接
+        $this->createConnection($args);
+        // 创建信道
+        $this->createChannel($closure, $config);
+    }
+
+    private function createConnection($args = [])
     {
         $this->rabbitmq = new AMQPStreamConnection(
-            Env::get('rabbitmq.hostname', 'localhost'),
-            Env::get('rabbitmq.port', 5672),
-            Env::get('rabbitmq.username', 'guest'),
-            Env::get('rabbitmq.password', 'guest'),
-            Env::get('rabbitmq.virualhost', '/')
+            $args['hostname'],
+            $args['port'],
+            $args['username'],
+            $args['password'],
+            $args['virualhost'],
+            $args['insist'],
+            $args['login_method'],
+            $args['login_response'],
+            $args['locale'],
+            $args['connection_timeout'],
+            $args['read_write_timeout'],
+            $args['context'],
+            $args['keepalive'],
+            $args['heartbeat'],
+            $args['channel_rpc_timeout']
         );
-        $this->channel = $this->rabbitmq->channel($channel_id);
-        $closure($this->channel);
-        $this->channel->close($reply_code, $reply_text, $method_sig);
-        $this->rabbitmq->close($reply_code, $reply_text, $method_sig);
+    }
+
+    /**
+     * 创建信道
+     * @param Closure $closure
+     * @param array $config 操作配置
+     */
+    private function createChannel(Closure $closure, $config = [])
+    {
+        $config = array_merge([
+            'transaction' => false,
+            'channel_id' => null,
+            'reply_code' => 0,
+            'reply_text' => '',
+            'method_sig' => [0, 0]
+        ], $config);
+
+        $this->channel = $this->rabbitmq->channel($config['channel_id']);
+        if ($config['transaction']) {
+            $this->channel->tx_select();
+            $result = $closure($this->channel);
+            if ($result) {
+                $this->channel->tx_commit();
+            } else {
+                $this->channel->tx_rollback();
+            }
+        } else {
+            $closure($this->channel);
+        }
+
+        $this->channel->close($config['reply_code'], $config['reply_text'], $config['method_sig']);
+        $this->rabbitmq->close($config['reply_code'], $config['reply_text'], $config['method_sig']);
+    }
+
+    /**
+     * 获取连接对象
+     * @return AMQPStreamConnection
+     */
+    public function native()
+    {
+        return $this->rabbitmq;
     }
 
     /**
@@ -50,6 +135,13 @@ class BitRabbitMQ
      */
     public function channel()
     {
+        $this->channel->basic_consume();
+        $this->channel->basic_get();
+        $this->channel->basic_cancel();
+        $this->channel->basic_nack();
+        $this->channel->basic_qos();
+        $this->channel->basic_recover();
+        $this->channel->basic_reject();
         return $this->channel;
     }
 
