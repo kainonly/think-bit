@@ -45,16 +45,43 @@ class BitRabbitMQ
 
     /**
      * 创建消息对象
-     * @param string|array $body 文本
-     * @param array $properties
+     * @param string|array $text 文本
+     * @param array $config
      * @return AMQPMessage
      */
-    public function message($body = '', $properties = [])
+    public function message($text = '', array $config = [])
     {
-        if (is_array($body)) {
-            $body = json_encode($body);
+        if (is_array($text)) {
+            $body = json_encode($text);
         }
-        return new AMQPMessage($body, $properties);
+        return new AMQPMessage($body, $config);
+    }
+
+    /**
+     * 发布消息
+     * @param string|array $text 文本
+     * @param array $config 配置
+     */
+    public function publish($text = '', array $config = [])
+    {
+        $config = array_merge([
+            'exchange' => '',
+            'routing_key' => '',
+            'mandatory' => false,
+            'immediate' => false,
+            'ticket' => null
+        ], $config);
+
+        dump($config);
+
+        $this->channel->basic_publish(
+            $this->message($text),
+            $config['exchange'],
+            $config['routing_key'],
+            $config['mandatory'],
+            $config['immediate'],
+            $config['ticket']
+        );
     }
 
     /**

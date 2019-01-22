@@ -11,7 +11,8 @@ use Closure;
 /**
  * Class Rabbit
  * @method static void channel(Closure $closure) 创建信道
- * @method static AMQPMessage message(string|array $body = '', $properties = []) 创建消息
+ * @method static AMQPMessage message(string|array $text = '', array $config = []) 创建消息
+ * @method static void publish(string|array $text = '', array $config = []) 发布消息
  * @method static Queue queue(string $queue_name) 队列对象
  * @package bit\facade
  */
