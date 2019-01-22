@@ -3,6 +3,7 @@
 namespace think\bit\common;
 
 use Closure;
+use think\bit\common\rabbitmq\Consumer;
 use think\facade\Config;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -135,13 +136,6 @@ final class BitRabbitMQ
      */
     public function channel()
     {
-        $this->channel->basic_consume();
-        $this->channel->basic_get();
-        $this->channel->basic_cancel();
-        $this->channel->basic_nack();
-        $this->channel->basic_qos();
-        $this->channel->basic_recover();
-        $this->channel->basic_reject();
         return $this->channel;
     }
 
@@ -188,11 +182,42 @@ final class BitRabbitMQ
     /**
      * 确认消息
      * @param string $delivery_tag 标识
-     * @param bool $multiple 批量处理
+     * @param bool $multiple 批量
      */
     public function ack($delivery_tag, $multiple = false)
     {
         $this->channel->basic_ack($delivery_tag, $multiple);
+    }
+
+    /**
+     * 拒绝传入的消息
+     * @param string $delivery_tag 标识
+     * @param bool $requeue 重新发送
+     */
+    public function reject($delivery_tag, $requeue = false)
+    {
+        $this->channel->basic_reject($delivery_tag, $requeue);
+    }
+
+    /**
+     * 拒绝一个或多个收到的消息
+     * @param string $delivery_tag 标识
+     * @param bool $multiple 批量
+     * @param bool $requeue 重新发送
+     */
+    public function nack($delivery_tag, $multiple = false, $requeue = false)
+    {
+        $this->channel->basic_nack($delivery_tag, $multiple, $requeue);
+    }
+
+    /**
+     * 重新发送未确认的消息
+     * @param bool $requeue 重新发送
+     * @return mixed
+     */
+    public function revover($requeue = false)
+    {
+        return $this->channel->basic_recover($requeue);
     }
 
     /**
@@ -213,5 +238,15 @@ final class BitRabbitMQ
     public function queue($queue)
     {
         return new Queue($this->channel, $queue);
+    }
+
+    /**
+     * 消费者操作类
+     * @param string $consumer 消费者名称
+     * @return Consumer
+     */
+    public function consumer($consumer)
+    {
+        return new Consumer($this->channel, $consumer);
     }
 }

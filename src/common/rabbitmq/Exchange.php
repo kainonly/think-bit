@@ -15,7 +15,7 @@ final class Exchange extends Type
     /**
      * 声明交换器
      * @param string $type 交换器类型
-     * @param array $config 配置
+     * @param array $config 操作配置
      * @return mixed|null
      */
     public function create($type, array $config = [])
@@ -46,7 +46,7 @@ final class Exchange extends Type
     /**
      * 起源交换器绑定交换器
      * @param string $destination 绑定交换器
-     * @param array $config 配置
+     * @param array $config 操作配置
      * @return mixed|null
      */
     public function bind($destination, array $config = [])
@@ -71,7 +71,7 @@ final class Exchange extends Type
     /**
      * 起源交换器解除绑定的交换器
      * @param string $destination 绑定交换器
-     * @param array $config 配置
+     * @param array $config 操作配置
      * @return mixed
      */
     public function unbind($destination, array $config = [])
@@ -95,7 +95,7 @@ final class Exchange extends Type
 
     /**
      * 删除交换器
-     * @param array $config 配置数组
+     * @param array $config 操作配置
      * @return mixed|null
      */
     public function delete(array $config = [])

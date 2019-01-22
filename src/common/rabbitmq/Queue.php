@@ -14,7 +14,7 @@ final class Queue extends Type
 {
     /**
      * 声明队列
-     * @param array $config 配置数组
+     * @param array $config 操作配置
      * @return mixed|null
      */
     public function create(array $config = [])
@@ -43,8 +43,8 @@ final class Queue extends Type
 
     /**
      * 绑定队列
-     * @param string $exchange 交换器
-     * @param array $config 配置数组
+     * @param string $exchange 交换器名称
+     * @param array $config 操作配置
      * @return mixed|null
      */
     public function bind($exchange, array $config = [])
@@ -68,8 +68,8 @@ final class Queue extends Type
 
     /**
      * 解除绑定
-     * @param string $exchange 交换器
-     * @param array $config 配置数组
+     * @param string $exchange 交换器名称
+     * @param array $config 操作配置
      * @return mixed
      */
     public function unbind($exchange, array $config = [])
@@ -91,7 +91,7 @@ final class Queue extends Type
 
     /**
      * 清除队列
-     * @param array $config 配置数组
+     * @param array $config 操作配置
      * @return mixed|null
      */
     public function purge(array $config = [])
@@ -110,7 +110,7 @@ final class Queue extends Type
 
     /**
      * 删除队列
-     * @param array $config 配置数组
+     * @param array $config 操作配置
      * @return mixed|null
      */
     public function delete(array $config = [])
@@ -127,6 +127,25 @@ final class Queue extends Type
             $config['if_unused'],
             $config['if_empty'],
             $config['nowait'],
+            $config['ticket']
+        );
+    }
+
+    /**
+     * 获取队列信息
+     * @param array $config 操作配置
+     * @return mixed
+     */
+    public function get(array $config = [])
+    {
+        $config = array_merge([
+            'no_ack' => false,
+            'ticket' => null
+        ], $config);
+
+        return $this->channel->basic_get(
+            $this->name,
+            $config['no_ack'],
             $config['ticket']
         );
     }
