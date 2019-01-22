@@ -8,19 +8,10 @@ use PhpAmqpLib\Channel\AMQPChannel;
  * Class Queue
  * @package think\bit\common\rabbitmq
  * @property AMQPChannel $channel 信道
- * @property string $queue 队列名称
+ * @property string $name 队列名称
  */
-class Queue
+final class Queue extends Type
 {
-    private $channel;
-    private $queue;
-
-    public function __construct(AMQPChannel $channel, $queue)
-    {
-        $this->channel = $channel;
-        $this->queue = $queue;
-    }
-
     /**
      * 声明队列
      * @param array $config 配置数组
@@ -39,7 +30,7 @@ class Queue
         ], $config);
 
         return $this->channel->queue_declare(
-            $this->queue,
+            $this->name,
             $config['passive'],
             $config['durable'],
             $config['exclusive'],
@@ -66,7 +57,7 @@ class Queue
         ], $config);
 
         return $this->channel->queue_bind(
-            $this->queue,
+            $this->name,
             $exchange,
             $config['routing_key'],
             $config['nowait'],
@@ -90,7 +81,7 @@ class Queue
         ], $config);
 
         return $this->channel->queue_unbind(
-            $this->queue,
+            $this->name,
             $exchange,
             $config['routing_key'],
             $config['arguments'],
@@ -111,7 +102,7 @@ class Queue
         ], $config);
 
         return $this->channel->queue_purge(
-            $this->queue,
+            $this->name,
             $config['nowait'],
             $config['ticket']
         );
@@ -132,7 +123,7 @@ class Queue
         ], $config);
 
         return $this->channel->queue_delete(
-            $this->queue,
+            $this->name,
             $config['if_unused'],
             $config['if_empty'],
             $config['nowait'],

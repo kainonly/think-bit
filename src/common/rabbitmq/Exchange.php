@@ -8,19 +8,10 @@ use PhpAmqpLib\Channel\AMQPChannel;
  * Class Exchange
  * @package think\bit\common\rabbitmq
  * @property AMQPChannel $channel 信道
- * @property string $exchange 交换器名称
+ * @property string $name 交换器名称
  */
-class Exchange
+final class Exchange extends Type
 {
-    private $channel;
-    private $exchange;
-
-    public function __construct(AMQPChannel $channel, $exchange)
-    {
-        $this->channel = $channel;
-        $this->exchange = $exchange;
-    }
-
     /**
      * 声明交换器
      * @param string $type 交换器类型
@@ -40,7 +31,7 @@ class Exchange
         ], $config);
 
         return $this->channel->exchange_declare(
-            $this->exchange,
+            $this->name,
             $type,
             $config['passive'],
             $config['durable'],
@@ -69,7 +60,7 @@ class Exchange
 
         return $this->channel->exchange_bind(
             $destination,
-            $this->exchange,
+            $this->name,
             $config['routing_key'],
             $config['nowait'],
             $config['arguments'],
@@ -94,7 +85,7 @@ class Exchange
 
         return $this->channel->exchange_unbind(
             $destination,
-            $this->exchange,
+            $this->name,
             $config['routing_key'],
             $config['nowait'],
             $config['arguments'],
@@ -116,7 +107,7 @@ class Exchange
         ], $config);
 
         return $this->channel->exchange_delete(
-            $this->exchange,
+            $this->name,
             $config['if_unused'],
             $config['nowait'],
             $config['ticket']
