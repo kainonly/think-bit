@@ -9,7 +9,7 @@ final class BitLists
     private $lists = [];
 
     /**
-     * 初始化集合
+     * 初始化数组
      * @param array $lists
      * @return BitLists $this
      */
@@ -20,7 +20,7 @@ final class BitLists
     }
 
     /**
-     * 集合大小
+     * 数组大小
      * @return int
      */
     public function size()
@@ -39,7 +39,7 @@ final class BitLists
     }
 
     /**
-     * 加入集合
+     * 加入数组
      * @param mixed $data
      */
     public function add(...$data)
@@ -48,7 +48,16 @@ final class BitLists
     }
 
     /**
-     * 是否为空
+     * 向前加入数组
+     * @param mixed ...$data
+     */
+    public function unshift(...$data)
+    {
+        array_unshift($this->lists, ...$data);
+    }
+
+    /**
+     * 数组是否为空
      * @return bool
      */
     public function isEmpty()
@@ -96,6 +105,33 @@ final class BitLists
     }
 
     /**
+     * 数组开头的单元移出数组
+     * @return mixed
+     */
+    public function shift()
+    {
+        return array_shift($this->lists);
+    }
+
+    /**
+     * 数组出栈
+     * @return mixed
+     */
+    public function pop()
+    {
+        return array_pop($this->lists);
+    }
+
+    /**
+     * 去除重复
+     * @return array
+     */
+    public function unique()
+    {
+        return array_unique($this->lists);
+    }
+
+    /**
      * 清除数据
      */
     public function clear()
@@ -132,7 +168,7 @@ final class BitLists
     }
 
     /**
-     * 遍历返回
+     * 数组遍历返回
      * @param Closure $closure
      * @return array
      */
@@ -142,13 +178,24 @@ final class BitLists
     }
 
     /**
-     * 过滤数组
+     * 数组过滤
      * @param Closure $closure
      * @return array
      */
     public function filter(Closure $closure)
     {
         return array_filter($this->lists, $closure);
+    }
+
+    /**
+     * 数组切片
+     * @param $offset
+     * @param null $length
+     * @return array
+     */
+    public function slice($offset, $length = null)
+    {
+        return array_slice($this->lists, $offset, $length);
     }
 
     /**
