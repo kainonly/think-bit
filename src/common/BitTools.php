@@ -7,37 +7,6 @@ use Ramsey\Uuid\Uuid;
 final class BitTools
 {
     /**
-     * 把返回的数据集转换成Tree
-     * @param array $list 装换数据集
-     * @param string $pk 主鍵
-     * @param string $pid 父节点
-     * @param string $child 子节点字段名
-     * @param int $root 顶层节点
-     * @return array
-     */
-    public function listToTree($list = [], $pk = 'id', $pid = 'parent', $child = 'children', $root = 0)
-    {
-        if (empty($list)) return [];
-        $refer = [];
-        foreach ($list as $key => $data) {
-            $refer[$data[$pk]] = &$list[$key];
-        }
-        $tree = [];
-        foreach ($list as $key => $data) {
-            $parentId = $data[$pid];
-            if ($root == $parentId) {
-                $tree[] = &$list[$key];
-            } else {
-                if (isset($refer[$parentId])) {
-                    $parent = &$refer[$parentId];
-                    $parent[$child][] = &$list[$key];
-                }
-            }
-        }
-        return $tree;
-    }
-
-    /**
      * 生成uuid
      * @param string $version
      * @return string|null
@@ -62,6 +31,18 @@ final class BitTools
         } catch (\Exception $e) {
             return null;
         }
+    }
+
+    /**
+     * 生产订单号
+     * @param string $service_code 2位业务码
+     * @param string $product_code 3位产品码
+     * @param string $user_code 4位用户码
+     * @return string
+     */
+    public function orderNumber($service_code, $product_code, $user_code)
+    {
+        return $service_code . rand(0, 9) . $product_code . time() . rand(0, 99) . $user_code;
     }
 
     /**

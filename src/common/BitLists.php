@@ -224,4 +224,34 @@ final class BitLists
     {
         return msgpack_pack($this->lists);
     }
+
+    /**
+     * 转为树形结构
+     * @param string $id_name 数组主键名称
+     * @param string $parent_name 数组父级关联名称
+     * @param string $child_name 树形子集名称定义
+     * @param int|string $top_parent 最高级父级
+     * @return array
+     */
+    public function toTree($id_name = 'id', $parent_name = 'parent', $child_name = 'children', $top_parent = 0)
+    {
+        if (empty($this->lists)) return [];
+        $refer = [];
+        foreach ($this->lists as $key => $data) {
+            $refer[$data[$id_name]] = &$list[$key];
+        }
+        $tree = [];
+        foreach ($list as $key => $data) {
+            $parentId = $data[$parent_name];
+            if ($top_parent == $parentId) {
+                $tree[] = &$list[$key];
+            } else {
+                if (isset($refer[$parentId])) {
+                    $parent = &$refer[$parentId];
+                    $parent[$child_name][] = &$list[$key];
+                }
+            }
+        }
+        return $tree;
+    }
 }

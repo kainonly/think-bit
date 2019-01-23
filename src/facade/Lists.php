@@ -8,7 +8,7 @@ use think\Facade;
 /**
  * Class Lists
  * @package bit\facade
- * @method static BitLists data(array $lists) 创建集合
+ * @method static BitLists data(array $lists) 创建列表数组
  */
 final class Lists extends Facade
 {
