@@ -15,7 +15,7 @@ final class SmsString extends Bedis
      * @param int $timeout 超时设置，默认60秒
      * @return bool
      */
-    function factory($phone, $code, $timeout = 60)
+    public function factory($phone, $code, $timeout = 60)
     {
         try {
             $data = msgpack_pack([
@@ -36,7 +36,7 @@ final class SmsString extends Bedis
      * @param boolean $once 验证一次有效,验证完成即删除
      * @return bool
      */
-    function check($phone, $code, $once = false)
+    public function check($phone, $code, $once = false)
     {
         try {
             if (!$this->redis->exists($this->key . $phone)) return false;
@@ -58,7 +58,7 @@ final class SmsString extends Bedis
      * @param string $phone 手机号
      * @return array|bool
      */
-    function time($phone)
+    public function time($phone)
     {
         try {
             if (!$this->redis->exists($this->key . $phone)) return false;

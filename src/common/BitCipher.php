@@ -12,19 +12,6 @@ use think\facade\Config;
  */
 final class BitCipher
 {
-    private $cipher;
-
-    public function __construct()
-    {
-        $this->cipher = new AES();
-        if (Config::has('cipher.key')) {
-            $this->cipher->setKey(Config::get('key'));
-        }
-        if (Config::has('cipher.iv')) {
-            $this->cipher->setIV(Config::get('iv'));
-        }
-    }
-
     /**
      * 加密明文
      * @param string $context 明文
@@ -34,15 +21,8 @@ final class BitCipher
      */
     public function encrypt($context, $key = null, $iv = null)
     {
-        if (!empty($key)) {
-            $this->cipher->setKey($key);
-        }
-
-        if (!empty($iv)) {
-            $this->cipher->setIV($iv);
-        }
-
-        return base64_encode($this->cipher->encrypt($context));
+        $cipher = $this->getAES($key, $iv);
+        return base64_encode($cipher->encrypt($context));
     }
 
     /**
@@ -54,15 +34,8 @@ final class BitCipher
      */
     public function decrypt($secret, $key = null, $iv = null)
     {
-        if (!empty($key)) {
-            $this->cipher->setKey($key);
-        }
-
-        if (!empty($iv)) {
-            $this->cipher->setIV($iv);
-        }
-
-        return $this->cipher->decrypt(base64_decode($secret));
+        $cipher = $this->getAES($key, $iv);
+        return $cipher->decrypt(base64_decode($secret));
     }
 
     /**
@@ -72,17 +45,10 @@ final class BitCipher
      * @param string $iv 自定义偏移量
      * @return string 密文
      */
-    public function encryptArray(Array $data, $key = null, $iv = null)
+    public function encryptArray(array $data, $key = null, $iv = null)
     {
-        if (!empty($key)) {
-            $this->cipher->setKey($key);
-        }
-
-        if (!empty($iv)) {
-            $this->cipher->setIV($iv);
-        }
-
-        return base64_encode($this->cipher->encrypt(msgpack_pack($data)));
+        $cipher = $this->getAES($key, $iv);
+        return base64_encode($cipher->encrypt(msgpack_pack($data)));
     }
 
     /**
@@ -94,14 +60,21 @@ final class BitCipher
      */
     public function decryptArray($secret, $key = null, $iv = null)
     {
-        if (!empty($key)) {
-            $this->cipher->setKey($key);
-        }
+        $cipher = $this->getAES($key, $iv);
+        return msgpack_unpack($cipher->decrypt(base64_decode($secret)));
+    }
 
-        if (!empty($iv)) {
-            $this->cipher->setIV($iv);
-        }
-
-        return msgpack_unpack($this->cipher->decrypt(base64_decode($secret)));
+    /**
+     * 初始化 AES 加密
+     * @param string $key 密钥
+     * @param string $iv 偏移量
+     * @return AES
+     */
+    private function getAES($key, $iv)
+    {
+        $cipher = new AES();
+        $cipher->setKey($key ? $key : Config::get('cipher.key'));
+        $cipher->setIV($iv ? $iv : Config::get('cipher.iv'));
+        return $cipher;
     }
 }
