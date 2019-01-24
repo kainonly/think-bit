@@ -33,7 +33,6 @@ composer require php-amqplib/php-amqplib
 你需要在主配置或对应的模块下创建配置 `config/rabbitmq.php`，例如：
 
 ```php
-<?php
 return [
     'hostname' => 'localhost',
     'port' => 5672,
@@ -45,7 +44,6 @@ return [
 也可以配合 Env 实现开发、生产分离配置：
 
 ```php
-<?php
 return [
     'hostname' => env('rabbitmq.hostname', 'localhost'),
     'port' => env('rabbitmq.port', 5672),

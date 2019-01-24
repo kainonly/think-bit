@@ -9,7 +9,7 @@ final class BitLists
     private $lists = [];
 
     /**
-     * 初始化数组
+     * 列表数组初始化
      * @param array $lists
      * @return BitLists $this
      */
@@ -20,7 +20,7 @@ final class BitLists
     }
 
     /**
-     * 数组大小
+     * 获取数组大小
      * @return int
      */
     public function size()
@@ -39,7 +39,7 @@ final class BitLists
     }
 
     /**
-     * 加入数组
+     * 数组加入元素
      * @param mixed $data
      */
     public function add(...$data)
@@ -48,7 +48,7 @@ final class BitLists
     }
 
     /**
-     * 向前加入数组
+     * 向前数组加入元素
      * @param mixed ...$data
      */
     public function unshift(...$data)
@@ -62,7 +62,7 @@ final class BitLists
      */
     public function isEmpty()
     {
-        return empty($this->data);
+        return empty($this->lists);
     }
 
     /**
@@ -105,7 +105,7 @@ final class BitLists
     }
 
     /**
-     * 数组开头的单元移出数组
+     * 数组开头的单元移出元素
      * @return mixed
      */
     public function shift()
@@ -124,11 +124,10 @@ final class BitLists
 
     /**
      * 去除重复
-     * @return array
      */
     public function unique()
     {
-        return array_unique($this->lists);
+        $this->lists = array_unique($this->lists);
     }
 
     /**
@@ -136,7 +135,7 @@ final class BitLists
      */
     public function clear()
     {
-        $this->data = [];
+        $this->lists = [];
     }
 
     /**
@@ -238,17 +237,17 @@ final class BitLists
         if (empty($this->lists)) return [];
         $refer = [];
         foreach ($this->lists as $key => $data) {
-            $refer[$data[$id_name]] = &$list[$key];
+            $refer[$data[$id_name]] = &$this->lists[$key];
         }
         $tree = [];
-        foreach ($list as $key => $data) {
+        foreach ($this->lists as $key => $data) {
             $parentId = $data[$parent_name];
             if ($top_parent == $parentId) {
-                $tree[] = &$list[$key];
+                $tree[] = &$this->lists[$key];
             } else {
                 if (isset($refer[$parentId])) {
                     $parent = &$refer[$parentId];
-                    $parent[$child_name][] = &$list[$key];
+                    $parent[$child_name][] = &$this->lists[$key];
                 }
             }
         }

@@ -1,4 +1,4 @@
-# Cipher
+## Cipher
 
 Cipher 是对称加密门面，首先要创建 `config/cipher.php`，设置配置
 

@@ -1,27 +1,20 @@
-# CORS
+## CORS 跨站访问
 
-在ThinkPHP项目中下创建 `config/cors.php`
+使用CORS中间定义跨站的请求策略，你需要在主配置或对应的模块下创建配置 `config/cors.php`，例如：
 
 ```php
 return [
     'allow_origin' => [
-        'http://localhost',
-        'https://any.com'
+        'https://api.developer.com'
     ],
     'with_credentials' => true,
     'option_max_age' => 2592000,
-    'methods' => 'POST',
+    'methods' => 'GET,OPTIONS,POST,PUT',
     'headers' => 'Content-Type,X-Requested-With,X-Token'
 ];
 ```
 
-- `allow_origin` 允许跨域的域名
-- `with_credentials` 开启同源策略
-- `option_max_age` 缓存option请求
-- `methods` 允许请求类型
-- `headers` 允许请求头部
-
-修改ThinkPHP项目中 `config/middleware.php`
+注册中间件，修改主配置目录下 `config/middleware.php`
 
 ```php
 return [
@@ -46,3 +39,21 @@ class Index extends Controller
     }
 }
 ```
+
+在路由中使用
+
+```php
+Route::rule('index','index')->middleware('cors');
+```
+
+#### 配置详情
+
+| 名称             | 类型    | 说明                   |
+| ---------------- | ------- | ---------------------- |
+| allow_origin     | array   | 允许跨域的域名         |
+| with_credentials | boolean | 允许ajax请求携带Cookie |
+| option_max_age   | boolean | 缓存OPTIONS请求        |
+| methods          | string  | 允许请求类型           |
+| headers          | string  | 允许定义的头部         |
+
+!> 如果允许所有域名跨域，则将 `allow_origin` 设置为 `[*]`，但 `with_credentials` 将失效，并且ajax请求不能携带cookie。

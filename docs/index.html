@@ -13,15 +13,23 @@
 
 <body>
     <div id="app">加载中</div>
+    <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+    <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
+    <script src="//unpkg.com/docsify-copy-code@2"></script>
+    <script src="//unpkg.com/prismjs/components/prism-bash.js"></script>
+    <script src="//unpkg.com/prismjs/components/prism-php.js"></script>
     <script>
         window.$docsify = {
+            search: {
+                placeholder: '内容搜索',
+                noData: '找不到结果'
+            },
             loadSidebar: true,
             name: 'Think-Bit',
-            repo: 'git+https://github.com/kainonly/think-bit.git'
+            repo: 'https://github.com/kainonly/think-bit.git'
         }
+        
     </script>
-    <script src="//unpkg.com/docsify-copy-code@2"></script>
-    <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
 </body>
 
 </html>
