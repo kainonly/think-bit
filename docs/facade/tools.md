@@ -1,50 +1,63 @@
-# Tools
+## Tools 工具
 
-Tools 是负责处理杂项的助手门面
+#### uuid($version, $namespace, $name)
 
-#### listToTree($list = [], $pk = 'id', $pid = 'parent', $child = 'children', $root = 0)
+生成 uuid
 
-把返回的数据集转换成Tree
-
-- `list` 列表数据
-- `pk` 主索引
-- `pid` 父级索引
-- `child` 子集命名
-- `root` 最高级默认值
-
-#### uuid($version = 'v4', $namespace = null, $name = null)
-
-生成uuid
-
-> 需要安装依赖 `composer require ramsey/uuid`
-
-- `version` 为uuid型号，其中包含 `v1`、`v3`、`v4`、`v5`
+- `version` 为uuid型号，其中包含 `v1`、`v3`、`v4`、`v5`，默认 `v4`
 - `namespace` 命名空间，使用在 `v3`、`v5`
 - `name` 名称，使用在 `v3`、`v5`
+- 返回 `string`
 
 ```php
-use think\bit\facade\Tools;
 dump(Tools::uuid());
+// '4f38cd10-3518-4656-95a3-9cbb4d5a8f25'
+dump(Tools::uuid('v1'));
+// '3fe018b6-1f89-11e9-863d-aa151017e551'
+dump(Tools::uuid('v3', Uuid::NAMESPACE_DNS, 'van'));
+// '88124da6-a376-3c77-8fb1-456250a33254'
+dump(Tools::uuid('v5', Uuid::NAMESPACE_DNS, 'van'));
+// '72ca19ff-6897-5a8e-80c4-ed5d3b753115'
+```
+
+| UUID Version | 说明                   |
+| ------------ | ---------------------- |
+| v1           | 基于时间的UUID         |
+| v3           | 基于名字的UUID（MD5）  |
+| v4           | 随机UUID               |
+| v5           | 基于名字的UUID（SHA1） |
+
+#### orderNumber($service_code, $product_code, $user_code)
+
+生产订单号
+
+- `service_code` 业务码
+- `product_code` 产品码
+- `user_code` 用户码
+- 返回 `string`
+
+```php
+dump(Tools::orderNumber('2', '100', '555'));
+
+// 28100154830173082555
 ```
 
 #### random()
 
 随机数16位
 
-> 需要安装依赖 `composer require ajaxray/short-code`
-
 ```php
-use think\bit\facade\Tools;
 dump(Tools::random());
+
+// 3nnoIk3XbVphym4k
 ```
 
 #### randomShort()
 
 随机数8位
 
-> 需要安装依赖 `composer require ajaxray/short-code`
-
 ```php
-use think\bit\facade\Tools;
 dump(Tools::randomShort());
+
+// 2maJYwas
 ```

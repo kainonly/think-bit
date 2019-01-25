@@ -1,13 +1,19 @@
-# MongoDB
+# Mongo 数据库
 
-在ThinkPHP项目中下创建 `config/mongo.php`，设置配置
+MongoDB 数据库的操作类，使用前请确实是否已安装 [MongoDB](http://pecl.php.net/package/mongodb) 扩展，另外使用需要手动安装 `mongodb/mongodb`
+
+```shell
+composer require mongodb/mongodb
+```
+
+你需要在主配置或对应的模块下创建配置 `config/mongo.php`，例如：
 
 ```php
 return [
     'host' => 'localhost:27017',
-    'username' => 'any',
-    'password' => '123',
-    'database' => 'any',
+    'username' => 'admin',
+    'password' => '123456',
+    'database' => 'admin',
     'replicaSet' => ''
 ];
 ```
@@ -25,7 +31,7 @@ return [
 - `collection_name` 集合名称
 - 返回 `<\MongoDB\Collection>`
 
-例子.写入一条数据
+写入一条数据
 
 ```php
 use think\bit\facade\Mongo;
@@ -39,7 +45,7 @@ Mongo::collection($this->collection)->insertOne([
 ])->isAcknowledged();
 ```
 
-例子.查询一条数据
+查询一条数据
 
 ```php
 use think\bit\facade\Mongo;
@@ -49,5 +55,3 @@ Mongo::collection($this->collection)->findOne([
     '_id' => new ObjectId('5bc98beef56c0b052a324184')
 ]);
 ```
-
-> MongoDB PHP Library 更多操作可参考 https://docs.mongodb.com/php-library/current

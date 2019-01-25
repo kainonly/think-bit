@@ -1,4 +1,4 @@
-## SmsString
+## SmsString 短信验证
 
 手机验证码缓存类
 

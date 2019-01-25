@@ -1,6 +1,6 @@
 ## Cipher
 
-Cipher 是对称加密门面，首先要创建 `config/cipher.php`，设置配置
+Cipher 是用于加密的工具函数，首先要定义配置 `config/cipher.php`
 
 ```php
 return [
@@ -12,61 +12,72 @@ return [
 - `key` 加密密钥
 - `iv` 偏移量
 
-> 需要安装依赖 `composer require phpseclib/phpseclib`
-
-#### encrypt(string $context, $key = null, $iv = null)
+#### encrypt($context, $key, $iv)
 
 加密明文
 
-- `context` 明文
-- `key` 自定义密钥
-- `iv` 自定义偏移量
-- 返回密文
+- `context` string，明文
+- `key` string，自定义密钥
+- `iv` string，自定义偏移量
+- 返回 `string` 密文
 
-#### decrypt(string $secret, $key = null, $iv = null)
+```php
+dump(Cipher::encrypt('123'));
+
+// s7Tkeof7utaDU4tVsTSbyA==
+```
+
+#### decrypt($secret, $key, $iv)
 
 解密密文
 
-- `secret` 密文
-- `key` 自定义密钥
-- `iv` 自定义偏移量
+- `secret` string，密文
+- `key` string，自定义密钥
+- `iv` string，自定义偏移量
 - 返回明文
 
-例子.加密明文、解密密文
-
 ```php
-use think\bit\facade\Cipher;
-
 $secret = Cipher::encrypt('123');
+
 dump($secret);
+// s7Tkeof7utaDU4tVsTSbyA==
 dump(Cipher::decrypt($secret));
+// 123
 ```
 
-#### encryptArray(Array $data, $key = null, $iv = null)
+#### encryptArray($data, $key, $iv)
 
-加密数组为密文（需要msgpack支持）
+加密数组为密文
 
-- `data` 数组
-- `key` 自定义密钥
-- `iv` 自定义偏移量
+- `data` array，数组
+- `key` string，自定义密钥
+- `iv` string，自定义偏移量
 - 返回密文
 
-#### decryptArray(string $secret, $key = null, $iv = null)
+```php
+dump(Cipher::encryptArray([1, 2, 3]));
 
-解密密文为数组（需要msgpack支持）
+// eFIs2OR2/IXC3vv3febOVA==
+```
 
-- `secret` 密文
-- `key` 自定义密钥
-- `iv` 自定义偏移量
+#### decryptArray($secret, $key, $iv)
+
+解密密文为数组
+
+- `secret` string，密文
+- `key` string，自定义密钥
+- `iv` string，自定义偏移量
 - 返回数组
 
-例子.加密数组为密文、解密密文为数组
-
 ```php
-use think\bit\facade\Cipher;
+$secret = Cipher::encryptArray([1, 2, 3]);
 
-$secret = Cipher::encryptArray([1,2,3]);
 dump($secret);
+// eFIs2OR2/IXC3vv3febOVA==
 dump(Cipher::decryptArray($secret));
+// array (size=3)
+//   0 => int 1
+//   1 => int 2
+//   2 => int 3
 ```
 
