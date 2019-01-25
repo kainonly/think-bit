@@ -48,5 +48,6 @@ Redis::transaction(function (\Redis $redis) {
         $redis->set('name1', 'js') &&
         $redis->set('name2', 'php')
     );
-});// true or false
+});
+// true or false
 ```

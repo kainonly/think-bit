@@ -51,3 +51,63 @@ return [
     'password' => env('rabbitmq.password', 'guest'),
 ];
 ```
+
+#### start(Closure $closure, array $args = [], array $config = [])
+
+创建默认信道
+
+- `closure` Closure，信道处理
+- `args` array，连接参数
+- `config` array，配置参数
+
+#### connect(Closure $closure, array $args = [], array $config = [])
+
+创建自定义信道
+
+- `closure` Closure，信道处理
+- `args` array，连接参数
+- `config` array，配置参数
+
+#### native()
+
+获取连接对象
+
+#### channel()
+
+获取信道
+
+#### message($text = '', array $config = [])
+
+创建消息对象
+
+#### publish($text = '', array $config = [])
+
+发布消息
+
+#### ack($delivery_tag, $multiple = false)
+
+确认消息
+
+#### reject($delivery_tag, $requeue = false)
+
+拒绝传入的消息
+
+#### nack($delivery_tag, $multiple = false, $requeue = false)
+
+拒绝一个或多个收到的消息
+
+#### revover($requeue = false)
+
+重新发送未确认的消息
+
+#### exchange($exchange)
+
+交换器操作类
+
+#### queue($queue)
+
+队列操作类
+
+#### consumer($consumer)
+
+消费者操作类

@@ -24,6 +24,13 @@
     * [AddModel 新增数据](traits/addModel)
     * [EditModel 编辑数据](traits/editModel)
     * [DeleteModel 删除数据](traits/deleteModel)
+  * traits MongoDB 特性引用
+    * [GetMongoDB 获取单个数据](traits/getMongoDB)
+    * [OriginListsMongoDB 获取列表数据](traits/originListsMongoDB)
+    * [ListsMongoDB 获取分页数据](traits/listsMongoDB)
+    * [AddMongoDB 新增数据](traits/addMongoDB)
+    * [EditMongoDB 编辑数据](traits/editMongoDB)
+    * [DeleteMongoDB 删除数据](traits/deleteMongoDB)
   * lifecycle 生命周期
     * [GetBeforeHooks](lifecycle/getBeforeHooks)
     * [GetCustom](lifecycle/getCustom)
