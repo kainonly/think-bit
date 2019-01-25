@@ -31,25 +31,29 @@ class ApiHash extends Bedis
 }
 ```
 
-这样定义后我们就可以在其他模块中方便使用，比如生产一个人员缓存
+当接口数据发生更新时则可以使用 `refresh` 函数将缓存刷新
 
 ```php
-$person = new Person();
-$person->factory('1');
+$api = new ApiHash();
+$api->refresh();
 ```
 
-获取这个人员缓存
+!> 缓存的生产设定不建议使用组合数据或一对一来生成，这样会提高数据的耦合度，增大开发与维护的难度
+
+通过接口缓存获取对应的接口主键
 
 ```php
-$person->get('1');
+$api = new ApiHash();
+$api->get('admin/get');
 ```
 
 如果使用事务则实现化时赋值参数
 
 ```php
 Redis::transaction(function (\Redis $redis) {
-    $person = new Person($redis);
-    $car = new Car($redis);
-    return ($person->factory('1') && $car->factory('1'));
-});// true or false
+    $api = new ApiHash($redis);
+    $router = new RouterHash($redis);
+    return ($api->refresh() && $router->refresh());
+});
+// true or false
 ```
