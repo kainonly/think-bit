@@ -1,4 +1,4 @@
-## Cipher
+## Cipher 密码
 
 Cipher 是用于加密的工具函数，首先要定义配置 `config/cipher.php`
 
