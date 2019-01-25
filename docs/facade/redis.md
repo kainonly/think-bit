@@ -1,14 +1,12 @@
 # Redis 缓存
 
-PhpRedis 
-
-在ThinkPHP项目中下创建 `config/redis.php`，设置配置
+PhpRedis 操作类，使用前请确实是否已安装 [Redis](http://pecl.php.net/package/redis) 扩展，你需要在主配置或对应的模块下创建配置 `config/redis.php`，例如：
 
 ```php
 return [
     'connect' => 'localhost',
     'port' => '6379',
-    'auth' => '123',
+    'auth' => '12345678',
     'select' => 0
 ];
 ```
@@ -18,14 +16,14 @@ return [
 - `auth` 验证密码
 - `select` 库号
 
-#### model ($index = null)
+#### model ($index)
 
 定义 Redis 操作模型
 
-- `$index` 库号
+- `index` 库号，默认 `null`
 - 返回 `<\Redis>`
 
-例子.设置一个字符串缓存
+设置一个字符串缓存
 
 ```php
 use think\bit\facade\Redis;
