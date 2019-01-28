@@ -6,8 +6,8 @@ ArrayLists 列表数组操作类
 
 列表数组初始化
 
-- `lists` array，传入初始化的数组
-- 返回 `BitLists` 对象
+- **lists** `array` 传入初始化的数组
+- **Return** `BitLists`
 
 ```php
 $lists = Lists::data([1, 2, 3, 4, 5, 6]);
@@ -26,7 +26,7 @@ dump($lists->toArray());
 
 获取数组大小
 
-- 返回 `int`
+- **Return** `int`
 
 ```php
 $lists = Lists::data([1, 2, 3, 4, 5, 6]);
@@ -40,8 +40,8 @@ dump($size);
 
 设置键值
 
-- `key` string，键名
-- `value` string，键值
+- **key** `string` 键名
+- **value** `string` 键值
 
 ```php
 $lists = Lists::data([1, 2, 3, 4, 5, 6]);
@@ -62,7 +62,7 @@ dump($lists->toArray());
 
 数组加入元素
 
-- `data` mixed，加入的元素
+- **data** `mixed` 加入的元素
 
 ```php
 $lists = Lists::data([1, 2, 3, 4, 5, 6]);
@@ -85,7 +85,7 @@ dump($lists->toArray());
 
 向前数组加入元素
 
-- `data` mixed，加入的元素
+- **data** `mixed` 加入的元素
 
 ```php
 $lists = Lists::data([1, 2, 3, 4, 5, 6]);
@@ -107,7 +107,7 @@ dump($lists->toArray());
 
 数组是否为空
 
-- 返回 `boolean`
+- **Return** `boolean`
 
 ```php
 $lists = Lists::data([]);
@@ -120,8 +120,8 @@ dump($lists->isEmpty());
 
 判断是否存在键名
 
-- `key` string，键名
-- 返回 `boolean`
+- **key** `string` 键名
+- **Return** `boolean`
 
 ```php
 $lists = Lists::data([
@@ -136,8 +136,8 @@ dump($lists->has('name'));
 
 判断是否存在键值
 
-- `value` mixed，键值
-- 返回 `boolean`
+- **value** `mixed` 键值
+- **Return** `boolean`
 
 ```php
 $lists = Lists::data([
@@ -152,8 +152,8 @@ dump($lists->contains('test'));
 
 获取键值
 
-- `key` mixed，键名
-- 返回 `mixed`
+- **key** `mixed` 键名
+- **Return** `mixed`
 
 ```php
 $lists = Lists::data([
@@ -168,7 +168,7 @@ dump($lists->get('name'));
 
 移除键值
 
-- `key` mixed，键名
+- **key** `mixed` 键名
 
 ```php
 $lists = Lists::data([
@@ -184,7 +184,7 @@ dump($lists->toArray());
 
 数组开头的单元移出元素
 
-- 返回 `mixed`，移出的元素
+- **Return** `mixed` 移出的元素
 
 ```php
 $lists = Lists::data([1, 2, 3]);
@@ -200,7 +200,7 @@ dump($lists->toArray());
 
 数组出栈
 
-- 返回 `mixed`，出栈的元素
+- **Return** `mixed` 出栈的元素
 
 ```php
 $lists = Lists::data([1, 2, 3]);
@@ -243,7 +243,7 @@ dump($lists->toArray());
 
 返回键名
 
-- 返回 `array`，所有键名
+- **Return** `array` 所有键名
 
 ```php
 $lists = Lists::data([
@@ -263,7 +263,7 @@ dump($lists->keys());
 
 返回键值
 
-- 返回 `array`，所有键值
+- **Return** `array` 所有键值
 
 ```php
 $lists = Lists::data([
@@ -283,8 +283,8 @@ dump($lists->values());
 
 搜索给定的值，返回键名
 
-- `value` mixed，键值
-- 返回 `string`，键名
+- **value** `mixed` 键值
+- **Return** `string` 键名
 
 ```php
 $lists = Lists::data([
@@ -301,8 +301,8 @@ dump($lists->indexOf('van'));
 
 数组遍历返回
 
-- `closure` 闭包函数
-- 返回 `array`
+- **closure** `Closure` 闭包函数
+- **Return** `array`
 
 ```php
 $lists = Lists::data([
@@ -337,8 +337,8 @@ dump($other_lists);
 
 数组过滤
 
-- `closure` 闭包函数
-- 返回 `array`
+- **closure** `Closure` 闭包函数
+- **Return** `array`
 
 ```php
 $lists = Lists::data([
@@ -376,9 +376,9 @@ dump($other_lists);
 
 数组切片
 
-- `offset` int，起始
-- `length` int，长度
-- 返回 `array`
+- **offset** `int` 起始
+- **length** `int` 长度
+- **Return** `array`
 
 ```php
 $lists = Lists::data([1, 2, 3, 4, 5]);
@@ -394,7 +394,7 @@ dump($lists->slice(1, 3));
 
 获取数组
 
-- 返回 `array`
+- **Return** `array`
 
 ```php
 $lists = Lists::data([
@@ -432,7 +432,7 @@ dump($lists->toArray());
 
 转为Json
 
-- 返回 `string`
+- **Return** `string`
 
 ```php
 $lists = Lists::data([
@@ -458,7 +458,7 @@ dump($lists->toJson());
 
 转为二进制
 
-- 返回 `string`
+- **Return** `string`
 
 ```php
 $lists = Lists::data([
@@ -485,11 +485,11 @@ dump($lists->toBinary());
 
 转为树形结构
 
-- `id_name` string，数组主键名称，默认 `id`
-- `parent_name` string，数组父级关联名称，默认 `parent`
-- `child_name` string，树形子集名称定义，默认 `children`
-- `top_parent` int|string，最高级父级，默认 `0`
-- 返回 `array`
+- **id_name** `string` 数组主键名称
+- **parent_name** `string` 数组父级关联名称
+- **child_name** `string` 树形子集名称定义
+- **top_parent** `int|string` 最高级父级
+- **Return** `array`
 
 ```php
 $lists = Lists::data([
