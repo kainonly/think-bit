@@ -16,10 +16,10 @@ return [
 
 加密明文
 
-- `context` string，明文
-- `key` string，自定义密钥
-- `iv` string，自定义偏移量
-- 返回 `string` 密文
+- **context** `string` 明文
+- **key** `string` 自定义密钥
+- **iv** `string` 自定义偏移量
+- **Return** `string` 密文
 
 ```php
 dump(Cipher::encrypt('123'));
@@ -31,10 +31,10 @@ dump(Cipher::encrypt('123'));
 
 解密密文
 
-- `secret` string，密文
-- `key` string，自定义密钥
-- `iv` string，自定义偏移量
-- 返回明文
+- **secret** `string` 密文
+- **key** `string` 自定义密钥
+- **iv** `string` 自定义偏移量
+- **Return** `string` 明文
 
 ```php
 $secret = Cipher::encrypt('123');
@@ -49,10 +49,10 @@ dump(Cipher::decrypt($secret));
 
 加密数组为密文
 
-- `data` array，数组
-- `key` string，自定义密钥
-- `iv` string，自定义偏移量
-- 返回密文
+- **data** `array` 数组
+- **key** `string` 自定义密钥
+- **iv** `string` 自定义偏移量
+- **Return** `string` 密文
 
 ```php
 dump(Cipher::encryptArray([1, 2, 3]));
@@ -64,10 +64,10 @@ dump(Cipher::encryptArray([1, 2, 3]));
 
 解密密文为数组
 
-- `secret` string，密文
-- `key` string，自定义密钥
-- `iv` string，自定义偏移量
-- 返回数组
+- **secret** `string` 密文
+- **key** `string` 自定义密钥
+- **iv** `string` 自定义偏移量
+- **Return** `array`
 
 ```php
 $secret = Cipher::encryptArray([1, 2, 3]);
