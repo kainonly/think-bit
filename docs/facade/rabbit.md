@@ -280,6 +280,16 @@ Rabbit::start(function () {
 
 - **config** `array` 操作配置
 
+| 操作配置名称 | 类型    | 默认值 | 说明             |
+| ------------ | ------- | ------ | ---------------- |
+| passive      | boolean | false  | 检验队列是否存在 |
+| durable      | boolean | false  | 是否持久化       |
+| exclusive    | boolean | false  | 排除队列         |
+| auto_delete  | boolean | true   | 自动删除         |
+| nowait       | boolean | false  | 客户端不等待回复 |
+| arguments    | array   | []     | 扩展参数         |
+| ticket       | string  | null   | -                |
+
 ```php
 Rabbit::start(function () {
     Rabbit::queue('hello')->create();
@@ -290,8 +300,15 @@ Rabbit::start(function () {
 
 绑定队列
 
-- **exchange** `string`
+- **exchange** `string` 交换器名称
 - **config** `array` 操作配置
+
+| 操作配置名称 | 类型    | 默认值 | 说明             |
+| ------------ | ------- | ------ | ---------------- |
+| routing_key  | string  | ''     | 路由键           |
+| nowait       | boolean | false  | 客户端不等待回复 |
+| arguments    | array   | []     | 扩展参数         |
+| ticket       | string  | null   | -                |
 
 ```php
 Rabbit::start(function () {
@@ -309,6 +326,12 @@ Rabbit::start(function () {
 - **exchange** `string`
 - **config** `array` 操作配置
 
+| 操作配置名称 | 类型   | 默认值 | 说明     |
+| ------------ | ------ | ------ | -------- |
+| routing_key  | string | ''     | 路由键   |
+| arguments    | array  | []     | 扩展参数 |
+| ticket       | string | null   | -        |
+
 ```php
 Rabbit::start(function () {
     Rabbit::exchange('extest')->create('direct');
@@ -324,6 +347,11 @@ Rabbit::start(function () {
 清除队列
 
 - **config** `array` 操作配置
+
+| 操作配置名称 | 类型   | 默认值 | 说明     |
+| ------------ | ------ | ------ | -------- |
+| arguments    | array  | []     | 扩展参数 |
+| ticket       | string | null   | -        |
 
 ```php
 Rabbit::start(function () {
@@ -344,6 +372,15 @@ Rabbit::start(function () {
 
 - **config** `array` 操作配置
 
+| 操作配置名称 | 类型    | 默认值 | 说明                       |
+| ------------ | ------- | ------ | -------------------------- |
+| if_unused    | boolean | false  | 仅删除没有队列绑定的交换器 |
+| if_empty     | boolean | false  | 完全清空队列               |
+| arguments    | array   | []     | 扩展参数                   |
+| ticket       | string  | null   | -                          |
+
+!> `if_empty` 删除队列时，如果在服务器配置中定义了任何挂起的消息，则会将任何挂起的消息发送到死信队列，并且队列中的所有使用者都将被取消
+
 ```php
 Rabbit::start(function () {
     $queue = Rabbit::queue('hello');
@@ -357,6 +394,11 @@ Rabbit::start(function () {
 获取队列信息
 
 - **config** `array` 操作配置
+
+| 操作配置名称 | 类型    | 默认值 | 说明         |
+| ------------ | ------- | ------ | ------------ |
+| no_ack       | boolean | false  | 手动确认消息 |
+| ticket       | string  | null   | -            |
 
 ```php
 Rabbit::start(function () {
