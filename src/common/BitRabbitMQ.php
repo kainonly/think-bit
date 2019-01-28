@@ -141,16 +141,16 @@ final class BitRabbitMQ
 
     /**
      * 创建消息对象
-     * @param string|array $text 文本
+     * @param string|array $text 消息
      * @param array $config 配置
      * @return AMQPMessage
      */
     public function message($text = '', array $config = [])
     {
         if (is_array($text)) {
-            $body = json_encode($text);
+            $text = json_encode($text);
         }
-        return new AMQPMessage($body, $config);
+        return new AMQPMessage($text, $config);
     }
 
     /**
