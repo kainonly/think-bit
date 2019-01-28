@@ -181,6 +181,7 @@ Rabbit::start(function () {
 
 - **type** `string` 交换器类型 **(direct、headers、fanout、topic)**
 - **config** `array` 操作配置
+- **Return** `mixed|null`
 
 | 操作配置名称 | 类型    | 默认值 | 说明             |
 | ------------ | ------- | ------ | ---------------- |
@@ -204,6 +205,7 @@ Rabbit::start(function () {
 
 - **destination** `string` 绑定交换器
 - **config** `array` 操作配置
+- **Return** `mixed|null`
 
 | 操作配置名称 | 类型    | 默认值 | 说明             |
 | ------------ | ------- | ------ | ---------------- |
@@ -226,6 +228,7 @@ Rabbit::start(function () {
 
 - **destination** `string` 绑定交换器
 - **config** `array` 操作配置
+- **Return** `mixed`
 
 | 操作配置名称 | 类型    | 默认值 | 说明             |
 | ------------ | ------- | ------ | ---------------- |
@@ -248,6 +251,7 @@ Rabbit::start(function () {
 删除交换器
 
 - **config** `array` 操作配置
+- **Return** `mixed|null`
 
 | 操作配置名称 | 类型    | 默认值 | 说明                       |
 | ------------ | ------- | ------ | -------------------------- |
@@ -266,6 +270,7 @@ Rabbit::start(function () {
 队列操作类
 
 - **queue** `string` 队列名称
+- **Return** `Queue`
 
 ```php
 Rabbit::start(function () {
@@ -279,6 +284,7 @@ Rabbit::start(function () {
 声明队列
 
 - **config** `array` 操作配置
+- **Return** `mixed|null`
 
 | 操作配置名称 | 类型    | 默认值 | 说明             |
 | ------------ | ------- | ------ | ---------------- |
@@ -302,6 +308,7 @@ Rabbit::start(function () {
 
 - **exchange** `string` 交换器名称
 - **config** `array` 操作配置
+- **Return** `mixed|null`
 
 | 操作配置名称 | 类型    | 默认值 | 说明             |
 | ------------ | ------- | ------ | ---------------- |
@@ -325,6 +332,7 @@ Rabbit::start(function () {
 
 - **exchange** `string`
 - **config** `array` 操作配置
+- **Return** `mixed`
 
 | 操作配置名称 | 类型   | 默认值 | 说明     |
 | ------------ | ------ | ------ | -------- |
@@ -347,6 +355,7 @@ Rabbit::start(function () {
 清除队列
 
 - **config** `array` 操作配置
+- **Return** `mixed|null`
 
 | 操作配置名称 | 类型   | 默认值 | 说明     |
 | ------------ | ------ | ------ | -------- |
@@ -371,6 +380,7 @@ Rabbit::start(function () {
 删除队列
 
 - **config** `array` 操作配置
+- **Return** `mixed|null`
 
 | 操作配置名称 | 类型    | 默认值 | 说明                       |
 | ------------ | ------- | ------ | -------------------------- |
@@ -394,6 +404,7 @@ Rabbit::start(function () {
 获取队列信息
 
 - **config** `array` 操作配置
+- **Return** `mixed`
 
 | 操作配置名称 | 类型    | 默认值 | 说明         |
 | ------------ | ------- | ------ | ------------ |
