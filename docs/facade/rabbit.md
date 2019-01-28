@@ -469,26 +469,27 @@ Rabbit::start(function () {
 
 确认消息
 
-- **delivery_tag** `string`
-- **multiple** `boolean`
+- **delivery_tag** `string` 标识
+- **multiple** `boolean` 批量
 
 #### reject($delivery_tag, $requeue = false)
 
 拒绝传入的消息
 
-- **delivery_tag** `string`
-- **requeue** `boolean`
+- **delivery_tag** `string` 标识
+- **requeue** `boolean` 重新发送
 
 #### nack($delivery_tag, $multiple = false, $requeue = false)
 
 拒绝一个或多个收到的消息
 
-- **delivery_tag** `string`
-- **multiple** `boolean`
-- **requeue** `boolean`
+- **delivery_tag** `string` 标识
+- **multiple** `boolean` 批量
+- **requeue** `boolean` 重新发送
 
 #### revover($requeue = false)
 
 重新发送未确认的消息
 
-- **requeue** `boolean`
+- **requeue** `boolean` 重新发送
+- **Return** `mixed`
