@@ -431,19 +431,39 @@ Rabbit::start(function () {
 消费者操作类
 
 - **consumer** `string` 消费者名称
+- **Return** `Consumer`
 
-##### - start($queue, array $config = [])
+##### -> start($queue, $config = [])
 
 启用消费者
 
-- **queue** `string`
-- **config** `array`
+- **queue** `string` 队列名称
+- **config** `array` 操作配置
+- **Return** `mixed|string`
 
-##### - cancel(array $config = [])
+| 操作配置名称 | 类型    | 默认值 | 说明             |
+| ------------ | ------- | ------ | ---------------- |
+| no_local     | boolean | false  | 独占消费         |
+| no_ack       | boolean | false  | 手动确认消息     |
+| exclusive    | boolean | false  | 排除队列         |
+| nowait       | boolean | false  | 客户端不等待回复 |
+| callback     | Closure | null   | 回调函数         |
+| arguments    | array   | []     | 扩展参数         |
+| ticket       | string  | null   | -                |
+
+!> `no_local` 请求独占消费者访问权限，这意味着只有此消费者才能访问队列
+
+##### -> cancel($config = [])
 
 结束消费者
 
-- **config** `array`
+- **config** `array` 操作配置
+- **Return** `mixed`
+
+| 操作配置名称 | 类型    | 默认值 | 说明             |
+| ------------ | ------- | ------ | ---------------- |
+| nowait       | boolean | false  | 客户端不等待回复 |
+| noreturn     | boolean | false  | -                |
 
 #### ack($delivery_tag, $multiple = false)
 
