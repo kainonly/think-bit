@@ -1,45 +1,39 @@
-# AddAfterHooks
+## AddAfterHooks
 
 新增数据的通用请求处理后置自定义周期
 
-#### 实现接口
+```php
+interface AddAfterHooks
+{
+    /**
+     * 新增后置处理
+     * @param string|int $pk 主键
+     * @return mixed
+     */
+    public function __addAfterHooks($pk);
+}
+```
+
+#### __addAfterHooks($pk)
+
+新增后置周期函数
+
+- **pk** `string|int` 模型写入后返回的主键
+- **Return** `boolean`，返回值为 `false` 则在此结束执行进行事务回滚
+
+实现接口
 
 ```php
 use think\bit\lifecycle\AddAfterHooks;
 
-class NoBodyClass extends Base implements AddAfterHooks {
+class AdminClass extends Base implements AddAfterHooks {
+    use AddModel;
+
+    protected $model = 'admin';
+
     public function __addAfterHooks($pk)
     {
         return true;
     }
 }
 ```
-
-#### overrides __addAfterHooks($pk)
-
-- `$pk` 通用处理后的主键
-- 返回 `true` 为后置处理成功，返回 `false` 为处理失败，自定义返回结果可使用 `add_after_result`  
-
-```php
-use think\bit\lifecycle\AddAfterHooks;
-
-class NoBodyClass extends Base implements AddAfterHooks {
-    public function __addAfterHooks($pk)
-    {
-        $result = someone();//false
-        if(!$result) $this->add_after_result = [
-            'error'=> 1,
-            'msg'=> 'you msg'
-        ];
-        return $result;
-    }
-}
-```
-
-#### $this->post
-
-请求数据
-
-#### $this->add_after_result
-
-自定义返回，默认为 `['error' => 1,'msg' => 'fail:after']`
