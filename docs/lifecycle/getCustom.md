@@ -2,13 +2,36 @@
 
 获取单条数据的通用请求处理自定义返回周期
 
-#### 实现接口
+```php
+interface GetCustom
+{
+    /**
+     * 自定义单个数据返回
+     * @param array $data
+     * @return array
+     */
+    public function __getCustomReturn(Array $data);
+}
+```
+
+#### __getCustomReturn($data)
+
+获取单个数据的前置周期函数
+
+- **data** `array` 原数据
+- **Return** `boolean` 返回值为 `false` 则在此结束执行
+
+实现接口
 
 ```php
-use think\bit\lifecycle\GetCustom;
+use think\bit\traits\GetModel;
 
-class NoBodyClass extends Base implements GetCustom {
-    public function __getCustomReturn(Array $data)
+class AdminClass extends Base implements GetCustom {
+    use GetModel;
+
+    protected $model = 'admin';
+
+    public function __getCustomReturn($data)
     {
         return [
             'error' => 0,
@@ -17,27 +40,3 @@ class NoBodyClass extends Base implements GetCustom {
     }
 }
 ```
-
-#### overrides __getCustomReturn(Array $data)
-
-- `data` 是默认获取到的单条数据
-- 返回通用请求对象
-
-```php
-use think\bit\lifecycle\GetCustom;
-
-class NoBodyClass extends Base implements GetCustom {
-    public function __getCustomReturn(Array $data)
-    {
-        $_data = change($data);
-        return [
-            'error' => 0,
-            'data' => $_data
-        ];
-    }
-}
-```
-
-#### $this->post
-
-请求数据

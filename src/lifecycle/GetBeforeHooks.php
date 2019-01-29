@@ -5,7 +5,7 @@ namespace think\bit\lifecycle;
 interface GetBeforeHooks
 {
     /**
-     * 单点数据获取前置处理
+     * 获取单个数据的前置处理
      * @return boolean
      */
     public function __getBeforeHooks();
