@@ -85,7 +85,7 @@ $this->post['where'] = [
 
 #### 引入特性
 
-首选需要定义必须的操作模型 **model**
+需要定义必须的操作模型 **model**
 
 ```php
 use think\bit\traits\DeleteModel;
@@ -131,7 +131,7 @@ class AdminClass extends Base {
 use think\bit\lifecycle\DeleteBeforeHooks;
 
 class AdminClass extends Base implements DeleteBeforeHooks {
-    use AddModel;
+    use DeleteModel;
 
     protected $model = 'admin';
 
@@ -157,7 +157,7 @@ protected $delete_before_result = [
 use think\bit\lifecycle\DeleteBeforeHooks;
 
 class AdminClass extends Base implements DeleteBeforeHooks {
-    use AddModel;
+    use DeleteModel;
 
     protected $model = 'admin';
 
@@ -172,10 +172,6 @@ class AdminClass extends Base implements DeleteBeforeHooks {
 }
 ```
 
-
-
-
-
 #### 判断是否有存在事务之后模型写入之前的处理
 
 如该周期处理，则需要调用生命周期 **DeletePrepHooks**
@@ -184,7 +180,7 @@ class AdminClass extends Base implements DeleteBeforeHooks {
 use think\bit\lifecycle\DeletePrepHooks;
 
 class AdminClass extends Base implements DeletePrepHooks {
-    use AddModel;
+    use DeleteModel;
 
     protected $model = 'admin';
 
@@ -210,7 +206,7 @@ protected $delete_prep_result = [
 use think\bit\lifecycle\DeletePrepHooks;
 
 class AdminClass extends Base implements DeletePrepHooks {
-    use AddModel;
+    use DeleteModel;
 
     protected $model = 'admin';
 
@@ -233,7 +229,7 @@ class AdminClass extends Base implements DeletePrepHooks {
 use think\bit\lifecycle\DeleteAfterHooks;
 
 class AdminClass extends Base implements DeleteAfterHooks {
-    use AddModel;
+    use DeleteModel;
 
     protected $model = 'admin';
 
@@ -259,7 +255,7 @@ protected $delete_after_result = [
 use think\bit\lifecycle\DeleteAfterHooks;
 
 class AdminClass extends Base implements DeleteAfterHooks {
-    use AddModel;
+    use DeleteModel;
 
     protected $model = 'admin';
 

@@ -68,7 +68,7 @@ trait AddModel
 
 #### 引入特性
 
-首选需要定义必须的操作模型 **model**
+需要定义必须的操作模型 **model**
 
 ```php
 use think\bit\traits\AddModel;

@@ -1,39 +1,122 @@
 # EditModel
 
-EditModel 是针对修改数据的通用请求处理，支持ThinkPHP下定义的数据库
-
-#### 周期流程
-
-执行通用请求 -> 验证器 ->(是否为状态请求) -> (不是状态请求，验证器场景) -> (是否前置处理) -> 通用处理 -> (是否后置处理) -> 返回通用处理请求
-
-> 条件选择：如果请求参数存 `post['id']`，那么 `post['where']` 存在即成为附加条件；如果 `post['id']` 不存在参数中，那么 `post['where']` 为主要条件
-
-- `post['id']` 类型 `int|string`
-- `post['where]` 必须为数组条件 `[['name','=','test']]`
-
-#### 引入特性
-
-必须定义模型名称
+EditModel 是针对修改数据的通用请求处理
 
 ```php
-use think\bit\traits\EditModel;
+trait EditModel
+{
+    public function edit()
+    {
+         // 自定义修改验证器
+        $validate = Validate::make($this->edit_validate);
+        if (!$validate->check($this->post)) return [
+            'error' => 1,
+            'msg' => $validate->getError()
+        ];
 
-class NoBodyClass extends Base {
-    use EditModel;
+        // 判断是否为状态修改请求
+        if (isset($this->post['switch']) && !empty($this->post['switch'])) {
+            $this->edit_status_switch = true;
+        } else {
+            // 合并模型验证器下edit场景
+            $validate = validate($this->model);
+            if (!$validate->scene('edit')->check($this->post)) return [
+                'error' => 1,
+                'msg' => $validate->getError()
+            ];
+        }
 
-    protected $model = 'nobody';
+        unset($this->post['switch']);
+        $this->post['update_time'] = time();
+        // 判断是否有前置处理
+        if (method_exists($this, '__editBeforeHooks')) {
+            $before_result = $this->__editBeforeHooks();
+            if (!$before_result) {
+                return $this->edit_before_result;
+            }
+        }
+
+        $transaction = Db::transaction(function () {
+            if (isset($this->post['id']) && !empty($this->post['id'])) {
+                unset($this->post['where']);
+                Db::name($this->model)->update($this->post);
+            } elseif (isset($this->post['where']) &&
+                !empty($this->post['where']) &&
+                is_array($this->post['where'])) {
+                $condition = $this->post['where'];
+                unset($this->post['where']);
+                Db::name($this->model)->where($condition)->update($this->post);
+            } else {
+                return false;
+            }
+
+            // 判断是否有后置处理
+            if (method_exists($this, '__editAfterHooks')) {
+                $after_result = $this->__editAfterHooks();
+                if (!$after_result) {
+                    $this->edit_fail_result = $this->edit_after_result;
+                    Db::rollback();
+                    return false;
+                }
+            }
+
+            return true;
+        });
+        if ($transaction) return [
+            'error' => 0,
+            'msg' => 'ok'
+        ]; else {
+            return $this->edit_fail_result;
+        }
+    }
 }
 ```
 
-可定义验证器属性 `$this->edit_validate`，该验证器会执行在状态请求判断之前，默认为 `['id' => 'require', 'switch' => 'bool']`
+!> 条件选择：如果 **post** 请求中存在参数 **id**，那么 **where** 的存在将成为附加条件，如果 **id** 不存在，那么可以使用 **where** 为主要条件
+
+- **id** `int|string` or `int[]|string[]`
+- **where** `array`，必须使用数组方式来定义
+
+```php
+$this->post['where'] = [
+    ['name', '=', 'van']
+];
+```
+
+#### 引入特性
+
+需要定义必须的操作模型 **model**
 
 ```php
 use think\bit\traits\EditModel;
 
-class NoBodyClass extends Base {
+class AdminClass extends Base {
     use EditModel;
 
-    protected $model = 'nobody';
+    protected $model = 'admin';
+}
+```
+
+#### 自定义修改验证器
+
+自定义删除验证器为 **edit_validate**，默认为
+
+```php
+protected $edit_validate = [
+    'id' => 'require',
+    'switch' => 'bool'
+];
+```
+
+也可以在控制器中针对性修改
+
+```php
+use think\bit\traits\EditModel;
+
+class AdminClass extends Base {
+    use EditModel;
+
+    protected $model = 'admin';
     protected $edit_validate = [
         'id' => 'require'
         'switch' => 'bool',
@@ -42,12 +125,14 @@ class NoBodyClass extends Base {
 }
 ```
 
-如果非状态请求需要对应创建验证器场景 `validate/NoBodyClass`
+#### 合并模型验证器下edit场景
+
+所以需要对应创建验证器场景 **validate/AdminClass**，**edit_status_switch** 为 `false` 下有效， 并加入场景 `edit`
 
 ```php
 use think\Validate;
 
-class NoBodyClass extends Validate
+class AdminClass extends Validate
 {
     protected $rule = [
         'name' => 'require',
@@ -59,27 +144,100 @@ class NoBodyClass extends Validate
 }
 ```
 
-#### $this->edit_status_switch
+#### 判断是否有前置处理
 
-是否为状态请求
+如自定义前置处理，则需要调用生命周期 **EditBeforeHooks**
 
-#### overrides __editBeforeHooks()
+```php
+use think\bit\lifecycle\EditBeforeHooks;
 
-自定义前置处理
+class AdminClass extends Base implements EditBeforeHooks {
+    use EditModel;
 
-#### $this->add_before_result
+    protected $model = 'admin';
 
-新增自定义前置返回，默认为 `['error' => 1,'msg' => 'fail:before']`
+    public function __editBeforeHooks()
+    {
+        return true;
+    }
+}
+```
 
-#### overrides __editAfterHooks()
+**__editBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **edit_before_result** 属性的值，默认为：
 
-自定义后置处理
+```php
+protected $edit_before_result = [
+    'error' => 1,
+    'msg' => 'error:before_fail'
+];
+```
 
-#### $this->edit_after_result
+在生命周期函数中可以通过重写自定义前置返回
 
-新增自定义后置返回，默认为 `['error' => 1,'msg' => 'fail:after']`
+```php
+use think\bit\lifecycle\EditBeforeHooks;
 
-#### 返回数据
+class AdminClass extends Base implements EditBeforeHooks {
+    use EditModel;
 
-- `error` 响应状态
-- `msg` 回馈代码
+    protected $model = 'admin';
+
+    public function __editBeforeHooks()
+    {
+        $this->edit_before_result = [
+            'error'=> 1,
+            'msg'=> 'error:only'
+        ];
+        return false;
+    }
+}
+```
+
+#### 判断是否有后置处理
+
+如自定义后置处理，则需要调用生命周期 **EditAfterHooks**
+
+```php
+use think\bit\lifecycle\EditAfterHooks;
+
+class AdminClass extends Base implements EditAfterHooks {
+    use EditModel;
+
+    protected $model = 'admin';
+
+    public function __editAfterHooks()
+    {
+        return true;
+    }
+}
+```
+
+**__editAfterHooks** 的返回值为 `false` 则在此结束执行进行事务回滚，并返回 **edit_after_result** 属性的值，默认为：
+
+```php
+ protected $edit_after_result = [
+    'error' => 1,
+    'msg' => 'error:after_fail'
+];
+```
+
+在生命周期函数中可以通过重写自定义后置返回
+
+```php
+use think\bit\lifecycle\EditAfterHooks;
+
+class AdminClass extends Base implements EditAfterHooks {
+    use EditModel;
+
+    protected $model = 'admin';
+
+    public function __editAfterHooks()
+    {
+        $this->edit_after_result = [
+            'error'=> 1,
+            'msg'=> 'error:redis'
+        ];
+        return false;
+    }
+}
+```
