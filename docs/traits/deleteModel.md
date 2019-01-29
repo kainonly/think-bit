@@ -1,71 +1,275 @@
 # DeleteModel
 
-DeleteModel 是针对删除数据的通用请求处理，支持ThinkPHP下定义的数据库
-
-#### 周期流程
-
-执行通用请求 -> 验证器 -> (是否前置处理) -> 条件选择 -> (是否含事务前置处理) -> 通用处理 -> (是否后置处理) -> 返回通用处理请求
-
-> 条件选择：如果请求参数存 `post['id']`，那么 `post['where']` 存在即成为附加条件；如果 `post['id']` 不存在参数中，那么 `post['where']` 为主要条件
-
-- `post['id']` 类型 `int|string` 或 `int[]|string[]`
-- `post['where]` 必须为数组条件 `[['name','=','test']]`
-
-#### 引入特性
-
-必须定义模型名称
+DeleteModel 是针对删除数据的通用请求处理，执行周期为：
 
 ```php
-use think\bit\traits\DeleteModel;
+trait DeleteModel
+{
+    public function delete()
+    {
+        // 自定义删除验证器
+        $validate = Validate::make($this->delete_validate);
+        if (!$validate->check($this->post)) return [
+            'error' => 1,
+            'msg' => $validate->getError()
+        ];
 
-class NoBodyClass extends Base {
-    use DeleteModel;
+        // 判断是否有前置处理
+        if (method_exists($this, '__deleteBeforeHooks')) {
+            $before_result = $this->__deleteBeforeHooks();
+            if (!$before_result) return $this->delete_before_result;
+        }
 
-    protected $model = 'nobody';
+        $transaction = Db::transaction(function () {
+            // 判断是否有存在事务之后模型写入之前的处理
+            if (method_exists($this, '__deletePrepHooks')) {
+                $prep_result = $this->__deletePrepHooks();
+                if (!$prep_result) {
+                     // 自定义事务之后模型写入之前返回结果 delete_prep_result
+                    $this->delete_fail_result = $this->delete_prep_result;
+                    Db::rollback();
+                    return false;
+                }
+            }
+
+            if (isset($this->post['id']) && !empty($this->post['id'])) {
+                $result = Db::name($this->model)->where('id', 'in', $this->post['id'])->delete();
+            } elseif (isset($this->post['where']) &&
+                !empty($this->post['where']) &&
+                is_array($this->post['where'])) {
+                $result = Db::name($this->model)->where($this->post['where'])->delete();
+            } else {
+                Db::rollback();
+                return false;
+            }
+
+            if (!$result) {
+                Db::rollback();
+                return false;
+            }
+
+            // 判断是否有后置处理
+            if (method_exists($this, '__deleteAfterHooks')) {
+                $after_result = $this->__deleteAfterHooks();
+                if (!$after_result) {
+                    // 自定义后置返回结果 delete_after_result
+                    $this->delete_fail_result = $this->delete_after_result;
+                    Db::rollback();
+                    return false;
+                }
+            }
+
+            return true;
+        });
+        if ($transaction) return [
+            'error' => 0,
+            'msg' => 'ok'
+        ]; else {
+            // 自定义返回错误 delete_fail_result
+            return $this->delete_fail_result;
+        }
+    }
 }
 ```
 
-可定义验证器属性 `$this->delete_validate`，默认为 `['id' => 'require']`
+!> 条件选择：如果 **post** 请求中存在参数 **id**，那么 **where** 的存在将成为附加条件，如果 **id** 不存在，那么可以使用 **where** 为主要条件
+
+- **id** `int|string` or `int[]|string[]`
+- **where** `array`，必须使用数组方式来定义
+
+```php
+$this->post['where'] = [
+    ['name', '=', 'van']
+];
+```
+
+#### 引入特性
+
+首选需要定义必须的操作模型 **model**
 
 ```php
 use think\bit\traits\DeleteModel;
 
-class NoBodyClass extends Base {
+class AdminClass extends Base {
     use DeleteModel;
 
-    protected $model = 'nobody';
+    protected $model = 'admin';
+}
+```
+
+#### 自定义删除验证器
+
+自定义删除验证器为 **delete_validate**，默认为
+
+```php
+protected $delete_validate = [
+    'id' => 'require'
+];
+```
+
+也可以在控制器中针对性修改
+
+```php
+use think\bit\traits\DeleteModel;
+
+class AdminClass extends Base {
+    use DeleteModel;
+
+    protected $model = 'admin';
     protected $delete_validate = [
-        'id' => 'require'
-        'name' => 'require',
+        'id' => 'require',
+        'name' => 'require'
     ];
 }
 ```
 
-#### overrides __deleteBeforeHooks()
+#### 判断是否有前置处理
 
-自定义前置处理
+如自定义前置处理，则需要调用生命周期 **DeleteBeforeHooks**
 
-#### $this->delete_before_result
+```php
+use think\bit\lifecycle\DeleteBeforeHooks;
 
-新增自定义前置返回，默认为 `['error' => 1,'msg' => 'fail:before']`
+class AdminClass extends Base implements DeleteBeforeHooks {
+    use AddModel;
 
-#### overrides __deletePrepHooks()
+    protected $model = 'admin';
 
-自定义含事务前置处理，介于事务开启之后通用处理之前
+    public function __deleteBeforeHooks()
+    {
+        return true;
+    }
+}
+```
 
-#### $this->delete_prep_result
+**__deleteBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **delete_before_result** 属性的值，默认为：
 
-新增自定义前置返回，默认为 `['error' => 1,'msg' => 'fail:prep']`
+```php
+protected $delete_before_result = [
+    'error' => 1,
+    'msg' => 'error:before_fail'
+];
+```
 
-#### overrides __deleteAfterHooks()
+在生命周期函数中可以通过重写自定义前置返回
 
-自定义后置处理
+```php
+use think\bit\lifecycle\DeleteBeforeHooks;
 
-#### $this->delete_after_result
+class AdminClass extends Base implements DeleteBeforeHooks {
+    use AddModel;
 
-新增自定义后置返回，默认为 `['error' => 1,'msg' => 'fail:after']`
+    protected $model = 'admin';
 
-#### 返回数据
+    public function __deleteBeforeHooks()
+    {
+        $this->delete_before_result = [
+            'error'=> 1,
+            'msg'=> 'error:only'
+        ];
+        return false;
+    }
+}
+```
 
-- `error` 响应状态
-- `msg` 回馈代码
+
+
+
+
+#### 判断是否有存在事务之后模型写入之前的处理
+
+如该周期处理，则需要调用生命周期 **DeletePrepHooks**
+
+```php
+use think\bit\lifecycle\DeletePrepHooks;
+
+class AdminClass extends Base implements DeletePrepHooks {
+    use AddModel;
+
+    protected $model = 'admin';
+
+    public function __deletePrepHooks()
+    {
+        return true;
+    }
+}
+```
+
+**__deletePrepHooks** 的返回值为 `false` 则在此结束执行进行事务回滚，并返回 **delete_prep_result** 属性的值，默认为：
+
+```php
+protected $delete_prep_result = [
+    'error' => 1,
+    'msg' => 'error:prep_fail'
+];
+```
+
+在生命周期函数中可以通过重写自定义返回
+
+```php
+use think\bit\lifecycle\DeletePrepHooks;
+
+class AdminClass extends Base implements DeletePrepHooks {
+    use AddModel;
+
+    protected $model = 'admin';
+
+    public function __deletePrepHooks()
+    {
+        $this->delete_prep_result = [
+            'error'=> 1,
+            'msg'=> 'error:insert'
+        ];
+        return false;
+    }
+}
+```
+
+#### 判断是否有后置处理
+
+如自定义后置处理，则需要调用生命周期 **DeleteAfterHooks**
+
+```php
+use think\bit\lifecycle\DeleteAfterHooks;
+
+class AdminClass extends Base implements DeleteAfterHooks {
+    use AddModel;
+
+    protected $model = 'admin';
+
+    public function __deleteAfterHooks()
+    {
+        return true;
+    }
+}
+```
+
+**__deleteAfterHooks** 的返回值为 `false` 则在此结束执行进行事务回滚，并返回 **delete_after_result** 属性的值，默认为：
+
+```php
+protected $delete_after_result = [
+    'error' => 1,
+    'msg' => 'error:after_fail'
+];
+```
+
+在生命周期函数中可以通过重写自定义后置返回
+
+```php
+use think\bit\lifecycle\DeleteAfterHooks;
+
+class AdminClass extends Base implements DeleteAfterHooks {
+    use AddModel;
+
+    protected $model = 'admin';
+
+    public function __deleteAfterHooks()
+    {
+        $this->delete_after_result = [
+            'error'=> 1,
+            'msg'=> 'error:redis'
+        ];
+        return false;
+    }
+}
+```
