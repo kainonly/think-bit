@@ -9,8 +9,8 @@ return [
 ];
 ```
 
-- `key` 加密密钥
-- `iv` 偏移量
+- **key** `string` 加密密钥
+- **iv** `string` 偏移量
 
 #### encrypt($context, $key, $iv)
 

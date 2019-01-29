@@ -18,18 +18,18 @@ return [
 ];
 ```
 
-- `host` 服务器地址
-- `username` 数据库用户名
-- `password` 数据库密码
-- `database` 数据库名称
-- `replicaSet` 副本集
+- **host** `string` 服务器地址
+- **username** `string` 数据库用户名
+- **password** `string` 数据库密码
+- **database** `string` 数据库名称
+- **replicaSet** `string` 副本集
 
 #### collection($collection_name)
 
 定义 MongoDB 查询集合
 
-- `collection_name` 集合名称
-- 返回 `<\MongoDB\Collection>`
+- **collection_name** `string` 集合名称
+- **Return** `Collection`
 
 写入一条数据
 

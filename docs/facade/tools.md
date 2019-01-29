@@ -4,10 +4,10 @@
 
 生成 uuid
 
-- `version` 为uuid型号，其中包含 `v1`、`v3`、`v4`、`v5`，默认 `v4`
-- `namespace` 命名空间，使用在 `v3`、`v5`
-- `name` 名称，使用在 `v3`、`v5`
-- 返回 `string`
+- **version** `string` 为uuid型号，其中包含 `v1`、`v3`、`v4`、`v5`，默认 `v4`
+- **namespace** `string` 命名空间，使用在 `v3`、`v5`
+- **name** `string` 名称，使用在 `v3`、`v5`
+- **Return** `string`
 
 ```php
 dump(Tools::uuid());
@@ -31,10 +31,10 @@ dump(Tools::uuid('v5', Uuid::NAMESPACE_DNS, 'van'));
 
 生产订单号
 
-- `service_code` 业务码
-- `product_code` 产品码
-- `user_code` 用户码
-- 返回 `string`
+- **service_code** `string` 业务码
+- **product_code** `string` 产品码
+- **user_code** `string` 用户码
+- **Return** `string`
 
 ```php
 dump(Tools::orderNumber('2', '100', '555'));
