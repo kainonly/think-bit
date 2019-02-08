@@ -1,4 +1,4 @@
-# Mongo 数据库
+## Mongo 数据库
 
 MongoDB 数据库的操作类，使用前请确实是否已安装 [MongoDB](http://pecl.php.net/package/mongodb) 扩展，另外使用需要手动安装 `mongodb/mongodb`
 

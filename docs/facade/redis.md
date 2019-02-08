@@ -1,4 +1,4 @@
-# Redis 缓存
+## Redis 缓存
 
 PhpRedis 操作类，使用前请确实是否已安装 [Redis](http://pecl.php.net/package/redis) 扩展，你需要在主配置或对应的模块下创建配置 `config/redis.php`，例如：
 
