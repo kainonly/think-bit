@@ -22,6 +22,7 @@ interface DeleteAfterHooks
 实现接口
 
 ```php
+use think\bit\traits\DeleteModel;
 use think\bit\lifecycle\DeleteAfterHooks;
 
 class AdminClass extends Base implements DeleteAfterHooks {

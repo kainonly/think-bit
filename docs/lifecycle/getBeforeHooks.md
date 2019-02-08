@@ -1,6 +1,6 @@
 ## GetBeforeHooks
 
-获取单个数据的通用请求处理前置自定义周期
+单条数据的通用请求处理前置自定义周期
 
 ```php
 interface GetBeforeHooks
@@ -22,6 +22,7 @@ interface GetBeforeHooks
 实现接口
 
 ```php
+use think\bit\traits\GetModel;
 use think\bit\lifecycle\GetBeforeHooks;
 
 class AdminClass extends Base implements GetBeforeHooks {

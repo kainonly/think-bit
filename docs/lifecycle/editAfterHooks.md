@@ -22,6 +22,7 @@ interface EditAfterHooks
 实现接口
 
 ```php
+use think\bit\traits\EditModel;
 use think\bit\lifecycle\EditAfterHooks;
 
 class AdminClass extends Base implements EditAfterHooks {

@@ -24,6 +24,7 @@ interface AddAfterHooks
 实现接口
 
 ```php
+use think\bit\traits\AddModel;
 use think\bit\lifecycle\AddAfterHooks;
 
 class AdminClass extends Base implements AddAfterHooks {

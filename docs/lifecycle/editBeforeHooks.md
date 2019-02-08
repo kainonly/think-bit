@@ -22,6 +22,7 @@ interface EditBeforeHooks
 实现接口
 
 ```php
+use think\bit\traits\EditModel;
 use think\bit\lifecycle\EditBeforeHooks;
 
 class AdminClass extends Base implements EditBeforeHooks {

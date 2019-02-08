@@ -116,6 +116,7 @@ class AdminClass extends Base {
 如自定义前置处理，则需要调用生命周期 **GetBeforeHooks**
 
 ```php
+use think\bit\traits\GetModel;
 use think\bit\lifecycle\GetBeforeHooks;
 
 class AdminClass extends Base implements GetBeforeHooks {
@@ -142,6 +143,7 @@ protected $get_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
+use think\bit\traits\GetModel;
 use think\bit\lifecycle\GetBeforeHooks;
 
 class AdminClass extends Base implements GetBeforeHooks {
@@ -210,6 +212,7 @@ class AdminClass extends Base {
 
 ```php
 use think\bit\traits\GetModel;
+use think\bit\lifecycle\GetCustom;
 
 class AdminClass extends Base implements GetCustom {
     use GetModel;

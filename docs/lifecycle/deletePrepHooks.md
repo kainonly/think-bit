@@ -22,10 +22,11 @@ interface DeletePrepHooks
 实现接口
 
 ```php
+use think\bit\traits\DeleteModel;
 use think\bit\lifecycle\DeletePrepHooks;
 
 class AdminClass extends Base implements DeletePrepHooks {
-    use AddModel;
+    use DeleteModel;
 
     protected $model = 'admin';
 

@@ -2,12 +2,35 @@
 
 列表数据的通用请求处理自定义返回周期
 
-#### 实现接口
+```php
+interface OriginListsCustom
+{
+    /**
+     * 自定义无分页数据返回
+     * @param array $lists
+     * @return array
+     */
+    public function __originListsCustomReturn(Array $lists);
+}
+```
+
+#### __originListsCustomReturn(Array $lists)
+
+列表数据的自定义返回周期
+
+- **lists** `array` 原数据
+
+实现接口
 
 ```php
+use think\bit\traits\OriginListsModel;
 use think\bit\lifecycle\OriginListsCustom;
 
-class NoBodyClass extends Base implements OriginListsCustom {
+class AdminClass extends Base implements OriginListsCustom {
+    use OriginListsModel;
+
+    protected $model = 'admin';
+
     public function __originListsCustomReturn(Array $lists)
     {
         return [
@@ -17,27 +40,3 @@ class NoBodyClass extends Base implements OriginListsCustom {
     }
 }
 ```
-
-#### overrides __originListsCustomReturn(Array $lists)
-
-- `lists` 是默认获取到的列表数据
-- 返回通用请求对象
-
-```php
-use think\bit\lifecycle\OriginListsCustom;
-
-class NoBodyClass extends Base implements OriginListsCustom {
-    public function __originListsCustomReturn(Array $lists)
-    {
-        $_lists = change($lists);
-        return [
-            'error' => 0,
-            'data' => $_lists
-        ];
-    }
-}
-```
-
-#### $this->post
-
-请求数据

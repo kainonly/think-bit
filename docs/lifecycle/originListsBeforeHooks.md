@@ -2,43 +2,41 @@
 
 列表数据请求前置处理周期
 
-#### 实现接口
-
 ```php
-use think\bit\lifecycle\OriginListsBeforeHooks;
-
-class NoBodyClass extends Base implements OriginListsBeforeHooks {
-    public function __originListsBeforeHooks()
-    {
-        return true;
-    }
+interface OriginListsBeforeHooks
+{
+    /**
+     * 列表数据获取前置处理
+     * @return boolean
+     */
+    public function __originListsBeforeHooks();
 }
 ```
 
-#### overrides __originListsBeforeHooks()
+#### __originListsBeforeHooks()
 
-- 返回 `true` 为前置处理成功，返回 `false` 为处理失败，自定义返回结果可使用 `origin_lists_before_result`  
+列表数据的前置周期函数
+
+- **Return** `boolean`，返回值为 `false` 则在此结束执行
+
+实现接口
 
 ```php
+use think\bit\traits\OriginListsModel;
 use think\bit\lifecycle\OriginListsBeforeHooks;
 
-class NoBodyClass extends Base implements OriginListsBeforeHooks {
+class AdminClass extends Base implements OriginListsBeforeHooks {
+    use OriginListsModel;
+
+    protected $model = 'admin';
+
     public function __originListsBeforeHooks()
     {
-        $result = condition();//false
-        if(!$result) $this->origin_lists_before_result = [
+        $this->lists_origin_before_result = [
             'error'=> 1,
-            'msg'=> 'you msg'
+            'msg'=> 'error:only'
         ];
-        return $result;
+        return false;
     }
 }
 ```
-
-#### $this->post
-
-请求数据
-
-#### $this->origin_lists_before_result
-
-自定义返回，默认为 `['error' => 1,'msg' => 'error:before_fail']`

@@ -128,6 +128,7 @@ class AdminClass extends Base {
 如自定义前置处理，则需要调用生命周期 **DeleteBeforeHooks**
 
 ```php
+use think\bit\traits\DeleteModel;
 use think\bit\lifecycle\DeleteBeforeHooks;
 
 class AdminClass extends Base implements DeleteBeforeHooks {
@@ -154,6 +155,7 @@ protected $delete_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
+use think\bit\traits\DeleteModel;
 use think\bit\lifecycle\DeleteBeforeHooks;
 
 class AdminClass extends Base implements DeleteBeforeHooks {
@@ -177,6 +179,7 @@ class AdminClass extends Base implements DeleteBeforeHooks {
 如该周期处理，则需要调用生命周期 **DeletePrepHooks**
 
 ```php
+use think\bit\traits\DeleteModel;
 use think\bit\lifecycle\DeletePrepHooks;
 
 class AdminClass extends Base implements DeletePrepHooks {
@@ -203,6 +206,7 @@ protected $delete_prep_result = [
 在生命周期函数中可以通过重写自定义返回
 
 ```php
+use think\bit\traits\DeleteModel;
 use think\bit\lifecycle\DeletePrepHooks;
 
 class AdminClass extends Base implements DeletePrepHooks {
@@ -226,6 +230,7 @@ class AdminClass extends Base implements DeletePrepHooks {
 如自定义后置处理，则需要调用生命周期 **DeleteAfterHooks**
 
 ```php
+use think\bit\traits\DeleteModel;
 use think\bit\lifecycle\DeleteAfterHooks;
 
 class AdminClass extends Base implements DeleteAfterHooks {
@@ -252,6 +257,7 @@ protected $delete_after_result = [
 在生命周期函数中可以通过重写自定义后置返回
 
 ```php
+use think\bit\traits\DeleteModel;
 use think\bit\lifecycle\DeleteAfterHooks;
 
 class AdminClass extends Base implements DeleteAfterHooks {

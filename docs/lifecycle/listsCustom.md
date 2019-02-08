@@ -1,13 +1,38 @@
-## listsCustom
+## ListsCustom
 
-分页列表数据的通用请求处理自定义返回周期
-
-#### 实现接口
+分页数据的通用请求处理自定义返回周期
 
 ```php
+interface ListsCustom
+{
+    /**
+     * 自定义无分页数据返回
+     * @param array $lists
+     * @param int $total
+     * @return array
+     */
+    public function __listsCustomReturn(Array $lists, int $total);
+}
+```
+
+#### __listsCustomReturn(Array $lists, int $total)
+
+获取分页数据的前置周期函数
+
+- **lists** `array` 原数据
+- **total** `int` 数据总数
+
+实现接口
+
+```php
+use think\bit\traits\ListsModel;
 use think\bit\lifecycle\ListsCustom;
 
-class NoBodyClass extends Base implements ListsCustom {
+class AdminClass extends Base implements ListsCustom {
+    use ListsModel;
+
+    protected $model = 'admin';
+
     public function __listsCustomReturn(Array $lists, int $total)
     {
         return [
@@ -20,31 +45,3 @@ class NoBodyClass extends Base implements ListsCustom {
     }
 }
 ```
-
-#### overrides __listsCustomReturn(Array $lists, int $total)
-
-- `lists` 是默认获取到的分页列表数据
-- `total` 是数据总数
-- 返回通用请求对象
-
-```php
-use think\bit\lifecycle\ListsCustom;
-
-class NoBodyClass extends Base implements ListsCustom {
-    public function __listsCustomReturn(Array $lists, int $total)
-    {
-        $_lists = change($lists);
-        return [
-            'error' => 0,
-            'data' => [
-                'lists' => $_lists,
-                'total' => $total,
-            ]
-        ];
-    }
-}
-```
-
-#### $this->post
-
-请求数据

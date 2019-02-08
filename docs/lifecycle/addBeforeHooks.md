@@ -22,6 +22,7 @@ interface AddBeforeHooks
 实现接口
 
 ```php
+use think\bit\traits\AddModel;
 use think\bit\lifecycle\AddBeforeHooks;
 
 class AdminClass extends Base implements AddBeforeHooks {

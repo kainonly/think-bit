@@ -104,6 +104,7 @@ class AdminClass extends Validate
 如自定义前置处理，则需要调用生命周期 **AddBeforeHooks**
 
 ```php
+use think\bit\traits\AddModel;
 use think\bit\lifecycle\AddBeforeHooks;
 
 class AdminClass extends Base implements AddBeforeHooks {
@@ -130,6 +131,7 @@ protected $add_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
+use think\bit\traits\AddModel;
 use think\bit\lifecycle\AddBeforeHooks;
 
 class AdminClass extends Base implements AddBeforeHooks {
@@ -153,6 +155,7 @@ class AdminClass extends Base implements AddBeforeHooks {
 如自定义后置处理，则需要调用生命周期 **AddAfterHooks**
 
 ```php
+use think\bit\traits\AddModel;
 use think\bit\lifecycle\AddAfterHooks;
 
 class AdminClass extends Base implements AddAfterHooks {
@@ -179,6 +182,7 @@ protected $add_after_result = [
 在生命周期函数中可以通过重写自定义后置返回
 
 ```php
+use think\bit\traits\AddModel;
 use think\bit\lifecycle\AddAfterHooks;
 
 class AdminClass extends Base implements AddAfterHooks {
