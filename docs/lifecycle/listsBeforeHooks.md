@@ -15,7 +15,7 @@ interface ListsBeforeHooks
 
 #### __listsBeforeHooks()
 
-获取分页数据的前置周期函数
+分页数据前置周期
 
 - **Return** `boolean`，返回值为 `false` 则在此结束执行
 

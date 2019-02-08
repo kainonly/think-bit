@@ -15,7 +15,7 @@ interface EditBeforeHooks
 
 #### __editBeforeHooks()
 
-修改前置周期函数
+编辑前置周期
 
 - **Return** `boolean`，返回值为 `false` 则在此结束执行
 

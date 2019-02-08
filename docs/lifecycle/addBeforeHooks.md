@@ -15,7 +15,7 @@ interface AddBeforeHooks
 
 #### __addBeforeHooks()
 
-新增前置周期函数
+新增前置周期
 
 - **Return** `boolean`，返回值为 `false` 则在此结束执行
 

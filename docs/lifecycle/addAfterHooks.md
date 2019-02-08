@@ -16,7 +16,7 @@ interface AddAfterHooks
 
 #### __addAfterHooks($pk)
 
-新增后置周期函数
+新增后置周期
 
 - **pk** `string|int` 模型写入后返回的主键
 - **Return** `boolean`，返回值为 `false` 则在此结束执行进行事务回滚

@@ -16,7 +16,7 @@ interface GetCustom
 
 #### __getCustomReturn($data)
 
-获取单个数据的前置周期函数
+单条数据前置周期
 
 - **data** `array` 原数据
 

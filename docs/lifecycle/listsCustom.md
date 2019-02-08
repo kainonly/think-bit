@@ -17,7 +17,7 @@ interface ListsCustom
 
 #### __listsCustomReturn(Array $lists, int $total)
 
-获取分页数据的前置周期函数
+分页数据自定义返回周期
 
 - **lists** `array` 原数据
 - **total** `int` 数据总数

@@ -15,7 +15,7 @@ interface DeletePrepHooks
 
 #### __deletePrepHooks()
 
-删除在事务之后模型写入之前的周期函数
+删除在事务之后模型写入之前的周期
 
 - **Return** `boolean`，返回值为 `false` 则在此结束执行进行事务回滚
 

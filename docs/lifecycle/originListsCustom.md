@@ -16,7 +16,7 @@ interface OriginListsCustom
 
 #### __originListsCustomReturn(Array $lists)
 
-列表数据的自定义返回周期
+列表数据自定义返回周期
 
 - **lists** `array` 原数据
 
