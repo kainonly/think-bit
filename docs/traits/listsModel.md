@@ -1,4 +1,4 @@
-## ListsModel
+## ListsModel 获取分页数据
 
 ListsModel 是针对分页数据的通用请求处理
 
@@ -79,15 +79,26 @@ trait ListsModel
 }
 ```
 
-!> 条件选择：如果 **post** 请求中存在参数 **id**，那么 **where** 的存在将成为附加条件，如果 **id** 不存在，那么可以使用 **where** 为主要条件
+!> 条件合并: 如果 **post** 请求中存在参数 **where**，那么它将于 **lists_condition** 固定条件合并
 
-- **id** `int|string` or `int[]|string[]`
-- **where** `array`，必须使用数组方式来定义
+- **where** `array` 必须使用数组方式来定义
 
 ```php
 $this->post['where'] = [
     ['name', '=', 'van']
 ];
+```
+
+!> 模糊查询：在 **post** 请求中加入参数 **like**，他将于以上条件共同合并
+
+- **like** `array` 模糊搜索条件
+  - **field** 模糊搜索字段名
+  - **value** 模糊搜索字段值
+
+```json
+[
+    {"field": "name", "value": "a"}
+]
 ```
 
 #### 引入特性
@@ -109,6 +120,7 @@ class AdminClass extends Base {
 如自定义前置处理，则需要调用生命周期 **ListsBeforeHooks**
 
 ```php
+use think\bit\traits\ListsModel;
 use think\bit\lifecycle\ListsBeforeHooks;
 
 class AdminClass extends Base implements ListsBeforeHooks {
@@ -135,6 +147,7 @@ protected $lists_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
+use think\bit\traits\ListsModel;
 use think\bit\lifecycle\ListsBeforeHooks;
 
 class AdminClass extends Base implements ListsBeforeHooks {
@@ -155,10 +168,10 @@ class AdminClass extends Base implements ListsBeforeHooks {
 
 #### 固定条件
 
-如需要给接口在后端就设定固定条件，只需要重写 **get_condition**，默认为
+如需要给接口在后端就设定固定条件，只需要重写 **lists_condition**，默认为
 
 ```php
-protected $get_condition = [];
+protected $lists_condition = [];
 ```
 
 例如加入企业主键限制
@@ -170,18 +183,39 @@ class AdminClass extends Base {
     use ListsModel;
 
     protected $model = 'admin';
-    protected $get_condition = [
+    protected $lists_condition = [
         ['enterprise', '=', 1]
     ];
 }
 ```
 
-#### 限制返回字段
+#### 列表排序
 
-如需要给接口限制返回字段，只需要重写 **get_field**，默认为
+如果需要列表按条件排序，只需要重写 **lists_orders**，默认为
 
 ```php
-protected $get_field = ['update_time,create_time', true];
+protected $lists_orders = 'create_time desc';
+```
+
+例如按年龄进行排序
+
+```php
+use think\bit\traits\ListsModel;
+
+class AdminClass extends Base {
+    use ListsModel;
+
+    protected $model = 'admin';
+    protected $lists_orders = 'age desc';
+}
+```
+
+#### 限制返回字段
+
+如需要给接口限制返回字段，只需要重写 **lists_field**，默认为
+
+```php
+protected $lists_field = ['update_time,create_time', true];
 ```
 
 例如返回除 **update_time** 修改时间所有的字段
@@ -193,38 +227,45 @@ class AdminClass extends Base {
     use ListsModel;
 
     protected $model = 'admin';
-    protected $get_field = ['update_time', true];
+    protected $lists_field = ['update_time', true];
 }
 ```
 
 #### 自定义返回结果
 
-如自定义返回结果，则需要调用生命周期 **GetCustom**
+如自定义返回结果，则需要调用生命周期 **ListsCustom**
 
 ```php
 use think\bit\traits\ListsModel;
+use think\bit\lifecycle\ListsCustom;
 
-class AdminClass extends Base implements GetCustom {
+class AdminClass extends Base implements ListsCustom {
     use ListsModel;
 
     protected $model = 'admin';
 
-    public function __getCustomReturn($data)
+    public function __listsCustomReturn(Array $lists, int $total)
     {
         return [
             'error' => 0,
-            'data' => $data
+            'data' => [
+                'lists' => $lists,
+                'total' => $total,
+            ]
         ];
     }
 }
 ```
 
-**__getCustomReturn** 需要返回整体的响应结果
+**__listsCustomReturn** 需要返回整体的响应结果
 
 ```php
 return [
     'error' => 0,
-    'data' => $data
+    'data' => [
+        'lists' => $lists,
+        'total' => $total,
+    ]
 ];
 ```
 

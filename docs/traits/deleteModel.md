@@ -1,4 +1,4 @@
-## DeleteModel
+## DeleteModel 删除数据
 
 DeleteModel 是针对删除数据的通用请求处理，执行周期为：
 

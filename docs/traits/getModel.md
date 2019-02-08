@@ -1,4 +1,4 @@
-## GetModel
+## GetModel 获取单个数据
 
 GetModel 是针对获取单条数据的通用请求处理
 

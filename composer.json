@@ -1,6 +1,6 @@
 {
   "name": "kain/think-bit",
-  "description": "ThinkPHP Extend Lib",
+  "description": "基于 ThinkPHP5 设计的 RESTFul API 辅助框架",
   "license": "MIT",
   "authors": [
     {
