@@ -14,7 +14,7 @@ class HttpLog
         Rabbit::start(function () use ($request, $publish) {
             Rabbit::publish([
                 'publish' => $publish,
-                'time' => Request::time(),
+                'time' => time(),
                 'data' => [
                     'user' => $request->user,
                     'role' => $request->role,
