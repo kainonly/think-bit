@@ -27,7 +27,9 @@ class HttpLog
             ], [
                 'exchange' => 'sys.log.http',
             ]);
-        });
+        }, [
+            'virualhost' => '/'
+        ]);
         return $next($request);
     }
 }
