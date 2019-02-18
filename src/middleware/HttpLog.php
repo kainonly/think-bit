@@ -1,15 +1,33 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kain
- * Date: 2019/2/18
- * Time: 17:14
- */
 
 namespace think\bit\middleware;
 
+use think\bit\facade\Rabbit;
+use think\facade\Config;
+use think\Request;
 
 class HttpLog
 {
-
+    public function handle(Request $request, \Closure $next)
+    {
+        $publish = Config::get('log.publish');
+        Rabbit::start(function () use ($request, $publish) {
+            Rabbit::publish([
+                'publish' => $publish,
+                'time' => Request::time(),
+                'data' => [
+                    'user' => $request->user,
+                    'role' => $request->role,
+                    'url' => Request::url(),
+                    'method' => Request::method(),
+                    'param' => Request::param(),
+                    'ip' => Request::server('REMOTE_ADDR'),
+                    'user_agent' => Request::server('HTTP_USER_AGENT')
+                ],
+            ], [
+                'exchange' => 'sys.log.http',
+            ]);
+        });
+        return $next($request);
+    }
 }
