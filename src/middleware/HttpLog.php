@@ -14,15 +14,15 @@ class HttpLog
         Rabbit::start(function () use ($request, $publish) {
             Rabbit::publish([
                 'publish' => $publish,
-                'time' => time(),
+                'time' => $request->time(),
                 'data' => [
                     'user' => $request->user,
                     'role' => $request->role,
-                    'url' => Request::url(),
-                    'method' => Request::method(),
-                    'param' => Request::param(),
-                    'ip' => Request::server('REMOTE_ADDR'),
-                    'user_agent' => Request::server('HTTP_USER_AGENT')
+                    'url' => $request->url(),
+                    'method' => $request->method(),
+                    'param' => $request->param(),
+                    'ip' => $request->server('REMOTE_ADDR'),
+                    'user_agent' => $request->server('HTTP_USER_AGENT')
                 ],
             ], [
                 'exchange' => 'sys.log.http',
