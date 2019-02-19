@@ -25,7 +25,7 @@ class HttpLog
                     'user_agent' => $request->server('HTTP_USER_AGENT')
                 ],
             ], [
-                'exchange' => 'sys.log.http',
+                'exchange' => 'sys.http.log',
             ]);
         }, [
             'virualhost' => '/'
