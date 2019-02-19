@@ -12,6 +12,7 @@ class HttpLog
     {
         $publish = Config::get('log.publish');
         Rabbit::start(function () use ($request, $publish) {
+            Rabbit::exchange('sys.http.log')->create('direct');
             Rabbit::publish([
                 'publish' => $publish,
                 'time' => $request->time(),
