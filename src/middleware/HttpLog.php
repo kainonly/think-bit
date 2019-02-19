@@ -8,11 +8,16 @@ use think\Request;
 
 class HttpLog
 {
+    private $name = 'sys.http.log';
+
     public function handle(Request $request, \Closure $next)
     {
         $publish = Config::get('log.publish');
         Rabbit::start(function () use ($request, $publish) {
-            Rabbit::exchange('sys.http.log')->create('direct');
+            Rabbit::exchange($this->name)->create('direct');
+            $queue = Rabbit::queue($this->name);
+            $queue->create();
+            $queue->bind($this->name);
             Rabbit::publish([
                 'publish' => $publish,
                 'time' => $request->time(),
@@ -26,7 +31,7 @@ class HttpLog
                     'user_agent' => $request->server('HTTP_USER_AGENT')
                 ],
             ], [
-                'exchange' => 'sys.http.log',
+                'exchange' => $this->name,
             ]);
         }, [
             'virualhost' => '/'
