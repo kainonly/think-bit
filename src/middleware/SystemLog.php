@@ -6,21 +6,27 @@ use think\bit\facade\Rabbit;
 use think\facade\Config;
 use think\Request;
 
-class HttpLog
+class SystemLog
 {
-    private $name = 'sys.http.log';
-
     public function handle(Request $request, \Closure $next)
     {
         $publish = Config::get('log.publish');
-        Rabbit::start(function () use ($request, $publish) {
-            Rabbit::exchange($this->name)->create('direct');
-            $queue = Rabbit::queue($this->name);
-            $queue->create();
-            $queue->bind($this->name);
+        $exchange = Config::get('log.exchange');
+        $queue = Config::get('log.queue');
+        Rabbit::start(function () use ($publish, $exchange, $queue, $request) {
+            Rabbit::exchange($exchange)->create('direct', [
+                'durable' => true,
+                'auto_delete' => false,
+            ]);
+            $queue = Rabbit::queue($queue);
+            $queue->create([
+                'durable' => true,
+                'auto_delete' => false,
+            ]);
+            $queue->bind($exchange);
             Rabbit::publish([
                 'publish' => $publish,
-                'time' => $request->time(),
+                'time' => time(),
                 'data' => [
                     'user' => $request->user,
                     'role' => $request->role,
@@ -31,7 +37,7 @@ class HttpLog
                     'user_agent' => $request->server('HTTP_USER_AGENT')
                 ],
             ], [
-                'exchange' => $this->name,
+                'exchange' => $exchange,
             ]);
         }, [
             'virualhost' => '/'
