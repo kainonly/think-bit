@@ -6,7 +6,7 @@ use think\bit\facade\Rabbit;
 use think\facade\Config;
 use think\Request;
 
-class SystemLog
+class LogSystem
 {
     public function handle(Request $request, \Closure $next)
     {
