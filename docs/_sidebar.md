@@ -5,6 +5,7 @@
   - [Cipher 密码](facade/cipher)
   - [Tools 工具](facade/tools)
   - [Lists 列表数组](facade/lists)
+  - [Collect 数据收集](facade/collect)
 
 - Middleware 中间件
   - [CORS 跨站访问](middleware/cors)
