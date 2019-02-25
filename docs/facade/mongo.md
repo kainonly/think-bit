@@ -1,57 +1,52 @@
 ## Mongo 数据库
 
-MongoDB 数据库的操作类，使用前请确实是否已安装 [MongoDB](http://pecl.php.net/package/mongodb) 扩展，另外使用需要手动安装 `mongodb/mongodb`
-
-```shell
-composer require mongodb/mongodb
-```
-
-你需要在主配置或对应的模块下创建配置 `config/mongo.php`，例如：
+MongoDB 数据库的操作类，使用前请确实是否已安装 [MongoDB](http://pecl.php.net/package/mongodb) 扩展，你需要在主配置或对应的模块下创建配置 `config/mongo.php`，例如：
 
 ```php
 return [
-    'host' => 'localhost:27017',
-    'username' => 'admin',
-    'password' => '123456',
-    'database' => 'admin',
-    'replicaSet' => ''
+    'uri' => 'mongodb://127.0.0.1:27017',
+    'uriOptions' => [],
+    'driverOptions' => [],
+    'database' => 'test'
 ];
 ```
 
-- **host** `string` 服务器地址
-- **username** `string` 数据库用户名
-- **password** `string` 数据库密码
-- **database** `string` 数据库名称
-- **replicaSet** `string` 副本集
+- **uri** `string` 连接地址
 
-#### collection($collection_name)
+```
+mongodb://[username:password@]host1[:port1][,...hostN[:portN]]][/[database][?options]]
+```
 
-定义 MongoDB 查询集合
+- **uriOptions** `array` 等于 `[?options]`
+- **driverOptions** `array` 驱动参数
+- **database** `string` 默认数据库
 
-- **collection_name** `string` 集合名称
-- **Return** `Collection`
+#### Db($database = '')
 
-写入一条数据
+指向数据库
+
+- **database** `string` 数据库名称，默认值为配置默认数据库
+- **Return** `\MongoDB\Database`
+
+查询数据
 
 ```php
-use think\bit\facade\Mongo;
-use MongoDB\BSON\UTCDateTime;
+$result = Mgo::Db()
+    ->selectCollection('api')
+    ->find();
+return $result->toArray();
+```
 
-Mongo::collection($this->collection)->insertOne([
+写入数据
+
+```php
+$result = Mgo::Db('center')->selectCollection('admin')->insertOne([
     'name' => 'kain',
     'status' => 1,
-    'create_time' => new UTCDateTime(time() * 1000),
-    'update_time' => new UTCDateTime(time() * 1000)
+    'create_time' => new \MongoDB\BSON\UTCDateTime(time() * 1000),
+    'update_time' => new \MongoDB\BSON\UTCDateTime(time() * 1000)
 ])->isAcknowledged();
+return $result;
 ```
 
-查询一条数据
-
-```php
-use think\bit\facade\Mongo;
-use MongoDB\BSON\ObjectId;
-
-Mongo::collection($this->collection)->findOne([
-    '_id' => new ObjectId('5bc98beef56c0b052a324184')
-]);
-```
+!> 更多操作可参考 [MongoDB PHP Library](https://docs.mongodb.com/php-library/current/reference/) Reference.

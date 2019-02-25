@@ -20,6 +20,7 @@
     "ajaxray/short-code": "^1.1",
     "ramsey/uuid": "^3.8",
     "hashids/hashids": "^3.0",
-    "nesbot/carbon": "^2.10"
+    "nesbot/carbon": "^2.10",
+    "mongodb/mongodb": "^1.4"
   }
 }
