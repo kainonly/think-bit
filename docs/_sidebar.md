@@ -8,7 +8,7 @@
 
 - Middleware 中间件
   - [CORS 跨站访问](middleware/cors)
-  - [HttpLog 执行日志收集](middieware/httplog)
+  - [LogSystem 系统日志](middieware/logsystem)
 
 - Abstract 抽象类
   - [BitController 通用控制器](abstract/bitController)
