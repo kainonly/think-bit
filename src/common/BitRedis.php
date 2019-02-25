@@ -4,6 +4,7 @@ namespace think\bit\common;
 
 use Redis;
 use Closure;
+use think\facade\Config;
 
 final class BitRedis
 {
@@ -11,7 +12,7 @@ final class BitRedis
 
     public function __construct()
     {
-        $config = config('redis.');
+        $config = Config::get('redis.');
         $this->redis = new Redis();
         $this->redis->connect($config['connect'], $config['port']);
         $this->redis->auth($config['auth']);
