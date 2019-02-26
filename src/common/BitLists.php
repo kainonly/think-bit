@@ -6,17 +6,18 @@ use Closure;
 
 final class BitLists
 {
-    private $lists = [];
+    private $source = [];
 
     /**
      * 列表数组初始化
-     * @param array $lists
+     * @param array $source
      * @return BitLists $this
      */
-    public function data(array $lists)
+    public function data(array $source)
     {
-        $this->lists = $lists;
-        return $this;
+        $lists = new BitLists();
+        $lists->source = $source;
+        return $lists;
     }
 
     /**
@@ -25,7 +26,7 @@ final class BitLists
      */
     public function size()
     {
-        return count($this->lists);
+        return count($this->source);
     }
 
     /**
@@ -35,7 +36,7 @@ final class BitLists
      */
     public function set($key, $value)
     {
-        $this->lists[$key] = $value;
+        $this->source[$key] = $value;
     }
 
     /**
@@ -44,7 +45,7 @@ final class BitLists
      */
     public function add(...$data)
     {
-        array_push($this->lists, ...$data);
+        array_push($this->source, ...$data);
     }
 
     /**
@@ -53,7 +54,7 @@ final class BitLists
      */
     public function unshift(...$data)
     {
-        array_unshift($this->lists, ...$data);
+        array_unshift($this->source, ...$data);
     }
 
     /**
@@ -62,7 +63,7 @@ final class BitLists
      */
     public function isEmpty()
     {
-        return empty($this->lists);
+        return empty($this->source);
     }
 
     /**
@@ -72,7 +73,7 @@ final class BitLists
      */
     public function has($key)
     {
-        return array_key_exists($key, $this->lists);
+        return array_key_exists($key, $this->source);
     }
 
     /**
@@ -82,7 +83,7 @@ final class BitLists
      */
     public function contains($value)
     {
-        return in_array($value, $this->lists);
+        return in_array($value, $this->source);
     }
 
     /**
@@ -92,7 +93,7 @@ final class BitLists
      */
     public function get($key)
     {
-        return $this->lists[$key];
+        return $this->source[$key];
     }
 
     /**
@@ -101,7 +102,7 @@ final class BitLists
      */
     public function delete($key)
     {
-        unset($this->lists[$key]);
+        unset($this->source[$key]);
     }
 
     /**
@@ -110,7 +111,7 @@ final class BitLists
      */
     public function shift()
     {
-        return array_shift($this->lists);
+        return array_shift($this->source);
     }
 
     /**
@@ -119,7 +120,7 @@ final class BitLists
      */
     public function pop()
     {
-        return array_pop($this->lists);
+        return array_pop($this->source);
     }
 
     /**
@@ -127,7 +128,7 @@ final class BitLists
      */
     public function unique()
     {
-        $this->lists = array_unique($this->lists);
+        $this->source = array_unique($this->source);
     }
 
     /**
@@ -135,7 +136,7 @@ final class BitLists
      */
     public function clear()
     {
-        $this->lists = [];
+        $this->source = [];
     }
 
     /**
@@ -144,7 +145,7 @@ final class BitLists
      */
     public function keys()
     {
-        return array_keys($this->lists);
+        return array_keys($this->source);
     }
 
     /**
@@ -153,7 +154,7 @@ final class BitLists
      */
     public function values()
     {
-        return array_values($this->lists);
+        return array_values($this->source);
     }
 
     /**
@@ -163,7 +164,7 @@ final class BitLists
      */
     public function indexOf($value)
     {
-        return array_search($value, $this->lists);
+        return array_search($value, $this->source);
     }
 
     /**
@@ -173,7 +174,7 @@ final class BitLists
      */
     public function map(Closure $closure)
     {
-        return array_map($closure, $this->lists);
+        return array_map($closure, $this->source);
     }
 
     /**
@@ -183,7 +184,7 @@ final class BitLists
      */
     public function filter(Closure $closure)
     {
-        return array_filter($this->lists, $closure);
+        return array_filter($this->source, $closure);
     }
 
     /**
@@ -194,7 +195,7 @@ final class BitLists
      */
     public function slice($offset, $length = null)
     {
-        return array_slice($this->lists, $offset, $length);
+        return array_slice($this->source, $offset, $length);
     }
 
     /**
@@ -203,7 +204,7 @@ final class BitLists
      */
     public function toArray()
     {
-        return $this->lists;
+        return $this->source;
     }
 
     /**
@@ -212,7 +213,7 @@ final class BitLists
      */
     public function toJson()
     {
-        return json_encode($this->lists);
+        return json_encode($this->source);
     }
 
     /**
@@ -221,7 +222,7 @@ final class BitLists
      */
     public function toBinary()
     {
-        return msgpack_pack($this->lists);
+        return msgpack_pack($this->source);
     }
 
     /**
@@ -234,20 +235,20 @@ final class BitLists
      */
     public function toTree($id_name = 'id', $parent_name = 'parent', $child_name = 'children', $top_parent = 0)
     {
-        if (empty($this->lists)) return [];
+        if (empty($this->source)) return [];
         $refer = [];
-        foreach ($this->lists as $key => $data) {
-            $refer[$data[$id_name]] = &$this->lists[$key];
+        foreach ($this->source as $key => $data) {
+            $refer[$data[$id_name]] = &$this->source[$key];
         }
         $tree = [];
-        foreach ($this->lists as $key => $data) {
+        foreach ($this->source as $key => $data) {
             $parentId = $data[$parent_name];
             if ($top_parent == $parentId) {
-                $tree[] = &$this->lists[$key];
+                $tree[] = &$this->source[$key];
             } else {
                 if (isset($refer[$parentId])) {
                     $parent = &$refer[$parentId];
-                    $parent[$child_name][] = &$this->lists[$key];
+                    $parent[$child_name][] = &$this->source[$key];
                 }
             }
         }
