@@ -10,7 +10,7 @@ use think\Validate;
  * @package think\bit\traits
  * @property string model 模型名称
  * @property array post 请求主体
- * @property array delete_validate 前置验证器
+ * @property array delete_default_validate 默认验证器
  * @property array delete_before_result 前置返回结果
  * @property array delete_prep_result 操作执行前事务之后返回结果
  * @property array delete_condition
@@ -21,7 +21,7 @@ trait DeleteModel
 {
     public function delete()
     {
-        $validate = Validate::make($this->delete_validate);
+        $validate = Validate::make($this->delete_default_validate);
         if (!$validate->check($this->post)) return [
             'error' => 1,
             'msg' => $validate->getError()

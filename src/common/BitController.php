@@ -41,9 +41,7 @@ abstract class BitController extends Controller
     protected $get_condition = [];
     protected $get_field = ['update_time,create_time', true];
 
-    protected $add_default_validate = [
-        'id' => 'require'
-    ];
+    protected $add_default_validate = [];
     protected $add_before_result = [
         'error' => 1,
         'msg' => 'error:before_fail'
