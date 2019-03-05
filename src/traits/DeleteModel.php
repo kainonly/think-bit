@@ -51,14 +51,14 @@ trait DeleteModel
                 ->delete();
 
             if (!$result) {
-                DB::rollBack();
+                Db::rollBack();
                 return false;
             }
 
             if (method_exists($this, '__deleteAfterHooks') &&
                 !$this->__deleteAfterHooks()) {
                 $this->delete_fail_result = $this->delete_after_result;
-                DB::rollBack();
+                Db::rollBack();
                 return false;
             }
 

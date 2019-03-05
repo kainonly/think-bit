@@ -126,43 +126,25 @@ abstract class BitController extends Controller
         'msg' => 'error:insert_fail'
     ];
 
-    /**
-     * 修改数据验证器
-     * @var array
-     */
-    protected $edit_validate = [
-        'id' => 'require',
-        'switch' => 'bool'
+    protected $edit_default_validate = [
+        'id' => 'require|integer',
+        'switch' => 'require|bool'
     ];
-
-    /**
-     * 修改自定义前置返回
-     * @var array
-     */
+    protected $edit_switch = false;
     protected $edit_before_result = [
         'error' => 1,
         'msg' => 'error:before_fail'
     ];
-
+    protected $edit_condition = [];
     protected $edit_fail_result = [
         'error' => 1,
         'msg' => 'error:fail'
     ];
-
-    /**
-     * 修改自定义后置返回
-     * @var array
-     */
     protected $edit_after_result = [
         'error' => 1,
         'msg' => 'error:after_fail'
     ];
 
-    /**
-     * 状态切换请求
-     * @var bool
-     */
-    protected $edit_status_switch = false;
 
     /**
      * 删除数据验证器
