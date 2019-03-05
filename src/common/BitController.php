@@ -9,7 +9,9 @@ abstract class BitController extends Controller
     protected $model;
     protected $post = [];
 
-    protected $origin_lists_default_validate = [];
+    protected $origin_lists_default_validate = [
+        'where' => 'array'
+    ];
     protected $origin_lists_before_result = [
         'error' => 1,
         'msg' => 'error:before_fail'
@@ -21,7 +23,8 @@ abstract class BitController extends Controller
     protected $lists_default_validate = [
         'page' => 'require',
         'page.limit' => 'require|number|between:1,50',
-        'page.index' => 'require|number|min:1'
+        'page.index' => 'require|number|min:1',
+        'where' => 'array'
     ];
     protected $lists_before_result = [
         'error' => 1,
@@ -32,7 +35,8 @@ abstract class BitController extends Controller
     protected $lists_field = ['update_time,create_time', true];
 
     protected $get_default_validate = [
-        'id' => 'require'
+        'id' => 'requireWithout:where|number',
+        'where' => 'requireWithout:id|array'
     ];
     protected $get_before_result = [
         'error' => 1,
@@ -56,7 +60,7 @@ abstract class BitController extends Controller
     ];
 
     protected $edit_default_validate = [
-        'id' => 'require|integer',
+        'id' => 'require|number',
         'switch' => 'require|bool'
     ];
     protected $edit_switch = false;
@@ -73,7 +77,6 @@ abstract class BitController extends Controller
         'error' => 1,
         'msg' => 'error:after_fail'
     ];
-
 
     protected $delete_default_validate = [
         'id' => 'require'
