@@ -39,7 +39,7 @@ trait OriginListsModel
                 $this->post['where']
             );
 
-            $lists = DB::table($this->model)
+            $lists = Db::name($this->model)
                 ->where($condition)
                 ->field($this->origin_lists_field[0], $this->origin_lists_field[1])
                 ->order($this->origin_lists_orders)

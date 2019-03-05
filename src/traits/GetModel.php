@@ -41,7 +41,7 @@ trait GetModel
                 $this->post['where']
             );
 
-            $data = Db::table($this->model)
+            $data = Db::name($this->model)
                 ->where($condition)
                 ->field($this->get_field[0], $this->get_field[1])
                 ->find();
