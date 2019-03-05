@@ -1,6 +1,6 @@
 <?php
 
-namespace app\index\behavior;
+namespace think\bit\common;
 
 use think\Validate;
 
