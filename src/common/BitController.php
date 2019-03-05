@@ -181,6 +181,8 @@ abstract class BitController extends Controller
         'msg' => 'error:before_fail'
     ];
 
+    protected $delete_condition = [];
+
     /**
      * 事务开启之后，数据执行之前
      * @var array
