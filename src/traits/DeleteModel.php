@@ -27,7 +27,6 @@ trait DeleteModel
             'msg' => $validate->getError()
         ];
 
-        // 检测是否有前置处理
         if (method_exists($this, '__deleteBeforeHooks') &&
             !$this->__deleteBeforeHooks()) {
             return $this->delete_before_result;

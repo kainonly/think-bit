@@ -25,14 +25,12 @@ trait AddModel
 
         $this->post['create_time'] = $this->post['update_time'] = time();
 
-        // 检测是否有前置处理
         if (method_exists($this, '__addBeforeHooks') &&
             !$this->__addBeforeHooks()) {
             return $this->add_before_result;
         }
 
         return !Db::transaction(function () {
-            // 检测是否有后置处理
             if (!method_exists($this, '__addAfterHooks')) {
                 return Db::name($this->model)->insert($this->post);
             }

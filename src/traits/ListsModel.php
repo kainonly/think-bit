@@ -10,7 +10,7 @@ use think\Validate;
  * Trait ListsModel
  * @package think\bit\traits
  * @property string model 模型名称
- * @property array post POST请求
+ * @property array post 请求主体
  * @property array lists_default_validate 默认验证器
  * @property array lists_before_result 前置返回结果
  * @property array lists_condition 固定条件
