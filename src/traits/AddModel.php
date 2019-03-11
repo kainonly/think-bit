@@ -27,7 +27,7 @@ trait AddModel
             ];
         }
 
-        $validate = new Validate($this->model);
+        $validate = validate($this->model);
         if (!$validate->scene('add')->check($this->post)) return [
             'error' => 1,
             'msg' => $validate->getError()
