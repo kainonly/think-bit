@@ -73,8 +73,8 @@ final class BitCipher
     private function getAES($key, $iv)
     {
         $cipher = new AES();
-        $cipher->setKey($key ? $key : Config::get('cipher.key'));
-        $cipher->setIV($iv ? $iv : Config::get('cipher.iv'));
+        $cipher->setKey($key ? $key : Config::get('app.app_secret'));
+        $cipher->setIV($iv ? $iv : Config::get('app.app_id'));
         return $cipher;
     }
 }

@@ -12,7 +12,7 @@ final class BitMongo
 
     public function __construct()
     {
-        $config = Config::get('mongo.');
+        $config = Config::get('database.mongodb');
         if (isset($config['database']) && !empty($config['database'])) {
             $this->database = $config['database'];
         }

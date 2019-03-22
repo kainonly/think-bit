@@ -2,7 +2,7 @@
 
 namespace think\bit\facade;
 
-use think\bit\common\BitCollect;
+use think\bit\common\BitQueue;
 use think\Facade;
 
 /**
@@ -10,10 +10,10 @@ use think\Facade;
  * @method static void push(string $motivation, array $data = [], array $time_field = []) 信息收集推送
  * @package bit\facade
  */
-final class Collect extends Facade
+final class Queue extends Facade
 {
     protected static function getFacadeClass()
     {
-        return BitCollect::class;
+        return BitQueue::class;
     }
 }

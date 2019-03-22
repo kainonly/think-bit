@@ -12,11 +12,11 @@ final class BitRedis
 
     public function __construct()
     {
-        $config = Config::get('redis.');
+        $config = Config::get('database.redis');
         $this->redis = new Redis();
-        $this->redis->connect($config['connect'], $config['port']);
-        $this->redis->auth($config['auth']);
-        $this->redis->select($config['select']);
+        $this->redis->connect($config['host'], $config['port']);
+        $this->redis->auth($config['password']);
+        $this->redis->select($config['database']);
     }
 
     /**

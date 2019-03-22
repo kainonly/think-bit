@@ -6,10 +6,10 @@ use think\bit\facade\Rabbit;
 use think\facade\Config;
 
 /**
- * Class BitCollect
+ * Class BitQueue
  * @package think\bit\common
  */
-final class BitCollect
+final class BitQueue
 {
     private $authorization;
     private $exchange;
@@ -17,7 +17,7 @@ final class BitCollect
 
     public function __construct()
     {
-        $config = Config::get('collect.');
+        $config = Config::get('queue.collect');
         $this->authorization = $config['authorization'];
         $this->exchange = $config['exchange'];
         $this->queue = $config['queue'];

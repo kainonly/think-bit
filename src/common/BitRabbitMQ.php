@@ -45,7 +45,7 @@ final class BitRabbitMQ
     public function start(Closure $closure, array $args = [], array $config = [])
     {
         // 组合连接参数
-        $args = array_merge(BitRabbitMQ::$default_args, Config::get('rabbitmq.'), $args);
+        $args = array_merge(BitRabbitMQ::$default_args, Config::get('queue.rabbitmq'), $args);
         // 初始化连接
         $this->createConnection($args);
         // 创建信道
