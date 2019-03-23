@@ -1,7 +1,7 @@
 {
 	"name": "think-bit",
 	"scripts": {
-		"docs": "docsify serve ./docs"
+		"start": "docsify serve ./docs"
 	},
 	"repository": {
 		"type": "git",
