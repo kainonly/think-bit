@@ -1,6 +1,6 @@
-## Cipher 密码
+## Cipher 对称加密
 
-Cipher 是用于加密的工具函数，需要设定配置 `app.app_secret` 与 `app.app_id`
+Cipher 是将数据对称加密的工具，需要设定配置 `app.app_secret` 与 `app.app_id`
 
 #### encrypt($context, $key, $iv)
 

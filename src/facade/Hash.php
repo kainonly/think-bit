@@ -2,21 +2,19 @@
 
 namespace think\bit\facade;
 
-use think\bit\common\BitCipher;
+use think\bit\common\BitHash;
 use think\Facade;
 
 /**
  * Class Cipher
- * @method static string encrypt(string $context, $key = null, $iv = null) 加密明文
- * @method static string decrypt(string $secret, $key = null, $iv = null) 解密密文
- * @method static string encryptArray(Array $data, $key = null, $iv = null) 加密数组为密文
- * @method static array decryptArray(string $secret, $key = null, $iv = null) 解密密文为数组
+ * @method static bool|string make($password, $options = []) 加密密码
+ * @method static bool check($password, $hashPassword) 验证密码
  * @package bit\facade
  */
-final class Cipher extends Facade
+final class Hash extends Facade
 {
     protected static function getFacadeClass()
     {
-        return BitCipher::class;
+        return BitHash::class;
     }
 }

@@ -12,23 +12,21 @@ composer require php-amqplib/php-amqplib
 
 默认下 rabbitmq 连接参数为：
 
-| 配置名称            | 默认值    | 说明             |
-| ------------------- | --------- | ---------------- |
-| hostname            | localhost | AMQP连接地址     |
-| port                | 5672      | AMQP连接端口     |
-| username            | guest     | 连接用户         |
-| password            | guest     | 连接用户口令     |
-| virualhost          | /         | 虚拟主机         |
-| insist              | false     | 不允许代理重定向 |
-| login_method        | AMQPLAIN  | 登录方法         |
-| login_response      | null      | 登录响应         |
-| locale              | en_US     | 国际化           |
-| connection_timeout  | 3.0       | 连接超时         |
-| read_write_timeout  | 3.0       | 读写超时         |
-| context             | null      | 内容             |
-| keepalive           | false     | 保持连接         |
-| heartbeat           | 0         | 连接心跳         |
-| channel_rpc_timeout | 0.0       | 信道RPC超时      |
+- **hostname** `localhost` AMQP连接地址
+- **port** `5672` AMQP连接端口
+- **username** `guest` 连接用户
+- **password** `guest` 连接用户口令
+- **virualhost** `/` 虚拟主机
+- **insist** `false` 不允许代理重定向
+- **login_method** `AMQPLAIN` 登录方法
+- **login_response** `null` 登录响应
+- **locale** `en_US` 国际化
+- **connection_timeout** `3.0` 连接超时
+- **read_write_timeout** `3.0` 读写超时
+- **context** `null` 内容
+- **keepalive** `false` 保持连接
+- **heartbeat** `0` 连接心跳
+- **channel_rpc_timeout** `0.0` 信道RPC超时
 
 你需要在主配置或对应的模块下创建配置 `config/queue.php`，例如：
 
