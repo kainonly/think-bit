@@ -1,12 +1,14 @@
 ## LogSystem 系统日志
 
-使用 LogSystem 系统日志, 首先需要 `Rabbitmq` 配置 `config/rabbitmq.php` , 然后在主配置或对应的模块下设置配置 `config/log.php`
+使用 LogSystem 系统日志, 首先需要配置 `Rabbitmq` , 然后修改配置 `config/log.php`
 
 ```php
 return [
-    'publish' => 'api.developer.com',
-    'exchange' => 'log.system',
-    'queue' => 'log.system'
+    'system' => [
+        'publish' => 'api.developer.com',
+        'exchange' => 'log.system',
+        'queue' => 'log.system'
+    ]
 ];
 ```
 

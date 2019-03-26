@@ -7,68 +7,40 @@ trait ListsModel
 {
     public function lists()
     {
-        // 通用验证
-        $validate = new validate\Lists;
-        if (!$validate->scene('page')->check($this->post)) return [
+        $validate = Validate::make($this->lists_default_validate);
+        if (!$validate->check($this->post)) return [
             'error' => 1,
             'msg' => $validate->getError()
         ];
 
-        if (method_exists($this, '__listsBeforeHooks')) {
-            $before_result = $this->__listsBeforeHooks();
-            if (!$before_result) return $this->lists_before_result;
+        if (method_exists($this, '__listsBeforeHooks') &&
+            !$this->__listsBeforeHooks()) {
+            return $this->lists_before_result;
         }
 
         try {
-            // 判断是否存在条件
             $condition = $this->lists_condition;
             if (isset($this->post['where'])) $condition = array_merge(
                 $condition,
                 $this->post['where']
             );
 
-            // 模糊搜索
-            $like = function (Query $query) {
-                if (isset($this->post['like'])) foreach ($this->post['like'] as $key => $like) {
-                    if (empty($like['value'])) continue;
-                    $query->where($like['field'], 'like', "%{$like['value']}%");
-                }
-            };
-
-            // 分页计算
-            $total = Db::name($this->model)->where($condition)->where($like)->count();
-            $divided = $total % $this->post['page']['limit'] == 0;
-            if ($divided) $max = $total / $this->post['page']['limit'];
-            else $max = ceil($total / $this->post['page']['limit']);
-            if ($max == 0) $max = $max + 1;
-
-            // 页码超出最大分页数
-            if ($this->post['page']['index'] > $max) return [
-                'error' => 1,
-                'msg' => 'fail:page_max'
-            ];
-
-            // 分页查询
+            $total = Db::name($this->model)->where($condition)->count();
             $lists = Db::name($this->model)
                 ->where($condition)
-                ->where($like)
                 ->field($this->lists_field[0], $this->lists_field[1])
                 ->order($this->lists_orders)
                 ->limit($this->post['page']['limit'])
                 ->page($this->post['page']['index'])
                 ->select();
 
-            if (method_exists($this, '__listsCustomReturn')) {
-                return $this->__listsCustomReturn($lists, $total);
-            } else {
-                return [
-                    'error' => 0,
-                    'data' => [
-                        'lists' => $lists,
-                        'total' => $total,
-                    ]
-                ];
-            }
+            return method_exists($this, '__listsCustomReturn') ? $this->__listsCustomReturn($lists, $total) : [
+                'error' => 0,
+                'data' => [
+                    'lists' => $lists,
+                    'total' => $total
+                ]
+            ];
         } catch (Exception $e) {
             return [
                 'error' => 1,
@@ -79,26 +51,14 @@ trait ListsModel
 }
 ```
 
-!> 条件合并: 如果 **post** 请求中存在参数 **where**，那么它将于 **lists_condition** 固定条件合并
+!> 条件合并: 请求中的 **where** 将于 **lists_condition** 合并
 
 - **where** `array` 必须使用数组方式来定义
 
 ```php
 $this->post['where'] = [
-    ['name', '=', 'van']
+    ['name', 'like', '%v%']
 ];
-```
-
-!> 模糊查询：在 **post** 请求中加入参数 **like**，他将于以上条件共同合并
-
-- **like** `array` 模糊搜索条件
-  - **field** 模糊搜索字段名
-  - **value** 模糊搜索字段值
-
-```json
-[
-    {"field": "name", "value": "a"}
-]
 ```
 
 #### 引入特性

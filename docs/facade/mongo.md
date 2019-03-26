@@ -1,13 +1,15 @@
 ## Mongo 数据库
 
-MongoDB 数据库的操作类，使用前请确实是否已安装 [MongoDB](http://pecl.php.net/package/mongodb) 扩展，你需要在主配置或对应的模块下创建配置 `config/mongo.php`，例如：
+MongoDB 数据库的操作类，使用前请确实是否已安装 [MongoDB](http://pecl.php.net/package/mongodb) 扩展，你需要更新配置 `config/database.php`，例如：
 
 ```php
 return [
-    'uri' => 'mongodb://127.0.0.1:27017',
-    'uriOptions' => [],
-    'driverOptions' => [],
-    'database' => 'test'
+    'mongodb' => [
+        'uri' => env('mongodb.uri', 'mongodb://127.0.0.1:27017'),
+        'database' => env('mongodb.database', null),
+        'uriOptions' => [],
+        'driverOptions' => []
+    ]
 ];
 ```
 

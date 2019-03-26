@@ -10,9 +10,10 @@ class LogSystem
 {
     public function handle(Request $request, \Closure $next)
     {
-        $publish = Config::get('log.publish');
-        $exchange = Config::get('log.exchange');
-        $queue = Config::get('log.queue');
+        $config = Config::get('log.system');
+        $publish = $config['publish'];
+        $exchange = $config['exchange'];
+        $queue = $config['queue'];
         Rabbit::start(function () use ($publish, $exchange, $queue, $request) {
             Rabbit::exchange($exchange)->create('direct', [
                 'durable' => true,

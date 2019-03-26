@@ -7,61 +7,52 @@ trait AddModel
 {
     public function add()
     {
+        if (!empty($this->add_default_validate)) {
+            $validate = Validate::make($this->add_default_validate);
+            if (!$validate->check($this->post)) return [
+                'error' => 1,
+                'msg' => $validate->getError()
+            ];
+        }
+
         $validate = validate($this->model);
-        // 合并模型验证器下add场景
         if (!$validate->scene('add')->check($this->post)) return [
             'error' => 1,
             'msg' => $validate->getError()
         ];
 
         $this->post['create_time'] = $this->post['update_time'] = time();
-        // 判断是否有前置处理 __addBeforeHooks
-        if (method_exists($this, '__addBeforeHooks')) {
-            $before_result = $this->__addBeforeHooks();
-            // 自定义前置返回结果 add_before_result
-            if (!$before_result) return $this->add_before_result;
+
+        if (method_exists($this, '__addBeforeHooks') &&
+            !$this->__addBeforeHooks()) {
+            return $this->add_before_result;
         }
 
-        $transaction = Db::transaction(function () {
-            // 判断是否有后置处理 __addAfterHooks
+        return !Db::transaction(function () {
             if (!method_exists($this, '__addAfterHooks')) {
                 return Db::name($this->model)->insert($this->post);
-            } else {
-                if (isset($this->post['id']) && !empty($this->post['id'])) {
-                    $result_id = $this->post['id'];
-                    $result = Db::name($this->model)->insert($this->post);
-
-                    if (!$result) {
-                        Db::rollback();
-                        return false;
-                    }
-                } else {
-                    $result_id = Db::name($this->model)->insertGetId($this->post);
-                }
-
-                if (!$result_id) {
-                    Db::rollback();
-                    return false;
-                }
-
-                $after_result = $this->__addAfterHooks($result_id);
-                if (!$after_result) {
-                    // 自定义后置返回结果 add_after_result
-                    $this->add_fail_result = $this->add_after_result;
-                    Db::rollback();
-                    return false;
-                }
-
-                return true;
             }
-        });
-        if ($transaction) return [
+
+            $id = null;
+            if (isset($this->post['id'])) {
+                $id = $this->post['id'];
+                $result = Db::name($this->model)->insert($this->post);
+                if (!$result) return false;
+            } else {
+                $id = Db::name($this->model)->insertGetId($this->post);
+            }
+
+            if (empty($id) || !$this->__addAfterHooks($id)) {
+                $this->add_fail_result = $this->add_after_result;
+                Db::rollback();
+                return false;
+            }
+
+            return true;
+        }) ? $this->add_fail_result : [
             'error' => 0,
             'msg' => 'ok'
-        ]; else {
-            // 自定义返回错误 add_fail_result
-            return $this->add_fail_result;
-        }
+        ];
     }
 }
 ```

@@ -7,49 +7,36 @@ trait GetModel
 {
     public function get()
     {
-        // 自定义获取验证器
-        $validate = Validate::make($this->get_validate);
+        $validate = Validate::make($this->get_default_validate);
         if (!$validate->check($this->post)) return [
             'error' => 1,
             'msg' => $validate->getError()
         ];
 
-        // 判断是否有前置处理
-        if (method_exists($this, '__getBeforeHooks')) {
-            $before_result = $this->__getBeforeHooks();
-            if (!$before_result) return $this->get_before_result;
+        if (method_exists($this, '__getBeforeHooks') &&
+            !$this->__getBeforeHooks()) {
+            return $this->get_before_result;
         }
 
         try {
-            $normal = [];
-            // 判断是否存在id
-            if (isset($this->post['id'])) {
-                $normal['id'] = $this->post['id'];
-            }
-
-            // 判断是否存在条件
             $condition = $this->get_condition;
-            if (isset($this->post['where'])) $condition = array_merge(
+            if (isset($this->post['id'])) array_push(
+                $condition,
+                ['id', '=', $this->post['id']]
+            ); else $condition = array_merge(
                 $condition,
                 $this->post['where']
             );
 
-            // 执行查询
             $data = Db::name($this->model)
-                ->where($normal)
                 ->where($condition)
                 ->field($this->get_field[0], $this->get_field[1])
                 ->find();
 
-            // 判断是否自定义返回
-            if (method_exists($this, '__getCustomReturn')) {
-                return $this->__getCustomReturn($data);
-            } else {
-                return [
-                    'error' => 0,
-                    'data' => $data
-                ];
-            }
+            return method_exists($this, '__getCustomReturn') ? $this->__getCustomReturn($data) : [
+                'error' => 0,
+                'data' => $data
+            ];
         } catch (Exception $e) {
             return [
                 'error' => 1,
@@ -60,9 +47,9 @@ trait GetModel
 }
 ```
 
-!> 条件选择：如果 **post** 请求中存在参数 **id**，那么 **where** 的存在将成为附加条件，如果 **id** 不存在，那么可以使用 **where** 为主要条件
+!> 条件查询：请求可使用 **id** 或 **where** 字段进行查询，二者选一即可
 
-- **id** `int|string` or `int[]|string[]`
+- **id** `int|string`
 - **where** `array`，必须使用数组方式来定义
 
 ```php

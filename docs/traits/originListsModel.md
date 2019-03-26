@@ -7,50 +7,34 @@ trait OriginListsModel
 {
     public function originLists()
     {
-        // 通用验证
-        $validate = new validate\Lists;
-        if (!$validate->scene('origin')->check($this->post)) return [
+        $validate = Validate::make($this->origin_lists_default_validate);
+        if (!$validate->check($this->post)) return [
             'error' => 1,
             'msg' => $validate->getError()
         ];
 
-        if (method_exists($this, '__originListsBeforeHooks')) {
-            $before_result = $this->__originListsBeforeHooks();
-            if (!$before_result) return $this->lists_origin_before_result;
+        if (method_exists($this, '__originListsBeforeHooks') &&
+            !$this->__originListsBeforeHooks()) {
+            return $this->origin_lists_before_result;
         }
 
         try {
-            // 是否存在条件
-            $condition = $this->lists_origin_condition;
+            $condition = $this->origin_lists_condition;
             if (isset($this->post['where'])) $condition = array_merge(
-                $condition, $this->post['where']
+                $condition,
+                $this->post['where']
             );
 
-            // 模糊搜索
-            $like = function (Query $query) {
-                if (isset($this->post['like'])) foreach ($this->post['like'] as $key => $like) {
-                    if (empty($like['value'])) continue;
-                    $query->where($like['field'], 'like', "%{$like['value']}%");
-                }
-            };
-
-            // 执行查询
             $lists = Db::name($this->model)
                 ->where($condition)
-                ->where($like)
-                ->field($this->lists_origin_field[0], $this->lists_origin_field[1])
-                ->order($this->lists_origin_orders)
+                ->field($this->origin_lists_field[0], $this->origin_lists_field[1])
+                ->order($this->origin_lists_orders)
                 ->select();
 
-            // 是否自定义返回
-            if (method_exists($this, '__originListsCustomReturn')) {
-                return $this->__originListsCustomReturn($lists);
-            } else {
-                return [
-                    'error' => 0,
-                    'data' => $lists
-                ];
-            }
+            return method_exists($this, '__originListsCustomReturn') ? $this->__originListsCustomReturn($lists) : [
+                'error' => 0,
+                'data' => $lists
+            ];
         } catch (Exception $e) {
             return [
                 'error' => 1,
@@ -61,26 +45,14 @@ trait OriginListsModel
 }
 ```
 
-!> 条件合并: 如果 **post** 请求中存在参数 **where**，那么它将于 **lists_origin_condition** 固定条件合并
+!> 条件合并: 请求中的 **where** 将于 **origin_lists_condition** 合并
 
 - **where** `array` 必须使用数组方式来定义
 
 ```php
 $this->post['where'] = [
-    ['name', '=', 'van']
+    ['name', 'like', '%v%']
 ];
-```
-
-!> 模糊查询：在 **post** 请求中加入参数 **like**，他将于以上条件共同合并
-
-- **like** `array` 模糊搜索条件
-  - **field** 模糊搜索字段名
-  - **value** 模糊搜索字段值
-
-```json
-[
-    {"field": "name", "value": "a"}
-]
 ```
 
 #### 引入特性
@@ -116,7 +88,7 @@ class AdminClass extends Validate
 }
 ```
 
-可定义固定条件属性 `$this->lists_origin_condition`，默认为 `[]`
+可定义固定条件属性 `$this->origin_lists_condition`，默认为 `[]`
 
 ```php
 use think\bit\traits\OriginListsModel;
@@ -125,7 +97,7 @@ class NoBodyClass extends Base {
     use OriginListsModel;
 
     protected $model = 'nobody';
-    protected $lists_origin_condition = [
+    protected $origin_lists_condition = [
         ['status', '=', 1]
     ];
 }
@@ -151,10 +123,10 @@ class AdminClass extends Base implements OriginListsBeforeHooks {
 }
 ```
 
-**__originListsBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **lists_origin_before_result** 属性的值，默认为：
+**__originListsBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **origin_lists_before_result** 属性的值，默认为：
 
 ```php
-protected $lists_origin_before_result = [
+protected $origin_lists_before_result = [
     'error' => 1,
     'msg' => 'error:before_fail'
 ];
@@ -173,7 +145,7 @@ class AdminClass extends Base implements OriginListsBeforeHooks {
 
     public function __originListsBeforeHooks()
     {
-        $this->lists_origin_before_result = [
+        $this->origin_lists_before_result = [
             'error'=> 1,
             'msg'=> 'error:only'
         ];
@@ -184,10 +156,10 @@ class AdminClass extends Base implements OriginListsBeforeHooks {
 
 #### 固定条件
 
-如需要给接口在后端就设定固定条件，只需要重写 **lists_origin_condition**，默认为
+如需要给接口在后端就设定固定条件，只需要重写 **origin_lists_condition**，默认为
 
 ```php
-protected $lists_origin_condition = [];
+protected $origin_lists_condition = [];
 ```
 
 例如加入企业主键限制
@@ -199,7 +171,7 @@ class AdminClass extends Base {
     use OriginListsModel;
 
     protected $model = 'admin';
-    protected $lists_origin_condition = [
+    protected $origin_lists_condition = [
         ['enterprise', '=', 1]
     ];
 }
@@ -207,10 +179,10 @@ class AdminClass extends Base {
 
 #### 列表排序
 
-如果需要列表按条件排序，只需要重写 **lists_origin_orders**，默认为
+如果需要列表按条件排序，只需要重写 **origin_lists_orders**，默认为
 
 ```php
-protected $lists_origin_orders = 'create_time desc';
+protected $origin_lists_orders = 'create_time desc';
 ```
 
 例如按年龄进行排序
@@ -222,16 +194,16 @@ class AdminClass extends Base {
     use OriginListsModel;
 
     protected $model = 'admin';
-    protected $lists_origin_orders = 'age desc';
+    protected $origin_lists_orders = 'age desc';
 }
 ```
 
 #### 限制返回字段
 
-如需要给接口限制返回字段，只需要重写 **lists_origin_field**，默认为
+如需要给接口限制返回字段，只需要重写 **origin_lists_field**，默认为
 
 ```php
-protected $lists_origin_field = ['update_time,create_time', true];
+protected $origin_lists_field = ['update_time,create_time', true];
 ```
 
 例如返回除 **update_time** 修改时间所有的字段
@@ -243,7 +215,7 @@ class AdminClass extends Base {
     use OriginListsModel;
 
     protected $model = 'admin';
-    protected $lists_origin_field = ['update_time', true];
+    protected $origin_lists_field = ['update_time', true];
 }
 ```
 

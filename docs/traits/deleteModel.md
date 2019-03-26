@@ -7,74 +7,58 @@ trait DeleteModel
 {
     public function delete()
     {
-        // 自定义删除验证器
-        $validate = Validate::make($this->delete_validate);
+        $validate = Validate::make($this->delete_default_validate);
         if (!$validate->check($this->post)) return [
             'error' => 1,
             'msg' => $validate->getError()
         ];
 
-        // 判断是否有前置处理
-        if (method_exists($this, '__deleteBeforeHooks')) {
-            $before_result = $this->__deleteBeforeHooks();
-            if (!$before_result) return $this->delete_before_result;
+        if (method_exists($this, '__deleteBeforeHooks') &&
+            !$this->__deleteBeforeHooks()) {
+            return $this->delete_before_result;
         }
 
-        $transaction = Db::transaction(function () {
-            // 判断是否有存在事务之后模型写入之前的处理
-            if (method_exists($this, '__deletePrepHooks')) {
-                $prep_result = $this->__deletePrepHooks();
-                if (!$prep_result) {
-                     // 自定义事务之后模型写入之前返回结果 delete_prep_result
-                    $this->delete_fail_result = $this->delete_prep_result;
-                    Db::rollback();
-                    return false;
-                }
-            }
-
-            if (isset($this->post['id']) && !empty($this->post['id'])) {
-                $result = Db::name($this->model)->where('id', 'in', $this->post['id'])->delete();
-            } elseif (isset($this->post['where']) &&
-                !empty($this->post['where']) &&
-                is_array($this->post['where'])) {
-                $result = Db::name($this->model)->where($this->post['where'])->delete();
-            } else {
-                Db::rollback();
+        return !Db::transaction(function () {
+            if (method_exists($this, '__deletePrepHooks') &&
+                !$this->__deletePrepHooks()) {
+                $this->delete_fail_result = $this->delete_prep_result;
                 return false;
             }
+
+            $condition = $this->delete_condition;
+            if (isset($this->post['id'])) $result = Db::name($this->model)
+                ->whereIn('id', $this->post['id'])
+                ->where($condition)
+                ->delete();
+            else $result = Db::name($this->model)
+                ->where($this->post['where'])
+                ->where($condition)
+                ->delete();
 
             if (!$result) {
-                Db::rollback();
+                Db::rollBack();
                 return false;
             }
 
-            // 判断是否有后置处理
-            if (method_exists($this, '__deleteAfterHooks')) {
-                $after_result = $this->__deleteAfterHooks();
-                if (!$after_result) {
-                    // 自定义后置返回结果 delete_after_result
-                    $this->delete_fail_result = $this->delete_after_result;
-                    Db::rollback();
-                    return false;
-                }
+            if (method_exists($this, '__deleteAfterHooks') &&
+                !$this->__deleteAfterHooks()) {
+                $this->delete_fail_result = $this->delete_after_result;
+                Db::rollBack();
+                return false;
             }
 
             return true;
-        });
-        if ($transaction) return [
+        }) ? $this->delete_fail_result : [
             'error' => 0,
             'msg' => 'ok'
-        ]; else {
-            // 自定义返回错误 delete_fail_result
-            return $this->delete_fail_result;
-        }
+        ];
     }
 }
 ```
 
-!> 条件选择：如果 **post** 请求中存在参数 **id**，那么 **where** 的存在将成为附加条件，如果 **id** 不存在，那么可以使用 **where** 为主要条件
+!> 条件查询：请求可使用 **id** 或 **where** 字段进行查询，二者选一即可
 
-- **id** `int|string` or `int[]|string[]`
+- **id** `int|string`
 - **where** `array`，必须使用数组方式来定义
 
 ```php

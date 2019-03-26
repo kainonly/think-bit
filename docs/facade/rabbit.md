@@ -30,25 +30,21 @@ composer require php-amqplib/php-amqplib
 | heartbeat           | 0         | 连接心跳         |
 | channel_rpc_timeout | 0.0       | 信道RPC超时      |
 
-你需要在主配置或对应的模块下创建配置 `config/rabbitmq.php`，例如：
+你需要在主配置或对应的模块下创建配置 `config/queue.php`，例如：
 
 ```php
 return [
-    'hostname' => 'localhost',
-    'port' => 5672,
-    'username' => 'guest',
-    'password' => 'guest',
-];
-```
-
-也可以配合 Env 实现开发、生产分离配置：
-
-```php
-return [
-    'hostname' => env('rabbitmq.hostname', 'localhost'),
-    'port' => env('rabbitmq.port', 5672),
-    'username' => env('rabbitmq.username', 'guest'),
-    'password' => env('rabbitmq.password', 'guest'),
+    'type' => env('queue.type', 'rabbitmq'),
+    'rabbitmq' => [
+        'hostname' => env('rabbitmq.host', 'localhost'),
+        'port' => env('rabbitmq.port', 5672),
+        'username' => env('rabbitmq.username', 'guest'),
+        'password' => env('rabbitmq.password', 'guest'),
+    ],
+    'collect' => [
+        'exchange' => '',
+        'queue' => ''
+    ]
 ];
 ```
 

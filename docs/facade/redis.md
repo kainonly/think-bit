@@ -1,20 +1,22 @@
 ## Redis 缓存
 
-PhpRedis 操作类，使用前请确实是否已安装 [Redis](http://pecl.php.net/package/redis) 扩展，你需要在主配置或对应的模块下创建配置 `config/redis.php`，例如：
+PhpRedis 操作类，使用前请确实是否已安装 [Redis](http://pecl.php.net/package/redis) 扩展，你需要更新配置 `config/database.php`，例如：
 
 ```php
 return [
-    'connect' => 'localhost',
-    'port' => 6379,
-    'auth' => '12345678',
-    'select' => 0
+    'redis' => [
+        'host' => env('redis.host', '127.0.0.1'),
+        'password' => env('redis.password', null),
+        'port' => env('redis.port', 6379),
+        'database' => env('redis.db', 0),
+    ],
 ];
 ```
 
-- **connect** `string` 连接地址
+- **host** `string` 连接地址
+- **password** `string` 验证密码
 - **port** `int` 端口
-- **auth** `string` 验证密码
-- **select** `int` 库号
+- **database** `int` 缓存库
 
 #### model ($index)
 

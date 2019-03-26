@@ -7,18 +7,14 @@ trait EditModel
 {
     public function edit()
     {
-         // 自定义修改验证器
-        $validate = Validate::make($this->edit_validate);
+        $validate = Validate::make($this->edit_default_validate);
         if (!$validate->check($this->post)) return [
             'error' => 1,
             'msg' => $validate->getError()
         ];
 
-        // 判断是否为状态修改请求
-        if (isset($this->post['switch']) && !empty($this->post['switch'])) {
-            $this->edit_status_switch = true;
-        } else {
-            // 合并模型验证器下edit场景
+        $this->edit_switch = $this->post['switch'];
+        if (!$this->edit_switch) {
             $validate = validate($this->model);
             if (!$validate->scene('edit')->check($this->post)) return [
                 'error' => 1,
@@ -28,53 +24,46 @@ trait EditModel
 
         unset($this->post['switch']);
         $this->post['update_time'] = time();
-        // 判断是否有前置处理
-        if (method_exists($this, '__editBeforeHooks')) {
-            $before_result = $this->__editBeforeHooks();
-            if (!$before_result) {
-                return $this->edit_before_result;
-            }
+
+        if (method_exists($this, '__editBeforeHooks') &&
+            !$this->__editBeforeHooks()) {
+            return $this->edit_before_result;
         }
 
-        $transaction = Db::transaction(function () {
-            if (isset($this->post['id']) && !empty($this->post['id'])) {
-                unset($this->post['where']);
-                Db::name($this->model)->update($this->post);
-            } elseif (isset($this->post['where']) &&
-                !empty($this->post['where']) &&
-                is_array($this->post['where'])) {
-                $condition = $this->post['where'];
-                unset($this->post['where']);
-                Db::name($this->model)->where($condition)->update($this->post);
-            } else {
+        return !Db::transaction(function () {
+            $condition = $this->edit_condition;
+
+            if (isset($this->post['id'])) array_push(
+                $condition,
+                ['id', '=', $this->post['id']]
+            ); else $condition = array_merge(
+                $condition,
+                $this->post['where']
+            );
+
+            unset($this->post['where']);
+            $result = Db::name($this->model)->where($condition)->update($this->post);
+
+            if (!$result) return false;
+            if (method_exists($this, '__editAfterHooks') &&
+                !$this->__editAfterHooks()) {
+                $this->edit_fail_result = $this->edit_after_result;
+                Db::rollBack();
                 return false;
             }
 
-            // 判断是否有后置处理
-            if (method_exists($this, '__editAfterHooks')) {
-                $after_result = $this->__editAfterHooks();
-                if (!$after_result) {
-                    $this->edit_fail_result = $this->edit_after_result;
-                    Db::rollback();
-                    return false;
-                }
-            }
-
             return true;
-        });
-        if ($transaction) return [
+        }) ? $this->edit_fail_result : [
             'error' => 0,
             'msg' => 'ok'
-        ]; else {
-            return $this->edit_fail_result;
-        }
+        ];
     }
 }
 ```
 
-!> 条件选择：如果 **post** 请求中存在参数 **id**，那么 **where** 的存在将成为附加条件，如果 **id** 不存在，那么可以使用 **where** 为主要条件
+!> 条件查询：请求可使用 **id** 或 **where** 字段进行查询，二者选一即可
 
-- **id** `int|string` or `int[]|string[]`
+- **id** `int|string`
 - **where** `array`，必须使用数组方式来定义
 
 ```php
@@ -127,7 +116,7 @@ class AdminClass extends Base {
 
 #### 合并模型验证器下edit场景
 
-所以需要对应创建验证器场景 **validate/AdminClass**，**edit_status_switch** 为 `false` 下有效， 并加入场景 `edit`
+所以需要对应创建验证器场景 **validate/AdminClass**，**edit_switch** 为 `false` 下有效， 并加入场景 `edit`
 
 ```php
 use think\Validate;

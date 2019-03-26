@@ -1,21 +1,16 @@
 ## Collect 数据收集
 
-Collect 是用于简化数据收集消息队列写入的函数, 首先需要 `Rabbitmq` 配置 `config/rabbitmq.php`, 然后在主配置或对应的模块下设置配置 `config/collect.php`
+Collect 是用于简化数据收集消息队列写入的函数, 首先需要配置 `Rabbitmq`, 然后在修改配置 `config/queue.php`
 
 ```php
 return [
-    'authorization' => [
-        'appid' => 'xxx',
-        'secret' => 'xxx'
-    ],
-    'exchange' => 'collect',
-    'queue' => 'collect'
+    'collect' => [
+        'exchange' => '',
+        'queue' => ''
+    ]
 ];
 ```
 
-- **authorization** 执行授权
-  - **appid** 自定义应用ID
-  - **secret** 应用密钥
 - **exchange** 交换器
 - **queue** 队列
 

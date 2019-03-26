@@ -1,16 +1,6 @@
 ## Cipher 密码
 
-Cipher 是用于加密的工具函数，首先要定义配置 `config/cipher.php`
-
-```php
-return [
-    'key' => env('cipher.key'),
-    'iv' => env('cipher.iv')
-];
-```
-
-- **key** `string` 加密密钥
-- **iv** `string` 偏移量
+Cipher 是用于加密的工具函数，需要设定配置 `app.app_secret` 与 `app.app_id`
 
 #### encrypt($context, $key, $iv)
 
