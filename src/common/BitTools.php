@@ -7,6 +7,26 @@ use Ramsey\Uuid\Uuid;
 final class BitTools
 {
     /**
+     * 数组二进制序列化
+     * @param array $array
+     * @return mixed
+     */
+    public function pack(array $array)
+    {
+        return msgpack_pack($array);
+    }
+
+    /**
+     * 二进制反序列化数组
+     * @param $byte
+     * @return array
+     */
+    public function unpack($byte)
+    {
+        return msgpack_unpack($byte);
+    }
+
+    /**
      * 生成uuid
      * @param string $version
      * @return string|null
