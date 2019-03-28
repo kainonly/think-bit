@@ -1,5 +1,19 @@
 ## Tools 工具
 
+#### pack($array) 
+
+数组二进制序列化
+
+- **array** `array` 数组
+- **Return** 二进制
+
+#### unpack($byte) 
+
+二进制反序列化数组
+
+- **byte** 二进制
+- **Return** 数组
+
 #### uuid($version, $namespace, $name)
 
 生成 uuid
