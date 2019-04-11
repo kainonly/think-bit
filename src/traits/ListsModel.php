@@ -14,6 +14,7 @@ use think\bit\validate;
  * @property array post POST请求
  * @property array lists_before_result 前置返回结果
  * @property array lists_condition 固定条件
+ * @property array lists_or_condition 分页列表数据或条件
  * @property array lists_field 固定返回字段
  * @property string lists_orders 排序设定
  */
@@ -41,6 +42,12 @@ trait ListsModel
                 $this->post['where']
             );
 
+            $or = $this->lists_or_condition;
+            if (isset($this->post['or'])) $or = array_merge(
+                $or,
+                $this->post['or']
+            );
+
             // 模糊搜索
             $like = function (Query $query) {
                 if (isset($this->post['like'])) foreach ($this->post['like'] as $key => $like) {
@@ -50,7 +57,7 @@ trait ListsModel
             };
 
             // 分页计算
-            $total = Db::name($this->model)->where($condition)->where($like)->count();
+            $total = Db::name($this->model)->where($condition)->where($like)->whereOr($or)->count();
             $divided = $total % $this->post['page']['limit'] == 0;
             if ($divided) $max = $total / $this->post['page']['limit'];
             else $max = ceil($total / $this->post['page']['limit']);
@@ -66,6 +73,7 @@ trait ListsModel
             $lists = Db::name($this->model)
                 ->where($condition)
                 ->where($like)
+                ->whereOr($or)
                 ->field($this->lists_field[0], $this->lists_field[1])
                 ->order($this->lists_orders)
                 ->limit($this->post['page']['limit'])

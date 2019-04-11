@@ -34,6 +34,12 @@ abstract class BitController extends Controller
     protected $lists_origin_condition = [];
 
     /**
+     * 列表数据或条件
+     * @var array
+     */
+    protected $lists_origin_or_condition = [];
+
+    /**
      * 列表数据排序设定
      * @var string
      */
@@ -59,6 +65,12 @@ abstract class BitController extends Controller
      * @var array
      */
     protected $lists_condition = [];
+
+    /**
+     * 分页列表数据或条件
+     * @var array
+     */
+    protected $lists_or_condition = [];
 
     /**
      * 分页数据排序设定
