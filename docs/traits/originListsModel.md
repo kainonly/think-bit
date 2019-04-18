@@ -103,6 +103,28 @@ class NoBodyClass extends Base {
 }
 ```
 
+如果接口的查询条件较为特殊，可以重写 **origin_lists_condition_query**
+
+```php
+use think\bit\traits\OriginListsModel;
+
+class NoBodyClass extends Base {
+    use OriginListsModel;
+
+    protected $model = 'nobody';
+    
+    public function __construct(App $app = null)
+    {
+        parent::__construct($app);
+        $this->origin_lists_condition_query = function (Query $query) {
+            $query->whereOr([
+                'type' => 1
+            ]);
+        };
+    }
+}
+```
+
 #### 判断是否有前置处理
 
 如自定义前置处理，则需要调用生命周期 **OriginListsBeforeHooks**

@@ -149,6 +149,28 @@ class AdminClass extends Base {
 }
 ```
 
+如果接口的查询条件较为特殊，可以重写 **lists_condition_query**
+
+```php
+use think\bit\traits\ListsModel;
+
+class AdminClass extends Base {
+    use ListsModel;
+
+    protected $model = 'admin';
+    
+    public function __construct(App $app = null)
+    {
+        parent::__construct($app);
+        $this->lists_condition_query = function (Query $query) {
+            $query->whereOr([
+                'type' => 1
+            ]);
+        };
+    }
+}
+```
+
 #### 列表排序
 
 如果需要列表按条件排序，只需要重写 **lists_orders**，默认为

@@ -61,6 +61,14 @@ protected $origin_lists_before_result = [
 protected $origin_lists_condition = [];
 ```
 
+- **origin_lists_condition_query** `Closure|null`
+
+列表查询闭包条件
+
+```php
+protected $origin_lists_condition_query = null;
+```
+
 - **origin_lists_orders** `string`
 
 列表数据排序
@@ -109,6 +117,14 @@ protected $lists_before_result = [
 
 ```php
 protected $lists_condition = [];
+```
+
+- **lists_condition_query** `Closure|null`
+
+分页数据查询闭包条件
+
+```php
+protected $lists_condition_query = null;
 ```
 
 - **lists_orders** `string`
