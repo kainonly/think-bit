@@ -2,6 +2,7 @@
 
 namespace think\bit\traits;
 
+use Closure;
 use think\Db;
 use think\Exception;
 use think\Validate;
@@ -14,6 +15,7 @@ use think\Validate;
  * @property array origin_lists_default_validate 默认验证器
  * @property array origin_lists_before_result 前置返回结果
  * @property array origin_lists_condition 固定条件
+ * @property Closure origin_lists_condition_query 特殊查询
  * @property array origin_lists_field 固定返回字段
  * @property string origin_lists_orders 排序设定
  */
@@ -39,11 +41,14 @@ trait OriginListsModel
                 $this->post['where']
             );
 
-            $lists = Db::name($this->model)
+            $listsQuery = Db::name($this->model)
                 ->where($condition)
                 ->field($this->origin_lists_field[0], $this->origin_lists_field[1])
-                ->order($this->origin_lists_orders)
-                ->select();
+                ->order($this->origin_lists_orders);
+
+            $lists = empty($this->origin_lists_condition_query) ?
+                $listsQuery->select() :
+                $listsQuery->where($this->origin_lists_condition_query)->select();
 
             return method_exists($this, '__originListsCustomReturn') ? $this->__originListsCustomReturn($lists) : [
                 'error' => 0,
