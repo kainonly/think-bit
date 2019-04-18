@@ -2,6 +2,7 @@
 
 namespace think\bit\traits;
 
+use Closure;
 use think\Db;
 use think\Exception;
 use think\Validate;
@@ -14,6 +15,7 @@ use think\Validate;
  * @property array lists_default_validate 默认验证器
  * @property array lists_before_result 前置返回结果
  * @property array lists_condition 固定条件
+ * @property Closure lists_condition_query 特殊查询
  * @property array lists_field 固定返回字段
  * @property string lists_orders 排序设定
  */
@@ -39,14 +41,20 @@ trait ListsModel
                 $this->post['where']
             );
 
-            $total = Db::name($this->model)->where($condition)->count();
-            $lists = Db::name($this->model)
+            $totalQuery = Db::name($this->model)->where($condition);
+            $total = empty($this->lists_condition_query) ?
+                $totalQuery->count() :
+                $totalQuery->where($this->lists_condition_query)->count();
+
+            $listsQuery = Db::name($this->model)
                 ->where($condition)
                 ->field($this->lists_field[0], $this->lists_field[1])
                 ->order($this->lists_orders)
                 ->limit($this->post['page']['limit'])
-                ->page($this->post['page']['index'])
-                ->select();
+                ->page($this->post['page']['index']);
+            $lists = empty($this->lists_condition_query) ?
+                $listsQuery->select() :
+                $listsQuery->where($this->lists_condition_query)->select();
 
             return method_exists($this, '__listsCustomReturn') ? $this->__listsCustomReturn($lists, $total) : [
                 'error' => 0,
