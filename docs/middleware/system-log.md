@@ -1,18 +1,16 @@
 ## LogSystem 系统日志
 
-使用 LogSystem 系统日志, 首先需要配置 `Rabbitmq` , 然后修改配置 `config/log.php`
+使用 SystemLog 系统日志, 首先需要配置 `Rabbitmq` , 然后修改配置 `config/queue.php`
 
 ```php
 return [
     'system' => [
-        'publish' => 'api.developer.com',
-        'exchange' => 'log.system',
-        'queue' => 'log.system'
+        'exchange' => 'system',
+        'queue' => 'system'
     ]
 ];
 ```
 
-- **publish** 发布域名
 - **exchange** 交换器
 - **queue** 队列
 
@@ -20,7 +18,7 @@ return [
 
 ```php
 return [
-    'log_system' => think\bit\middleware\LogSystem::class
+    'systemLog' => think\bit\middleware\SystemLog::class
 ];
 ```
 
@@ -33,7 +31,7 @@ use think\Controller;
 
 class Base extends Controller
 {
-    protected $middleware = ['log_system'];
+    protected $middleware = ['systemLog'];
 }
 ```
 
