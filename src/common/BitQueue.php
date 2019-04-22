@@ -11,27 +11,26 @@ use think\facade\Config;
  */
 final class BitQueue
 {
-    private $authorization;
+    private $appid;
     private $exchange;
     private $queue;
 
     public function __construct()
     {
-        $config = Config::get('queue.collect');
-        $this->authorization = $config['authorization'];
+        $config = Config::get('queue.daq');
         $this->exchange = $config['exchange'];
         $this->queue = $config['queue'];
+        $this->appid = Config::get('app.app_id');
     }
 
     /**
      * 信息收集推送
-     * @param string $motivation 行为命名
+     * @param string $namespace 行为命名
      * @param array $data 存储数据
-     * @param array $time_field 时间字段
      */
-    public function push(string $motivation, array $data = [], array $time_field = [])
+    public function push(string $namespace, array $data = [])
     {
-        Rabbit::start(function () use ($motivation, $data, $time_field) {
+        Rabbit::start(function () use ($namespace, $data) {
             Rabbit::exchange($this->exchange)->create('direct', [
                 'durable' => true,
                 'auto_delete' => false,
@@ -43,13 +42,9 @@ final class BitQueue
             ]);
             $queue->bind($this->exchange);
             Rabbit::publish([
-                'authorization' => [
-                    'appid' => $this->authorization['appid'],
-                    'secret' => $this->authorization['secret']
-                ],
-                'motivation' => $motivation,
+                'appid' => $this->appid,
+                'namespace' => $namespace,
                 'data' => $data,
-                'time_field' => $time_field
             ], [
                 'exchange' => $this->exchange,
             ]);

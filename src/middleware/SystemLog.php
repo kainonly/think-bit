@@ -10,7 +10,7 @@ class SystemLog
 {
     public function handle(Request $request, \Closure $next)
     {
-        $config = Config::get('queue.system');
+        $config = Config::get('queue.daq');
         $exchange = $config['exchange'];
         $queue = $config['queue'];
         $appid = Config::get('app.app_id');
