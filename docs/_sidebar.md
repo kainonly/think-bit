@@ -10,7 +10,7 @@
 
 - Middleware 中间件
   - [CORS 跨站访问](middleware/cors)
-  - [LogSystem 系统日志](middleware/log-system)
+  - [SystemLog 系统日志](middleware/system-log)
 
 - Abstract 抽象类
   - [BitController 通用控制器](abstract/bitController)
