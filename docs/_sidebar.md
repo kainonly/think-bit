@@ -6,11 +6,11 @@
   - [Cipher 对称加密](facade/cipher)
   - [Tools 工具](facade/tools)
   - [Lists 列表数组](facade/lists)
-  - [Collect 数据收集](facade/collect)
+  - [Queue 队列处理](facade/queue)
 
 - Middleware 中间件
   - [CORS 跨站访问](middleware/cors)
-  - [SystemLog 系统日志](middleware/system-log)
+  - [SystemLog 系统日志收集](middleware/system-log)
 
 - Abstract 抽象类
   - [BitController 通用控制器](abstract/bitController)

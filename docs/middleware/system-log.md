@@ -4,7 +4,7 @@
 
 ```php
 return [
-    'system' => [
+    'daq' => [
         'exchange' => 'system',
         'queue' => 'system'
     ]
