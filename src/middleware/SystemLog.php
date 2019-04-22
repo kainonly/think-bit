@@ -6,15 +6,15 @@ use think\bit\facade\Rabbit;
 use think\facade\Config;
 use think\Request;
 
-class LogSystem
+class SystemLog
 {
     public function handle(Request $request, \Closure $next)
     {
-        $config = Config::get('log.system');
-        $publish = $config['publish'];
+        $config = Config::get('queue.system');
         $exchange = $config['exchange'];
         $queue = $config['queue'];
-        Rabbit::start(function () use ($publish, $exchange, $queue, $request) {
+        $appid = Config::get('app.app_id');
+        Rabbit::start(function () use ($appid, $exchange, $queue, $request) {
             Rabbit::exchange($exchange)->create('direct', [
                 'durable' => true,
                 'auto_delete' => false,
@@ -26,11 +26,12 @@ class LogSystem
             ]);
             $queue->bind($exchange);
             Rabbit::publish([
-                'publish' => $publish,
-                'time' => time(),
+                'appid' => $appid,
+                'namespace' => 'system',
                 'data' => [
                     'user' => $request->user,
                     'role' => $request->role,
+                    'symbol' => $request->symbol,
                     'url' => $request->url(),
                     'method' => $request->method(),
                     'param' => $request->param(),
