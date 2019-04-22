@@ -36,7 +36,8 @@ class SystemLog
                     'method' => $request->method(),
                     'param' => $request->param(),
                     'ip' => $request->server('REMOTE_ADDR'),
-                    'user_agent' => $request->server('HTTP_USER_AGENT')
+                    'user_agent' => $request->server('HTTP_USER_AGENT'),
+                    'create_time' => time()
                 ],
             ], [
                 'exchange' => $exchange,
