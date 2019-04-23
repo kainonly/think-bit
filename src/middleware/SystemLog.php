@@ -10,6 +10,7 @@ class SystemLog
 {
     public function handle(Request $request, \Closure $next)
     {
+        if (strpos($request->action(), 'valided') !== false) return $next($request);
         $config = Config::get('queue.daq');
         $exchange = $config['exchange'];
         $queue = $config['queue'];
