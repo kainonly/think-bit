@@ -35,7 +35,7 @@ class SystemLog
                     'symbol' => $request->symbol,
                     'url' => $request->url(),
                     'method' => $request->method(),
-                    'param' => $request->param(),
+                    'param' => $request->post(),
                     'ip' => $request->server('REMOTE_ADDR'),
                     'user_agent' => $request->server('HTTP_USER_AGENT'),
                     'create_time' => time()

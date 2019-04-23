@@ -30,4 +30,30 @@ final class BitMongo
             $this->client->selectDatabase($database) :
             $this->client->selectDatabase($this->database);
     }
+
+    /**
+     * 分页生成
+     * @param string $database 数据库名称
+     * @param string $collection 集合名称
+     * @param array $filter 条件
+     * @param int $page 页码
+     * @param int $limit 分页数量
+     * @param array $sort 排序条件
+     * @return array
+     */
+    public function Page($database, $collection, $filter = [], $page = 1, $limit = 20, $sort = ['create_time' => -1])
+    {
+        $total = $this->Db($database)->selectCollection($collection)->countDocuments();
+        $lists = $this->Db($database)->selectCollection($collection)->find(
+            $filter, [
+            'skip' => $page - 1,
+            'limit' => $limit,
+            'sort' => $sort,
+        ])->toArray();
+
+        return [
+            'lists' => $lists,
+            'total' => $total
+        ];
+    }
 }
