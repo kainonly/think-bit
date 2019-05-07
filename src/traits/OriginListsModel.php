@@ -51,7 +51,7 @@ trait OriginListsModel
             $like = function (Query $query) {
                 if (isset($this->post['like'])) foreach ($this->post['like'] as $key => $like) {
                     if (empty($like['value'])) continue;
-                    $query->where($like['field'], 'like', "%{$like['value']}%");
+                    $query->where($like['field'], 'like', '%' . (string)$like['value'] . '%');
                 }
             };
 
