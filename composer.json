@@ -14,6 +14,7 @@
     }
   },
   "require": {
+    "php": ">=7.2.0",
     "topthink/framework": "5.1.*",
     "phpseclib/phpseclib": "^2.0",
     "php-amqplib/php-amqplib": "^2.8",
