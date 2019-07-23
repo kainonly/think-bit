@@ -20,12 +20,12 @@ return [
 - **exchange** 交换器
 - **queue** 队列
 
-#### push($namespace, $data = [])
+#### push($namespace, $raws = [])
 
 日志收集队列写入
 
 - **$namespace** `string` 行为命名
-- **data** `array` 数据
+- **raws** `array` 原始数据
 
 使用如下
 
