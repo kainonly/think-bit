@@ -1,6 +1,12 @@
 ## LogSystem 系统日志
 
-使用 SystemLog 系统日志, 首先需要配置 `Rabbitmq` , 然后修改配置 `config/queue.php`
+使用 SystemLog 系统日志, 首先需要配置 `Rabbitmq`，并安装库
+
+```shell
+composer require kain/think-logging
+```
+
+然后修改配置 `config/queue.php`
 
 ```php
 return [
@@ -18,7 +24,7 @@ return [
 
 ```php
 return [
-    'systemLog' => think\bit\middleware\SystemLog::class
+    'systemLog' => think\logging\middleware\SystemLog::class
 ];
 ```
 
@@ -35,4 +41,4 @@ class Base extends Controller
 }
 ```
 
-!> 使用前对应配置队列写入服务 https://github.com/kainonly/collection-service
+!> 使用前对应配置队列写入服务 https://github.com/kainonly/amqp-logging-service

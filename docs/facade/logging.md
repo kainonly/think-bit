@@ -1,6 +1,12 @@
-## Queue 队列处理
+## Logging 队列处理
 
- 是用于简化数据收集消息队列写入的函数, 首先需要配置 `Rabbitmq`, 然后在修改配置 `config/queue.php`
+是用于简化数据收集消息队列写入的函数, 首先需要配置 `Rabbitmq`，并安装库
+
+```shell
+composer require kain/think-logging
+```
+
+然后在修改配置 `config/queue.php`
 
 ```php
 return [
@@ -16,7 +22,7 @@ return [
 
 #### push($namespace, $data = [])
 
-数据收集队列写入
+日志收集队列写入
 
 - **$namespace** `string` 行为命名
 - **data** `array` 数据
@@ -24,7 +30,7 @@ return [
 使用如下
 
 ```php
-Queue::push('pay_order', [
+Logging::push('pay_order', [
     'order' => Tools::orderNumber('L1', 'A1', '1100'),
     'product' => Tools::uuid(),
     'user' => Tools::uuid(),
@@ -33,4 +39,4 @@ Queue::push('pay_order', [
 ]);
 ```
 
-!> 使用前对应配置队列写入服务 https://github.com/kainonly/collection-service
+!> 使用前对应配置队列写入服务 https://github.com/kainonly/amqp-logging-service

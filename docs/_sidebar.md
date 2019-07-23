@@ -6,7 +6,7 @@
   - [Cipher 对称加密](facade/cipher)
   - [Tools 工具](facade/tools)
   - [Lists 列表数组](facade/lists)
-  - [Queue 队列处理](facade/queue)
+  - [Logging 队列处理](facade/logging)
 
 - Middleware 中间件
   - [CORS 跨站访问](middleware/cors)

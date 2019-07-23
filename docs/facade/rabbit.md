@@ -1,12 +1,10 @@
 ## Rabbit 消息队列
 
-RabbitMQ 消息队列 AMQP 操作类，使用前请确实是否已安装 `php-amqplib/php-amqplib`，如未安装请手动执行
+RabbitMQ 消息队列 AMQP 操作类，安装操作库
 
 ```shell
-composer require php-amqplib/php-amqplib
+composer require kain/think-amqp
 ```
-
-!> 当前 window 系统下需要使用 `"php-amqplib/php-amqplib": "^2.8.2-rc3"` 才可正常运行
 
 #### 连接参数 :id=args
 

@@ -1,6 +1,10 @@
 ## Lists 列表数组
 
-ArrayLists 列表数组操作类
+ArrayLists 列表数组操作类，安装操作库
+
+```shell
+composer require kain/think-lists
+```
 
 #### data($lists)
 
