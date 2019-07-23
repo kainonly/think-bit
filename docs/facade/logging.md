@@ -10,7 +10,7 @@ composer require kain/think-logging
 
 ```php
 return [
-    'daq' => [
+    'logging' => [
         'exchange' => 'system',
         'queue' => 'system'
     ]
