@@ -6,19 +6,19 @@
 composer require kain/think-logging
 ```
 
-然后在修改配置 `config/queue.php`
+!> 使用前需配置 Logging 队列写入服务 https://github.com/kainonly/amqp-logging-service
+
+配置 `config/queue.php`
 
 ```php
 return [
     'logging' => [
-        'exchange' => 'system',
-        'queue' => 'system'
+        'exchange' => 'app.logging.direct',
     ]
 ];
 ```
 
-- **exchange** 交换器
-- **queue** 队列
+- **exchange** 交换器路径
 
 #### push($namespace, $raws = [])
 
@@ -38,5 +38,3 @@ Logging::push('pay_order', [
     'update_time' => time()
 ]);
 ```
-
-!> 使用前对应配置队列写入服务 https://github.com/kainonly/amqp-logging-service
