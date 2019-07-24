@@ -30,16 +30,12 @@ composer require kain/think-amqp
 
 ```php
 return [
-    'type' => env('queue.type', 'rabbitmq'),
     'rabbitmq' => [
         'hostname' => env('rabbitmq.host', 'localhost'),
         'port' => env('rabbitmq.port', 5672),
+        'virualhost' => env('rabbitmq.virualhost', '/'),
         'username' => env('rabbitmq.username', 'guest'),
         'password' => env('rabbitmq.password', 'guest'),
-    ],
-    'collect' => [
-        'exchange' => '',
-        'queue' => ''
     ]
 ];
 ```
