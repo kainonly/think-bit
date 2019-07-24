@@ -29,32 +29,48 @@ mongodb://[username:password@]host1[:port1][,...hostN[:portN]]][/[database][?opt
 - **driverOptions** `array` 驱动参数
 - **database** `string` 默认数据库
 
-#### Db($database = '')
+#### name($collection)
 
-指向数据库
+指向集合
 
-- **database** `string` 数据库名称，默认值为配置默认数据库
-- **Return** `\MongoDB\Database`
+- **collection** `string` 集合名称
+- **Return** `\MongoDB\Collection`
 
 查询数据
 
 ```php
-$result = Mgo::Db()
-    ->selectCollection('api')
-    ->find();
+$result = Mgo::name('api')->find();
 return $result->toArray();
 ```
 
 写入数据
 
 ```php
-$result = Mgo::Db('center')->selectCollection('admin')->insertOne([
+$result = Mgo::name('admin')->insertOne([
     'name' => 'kain',
     'status' => 1,
     'create_time' => new \MongoDB\BSON\UTCDateTime(time() * 1000),
     'update_time' => new \MongoDB\BSON\UTCDateTime(time() * 1000)
 ])->isAcknowledged();
 return $result;
+```
+
+#### page($collection, $filter = [], $page = 1, $limit = 20, $sort = [])
+
+生成分页
+
+- **collection** `string` 集合名称
+- **filter** `array` 搜索条件
+- **page** 页码，默认 `1`
+- **limit** 分页数量，默认 `20`
+- **sort** 排序条件
+
+```php
+$data = Mgo::page('log', [
+    'status' => true
+], 1, 20, [
+    'create_time' => -1
+]);
 ```
 
 !> 更多操作可参考 [MongoDB PHP Library](https://docs.mongodb.com/php-library/current/reference/) Reference.
