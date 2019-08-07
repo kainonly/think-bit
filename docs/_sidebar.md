@@ -14,7 +14,7 @@
 
 - Abstract 抽象类
   - [BitController 通用控制器](abstract/bitController)
-  - [Bedis 缓存类](abstract/bedis)
+  - [BitRedis 缓存模型](abstract/bitRedis)
 
 - Bedis 缓存类
   - [SmsString 短信验证](bedis/smsString)

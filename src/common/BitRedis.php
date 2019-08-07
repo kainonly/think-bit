@@ -2,44 +2,24 @@
 
 namespace think\bit\common;
 
-use Redis;
-use Closure;
-use think\facade\Config;
+use Predis\Client;
+use Predis\Pipeline\Pipeline;
+use Predis\Transaction\MultiExec;
+use think\bit\facade\Redis;
 
-final class BitRedis
+/**
+ * Class BitCache
+ * @package think\bit\common
+ * @property string $key 缓存键
+ * @property Client|Pipeline|MultiExec $redis Predis Client
+ */
+abstract class BitRedis
 {
-    private $redis;
+    protected $key;
+    protected $redis;
 
-    public function __construct()
+    public function __construct($redis = null)
     {
-        $config = Config::get('database.redis');
-        $this->redis = new Redis();
-        $this->redis->connect($config['host'], $config['port']);
-        $this->redis->auth($config['password']);
-        $this->redis->select($config['database']);
-    }
-
-    /**
-     * Redis操作类
-     * @param null $index 库索引
-     * @return Redis
-     */
-    public function model($index = null)
-    {
-        if ($index) $this->redis->select($index);
-        return $this->redis;
-    }
-
-    /**
-     * Redis事务处理
-     * @param Closure $closure
-     * @return boolean
-     */
-    public function transaction(Closure $closure)
-    {
-        $this->redis->multi();
-        $result = $closure($this->redis);
-        $this->redis->exec();
-        return $result;
+        $this->redis = ($redis) ? $redis : Redis::client();
     }
 }

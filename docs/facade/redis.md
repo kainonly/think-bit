@@ -1,55 +1,75 @@
 ## Redis 缓存
 
-PhpRedis 操作类，使用前请确实是否已安装 [Redis](http://pecl.php.net/package/redis) 扩展，你需要更新配置 `config/database.php`，例如：
+Redis 缓存使用 [Predis](https://github.com/nrk/predis) 做为依赖，你需要更新配置 `config/database.php`，例如：
 
 ```php
 return [
     'redis' => [
-        'host' => env('redis.host', '127.0.0.1'),
-        'password' => env('redis.password', null),
-        'port' => env('redis.port', 6379),
-        'database' => env('redis.db', 0),
+        'default' => [
+            'scheme' => 'tcp',
+            'host' => env('redis.host', '127.0.0.1'),
+            'password' => env('redis.password', ''),
+            'port' => env('redis.port', 6379),
+            'database' => env('redis.db', 0),
+        ],
+        'someone' => [
+            'scheme' => 'tcp',
+            'host' => '10.0.0.1',
+            'password' => '',
+            'port' => 6379,
+            'database' => 0,
+        ] 
     ],
 ];
 ```
 
-- **host** `string` 连接地址
-- **password** `string` 验证密码
-- **port** `int` 端口
-- **database** `int` 缓存库
+- **scheme** `string` 连接协议，支持 `tcp` `unix` `http`
+- **host** `string` 目标服务器的IP或主机名
+- **port** `int` 目标服务器的TCP / IP端口
+- **path** `string` 使用 `unix socket` 的文件路径
+- **database** `int` 逻辑数据库
+- **password** `string` 身份验证口令
+- **async** `boolean` 指定是否以非阻塞方式建立与服务器的连接
+- **persistent** `boolean` 指定在脚本结束其生命周期时是否应保持基础连接资源处于打开状态
+- **timeout** `float` 用于连接到Redis服务器的超时
+- **read_write_timeout** `float` 在对基础网络资源执行读取或写入操作时使用的超时
+- **alias** `string` 通过别名来标识连接
+- **weight** `integer` 集群权重
+- **iterable_multibulk** `boolean` 当设置为true时，Predis将从Redis返回multibulk作为迭代器实例而不是简单的PHP数组
+- **throw_errors** `boolean` 设置为true时，Redis生成的服务器错误将转换为PHP异常
 
-#### model ($index)
+#### client($multiple = 'default')
 
-定义 Redis 操作模型
-
-- **index** `int|null` 库号，默认 `null`
-- **Return** `Redis`
-
-设置一个字符串缓存
+测试写入一个缓存
 
 ```php
-use think\bit\facade\Redis;
-
-Redis::model()->set('hello', 'world');
+Redis::client()->set('name', 'abc')
 ```
 
-#### transaction(Closure $closure)
-
-定义 Redis 事务处理
-
-- **closure** `Closure`
-- **Return** `boolean`
-
-执行一段缓存事务设置
+使用 `pipeline` 批量执行一万条写入
 
 ```php
-use think\bit\facade\Redis;
-
-Redis::transaction(function (\Redis $redis) {
-    return (
-        $redis->set('name1', 'js') &&
-        $redis->set('name2', 'php')
-    );
+Redis::client()->pipeline(function (Pipeline $pipeline) {
+    for ($i = 0; $i < 10000; $i++) {
+        $pipeline->set('test:' . $i, $i);
+    }
 });
-// true or false
+```
+
+面向缓存使用事务处理
+
+```php
+// success
+Redis::client()->transaction(function (MultiExec $multiExec) {
+    $multiExec->set('name:a', 'a');
+    $multiExec->set('name:b', 'b');
+});
+
+// failed
+Redis::client()->transaction(function (MultiExec $multiExec) {
+    $multiExec->set('name:a', 'a');
+    // mock exception
+    throw new Exception('error');
+    $multiExec->set('name:b', 'b');
+});
 ```

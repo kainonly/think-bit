@@ -42,7 +42,7 @@ final class Hash
             case 'bcrypt':
                 return PASSWORD_BCRYPT;
             default:
-                return PASSWORD_ARGON2ID;
+                return PASSWORD_ARGON2I;
         }
     }
 }

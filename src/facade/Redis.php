@@ -2,20 +2,15 @@
 
 namespace think\bit\facade;
 
-use think\bit\common\BitRedis;
-use think\Facade;
-use Closure;
+use Predis\Client;
+use think\facade\Config;
 
-/**
- * Class Redis
- * @method static \Redis model($index = null) Redis操作类
- * @method static boolean transaction(Closure $closure) Redis事务处理
- * @package bit\facade
- */
-final class Redis extends Facade
+final class Redis
 {
-    protected static function getFacadeClass()
+    public static function client($multiple = 'default')
     {
-        return BitRedis::class;
+        $parameters = Config::get('database.redis.' . $multiple);
+        if (empty($parameters['password'])) unset($parameters['password']);
+        return new Client($parameters);
     }
 }

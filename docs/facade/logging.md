@@ -18,7 +18,7 @@ return [
 ];
 ```
 
-- **exchange** 交换器路径
+- **exchange** `string` 交换器路径
 
 #### push($namespace, $raws = [])
 
