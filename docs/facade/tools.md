@@ -1,13 +1,13 @@
 ## Tools 工具
 
-#### pack($array) `废弃` 
+#### pack($array) 
 
 数组二进制序列化
 
 - **array** `array` 数组
 - **Return** 二进制
 
-#### unpack($byte) `废弃`
+#### unpack($byte) 
 
 二进制反序列化数组
 

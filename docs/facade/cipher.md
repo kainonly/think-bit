@@ -1,18 +1,6 @@
 ## Cipher 对称加密
 
-Cipher 是将数据对称加密的工具，需要添加配置 `app_secret` 与 `app_id` 到 `config/app.php`
-
-```php
-return [
-    
-    'app_id' => env('app.id', null),
-    'app_secret' => env('app.secret', null),
-
-];
-```
-
-- **app_id** `string` 应用ID
-- **app_secret** `string` 应用密钥
+Cipher 是将数据对称加密的工具，需要设定配置 `app.app_secret` 与 `app.app_id`
 
 #### encrypt($context, $key, $iv)
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace think\bit\redis;
+namespace think\bit\cache;
 
-use think\bit\common\BitRedis;
+use think\bit\common\BitCache;
 
-final class Sms extends BitRedis
+final class Sms extends BitCache
 {
     protected $key = 'sms:';
 
@@ -26,12 +26,7 @@ final class Sms extends BitRedis
             'publish_time' => time(),
             'timeout' => $timeout
         ]);
-
-        return $this->redis->setex(
-            $this->key . $phone,
-            $timeout,
-            $data
-        );
+        return $this->redis->set($this->key . $phone, $data, $timeout);
     }
 
     /**
@@ -48,12 +43,10 @@ final class Sms extends BitRedis
             $this->redis->get($this->key . $phone),
             true
         );
-
         $result = ($code === $data['code']);
-        if ($once && $result) $this->redis->del([
-            $this->key . $phone
-        ]);
-
+        if ($once && $result) {
+            $this->redis->delete($this->key . $phone);
+        }
         return $result;
     }
 

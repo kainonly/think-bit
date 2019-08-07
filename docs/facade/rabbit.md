@@ -8,19 +8,7 @@ composer require kain/think-amqp
 
 #### 连接参数 :id=args
 
-你需要在主配置或对应的模块下创建配置 `config/queue.php`，例如：
-
-```php
-return [
-    'rabbitmq' => [
-        'hostname' => env('rabbitmq.host', 'localhost'),
-        'port' => env('rabbitmq.port', 5672),
-        'virualhost' => env('rabbitmq.virualhost', '/'),
-        'username' => env('rabbitmq.username', 'guest'),
-        'password' => env('rabbitmq.password', 'guest'),
-    ]
-];
-```
+默认下 rabbitmq 连接参数为：
 
 - **hostname** `localhost` AMQP连接地址
 - **port** `5672` AMQP连接端口
@@ -37,6 +25,20 @@ return [
 - **keepalive** `false` 保持连接
 - **heartbeat** `0` 连接心跳
 - **channel_rpc_timeout** `0.0` 信道RPC超时
+
+你需要在主配置或对应的模块下创建配置 `config/queue.php`，例如：
+
+```php
+return [
+    'rabbitmq' => [
+        'hostname' => env('rabbitmq.host', 'localhost'),
+        'port' => env('rabbitmq.port', 5672),
+        'virualhost' => env('rabbitmq.virualhost', '/'),
+        'username' => env('rabbitmq.username', 'guest'),
+        'password' => env('rabbitmq.password', 'guest'),
+    ]
+];
+```
 
 #### start($closure, $args = [], $config = [])
 

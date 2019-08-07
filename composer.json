@@ -20,7 +20,6 @@
   "require": {
     "php": ">=7.2.0",
     "topthink/framework": "5.1.*",
-    "predis/predis": "^1.1",
     "phpseclib/phpseclib": "^2.0",
     "ajaxray/short-code": "^1.1",
     "ramsey/uuid": "^3.8",

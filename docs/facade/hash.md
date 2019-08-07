@@ -1,16 +1,6 @@
 ## Hash 密码
 
-Hash 是用于密码加密与验证的工具函数，需要添加配置 `app_hash` 到 `config/app.php`
-
-```php
-return [
-
-    'app_hash' => env('app.hash', 'argon2i'),
-
-];
-```
-
-- **app_hash** `string` 默认使用 `argon2i` 也可以选择 `bcrypt` `argon2id`
+Hash 是用于密码加密与验证的工具函数，需要配置 `app.app_hash`，默认使用 `argon2i` 也可以选择 `argon2id`
 
 #### make($password, $options = [])
 

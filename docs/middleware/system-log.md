@@ -1,4 +1,4 @@
-## LogSystem 系统日志 `实验`
+## LogSystem 系统日志
 
 使用 SystemLog 系统日志, 首先需要配置 `Rabbitmq`，并安装库
 
