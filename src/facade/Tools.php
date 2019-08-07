@@ -2,23 +2,66 @@
 
 namespace think\bit\facade;
 
-use think\bit\common\BitTools;
-use think\Facade;
+use Ramsey\Uuid\Uuid;
 
-/**
- * Class Tools
- * @method static mixed pack(array $array) 数组二进制序列化
- * @method static array unpack($byte) 二进制反序列化数组
- * @method static string|null uuid(string $version = 'v4', string $namespace = null, string $name = null) 生成uuid
- * @method static orderNumber(string $service_code, string $product_code, string $user_code) 生成订单号
- * @method static string random() 随机数16位
- * @method static string randomShort() 随机数8位
- * @package bit\facade
- */
-final class Tools extends Facade
+final class Tools
 {
-    protected static function getFacadeClass()
+    /**
+     * 生成uuid
+     * @param string $version
+     * @return string|null
+     * @throws \Exception
+     */
+    public static function uuid($version = 'v4', $namespace = null, $name = null)
     {
-        return BitTools::class;
+        switch ($version) {
+            case 'v1':
+                return Uuid::uuid1()->toString();
+            case 'v3':
+                if (empty($namespace) || empty($name)) return null;
+                return Uuid::uuid3($namespace, $name)->toString();
+            case 'v4':
+                return Uuid::uuid4()->toString();
+            case 'v5':
+                if (empty($namespace) || empty($name)) return null;
+                return Uuid::uuid5($namespace, $name)->toString();
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * 生产订单号
+     * @param string $service_code 2位业务码
+     * @param string $product_code 3位产品码
+     * @param string $user_code 4位用户码
+     * @return string
+     */
+    public static function orderNumber($service_code, $product_code, $user_code)
+    {
+        return $service_code .
+            rand(0, 9) .
+            $product_code .
+            time() .
+            rand(0, 99) .
+            $user_code;
+    }
+
+    /**
+     * 随机数16位
+     * @return string
+     */
+    public function random()
+    {
+        return \ShortCode\Random::get(16);
+    }
+
+    /**
+     * 随机数8位
+     * @return string
+     */
+    public function randomShort()
+    {
+        return \ShortCode\Random::get(8);
     }
 }
