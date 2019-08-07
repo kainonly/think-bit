@@ -4,10 +4,15 @@ namespace think\bit\common;
 
 use think\bit\facade\Redis;
 
-abstract class BitCache
+class BitCache
 {
     protected $key;
     protected $redis = null;
+
+    public static function create($mutli = null)
+    {
+        return new BitCache($mutli);
+    }
 
     public function __construct($mutli)
     {
