@@ -1,6 +1,6 @@
 {
   "name": "kain/think-bit",
-  "description": "基于 ThinkPHP5 设计的 RESTFul API 辅助框架",
+  "description": "基于 ThinkPHP6 设计的 RESTFul API 辅助框架",
   "license": "MIT",
   "authors": [
     {
@@ -19,6 +19,7 @@
   },
   "require": {
     "php": ">=7.2.0",
+    "ext-json": "*",
     "topthink/framework": "5.1.*",
     "predis/predis": "^1.1",
     "phpseclib/phpseclib": "^2.0",

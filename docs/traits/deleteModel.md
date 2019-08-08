@@ -7,15 +7,17 @@ trait DeleteModel
 {
     public function delete()
     {
-        $validate = Validate::make($this->delete_default_validate);
-        if (!$validate->check($this->post)) return [
-            'error' => 1,
-            'msg' => $validate->getError()
-        ];
+        $validate = validate($this->delete_default_validate);
+        if (!$validate->check($this->post)) {
+            return json([
+                'error' => 1,
+                'msg' => $validate->getError()
+            ]);
+        }
 
         if (method_exists($this, '__deleteBeforeHooks') &&
             !$this->__deleteBeforeHooks()) {
-            return $this->delete_before_result;
+            return json($this->delete_before_result);
         }
 
         return !Db::transaction(function () {
@@ -26,14 +28,17 @@ trait DeleteModel
             }
 
             $condition = $this->delete_condition;
-            if (isset($this->post['id'])) $result = Db::name($this->model)
-                ->whereIn('id', $this->post['id'])
-                ->where($condition)
-                ->delete();
-            else $result = Db::name($this->model)
-                ->where($this->post['where'])
-                ->where($condition)
-                ->delete();
+            if (isset($this->post['id'])) {
+                $result = Db::name($this->model)
+                    ->whereIn('id', $this->post['id'])
+                    ->where($condition)
+                    ->delete();
+            } else {
+                $result = Db::name($this->model)
+                    ->where($this->post['where'])
+                    ->where($condition)
+                    ->delete();
+            }
 
             if (!$result) {
                 Db::rollBack();
@@ -48,22 +53,28 @@ trait DeleteModel
             }
 
             return true;
-        }) ? $this->delete_fail_result : [
+        }) ? json($this->delete_fail_result) : json([
             'error' => 0,
             'msg' => 'ok'
-        ];
+        ]);
     }
 }
 ```
 
-!> 条件查询：请求可使用 **id** 或 **where** 字段进行查询，二者选一即可
-
 - **id** `int|string`
 - **where** `array`，必须使用数组方式来定义
 
+!> 条件查询：请求可使用 **id** 或 **where** 字段进行查询，二者选一即可
+
 ```php
+// 正常情况
 $this->post['where'] = [
     ['name', '=', 'van']
+];
+
+// JSON 查询
+$this->post['where'] = [
+    ['extra->nickname', '=', 'kain']
 ];
 ```
 

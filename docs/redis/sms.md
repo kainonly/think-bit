@@ -1,4 +1,4 @@
-## SmsString 短信验证
+## SMS 短信验证
 
 手机短信验证码缓存类
 
@@ -12,7 +12,7 @@
 - 返回 `bool`
 
 ```php
-$sms = new SmsString();
+$sms = new Sms();
 $sms->factory('12345678910', '13125');
 ```
 
@@ -26,7 +26,7 @@ $sms->factory('12345678910', '13125');
 - 返回 `bool`
 
 ```php
-$sms = new SmsString();
+$sms = new Sms();
 $checked = $sms->check('12345678910', '11224');
 dump($checked);
 // false
@@ -49,7 +49,7 @@ dump($checked);
 - 返回 `bool|array`
 
 ```php
-$sms = new SmsString();
+$sms = new Sms();
 $sms->factory('12345678910', '13125', 3600);
 
 $data = $sms->time('12345678910');

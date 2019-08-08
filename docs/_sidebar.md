@@ -16,8 +16,8 @@
   - [BitController 通用控制器](abstract/bitController)
   - [BitRedis 缓存模型](abstract/bitRedis)
 
-- Bedis 缓存类
-  - [SmsString 短信验证](bedis/smsString)
+- 缓存模型
+  - [SMS 短信验证](redis/sms)
 
 - CURD 请求处理库
   - traits 特性引用

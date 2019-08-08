@@ -7,54 +7,68 @@ trait GetModel
 {
     public function get()
     {
-        $validate = Validate::make($this->get_default_validate);
-        if (!$validate->check($this->post)) return [
-            'error' => 1,
-            'msg' => $validate->getError()
-        ];
+        $validate = validate($this->get_default_validate);
+        if (!$validate->check($this->post)) {
+            return json([
+                'error' => 1,
+                'msg' => $validate->getError()
+            ]);
+        }
 
         if (method_exists($this, '__getBeforeHooks') &&
             !$this->__getBeforeHooks()) {
-            return $this->get_before_result;
+            return json($this->get_before_result);
         }
 
         try {
             $condition = $this->get_condition;
-            if (isset($this->post['id'])) array_push(
-                $condition,
-                ['id', '=', $this->post['id']]
-            ); else $condition = array_merge(
-                $condition,
-                $this->post['where']
-            );
+            if (isset($this->post['id'])) {
+                array_push(
+                    $condition,
+                    ['id', '=', $this->post['id']]
+                );
+            } else {
+                $condition = array_merge(
+                    $condition,
+                    $this->post['where']
+                );
+            }
 
             $data = Db::name($this->model)
                 ->where($condition)
-                ->field($this->get_field[0], $this->get_field[1])
+                ->field($this->get_field)
+                ->withoutField($this->get_without_field)
                 ->find();
 
-            return method_exists($this, '__getCustomReturn') ? $this->__getCustomReturn($data) : [
-                'error' => 0,
-                'data' => $data
-            ];
-        } catch (Exception $e) {
-            return [
+            return method_exists($this, '__getCustomReturn') ?
+                $this->__getCustomReturn($data) : json([
+                    'error' => 0,
+                    'data' => $data
+                ]);
+        } catch (\Exception $e) {
+            return json([
                 'error' => 1,
                 'msg' => (string)$e->getMessage()
-            ];
+            ]);
         }
     }
 }
 ```
 
-!> 条件查询：请求可使用 **id** 或 **where** 字段进行查询，二者选一即可
-
 - **id** `int|string`
 - **where** `array`，必须使用数组方式来定义
 
+!> 条件查询：请求可使用 **id** 或 **where** 字段进行查询，二者选一即可
+
 ```php
+// 正常情况
 $this->post['where'] = [
     ['name', '=', 'van']
+];
+
+// JSON 查询
+$this->post['where'] = [
+    ['extra->nickname', '=', 'kain']
 ];
 ```
 
@@ -172,13 +186,16 @@ class AdminClass extends Base {
 }
 ```
 
-#### 限制返回字段
+#### 指定返回字段
 
-如需要给接口限制返回字段，只需要重写 **get_field**，默认为
+如需要给接口指定返回字段，只需要重写 **get_field** 或 **get_without_field**，默认为
 
 ```php
-protected $get_field = ['update_time,create_time', true];
+protected $get_field = [];
+protected $get_without_field = ['update_time', 'create_time'];
 ```
+
+!> **get_field** 即指定显示字段，**get_without_field** 为排除的显示字段，二者无法共用
 
 例如返回除 **update_time** 修改时间所有的字段
 
@@ -189,7 +206,7 @@ class AdminClass extends Base {
     use GetModel;
 
     protected $model = 'admin';
-    protected $get_field = ['update_time', true];
+    protected $get_without_field = ['update_time'];
 }
 ```
 
@@ -208,10 +225,10 @@ class AdminClass extends Base implements GetCustom {
 
     public function __getCustomReturn($data)
     {
-        return [
+        return json([
             'error' => 0,
             'data' => $data
-        ];
+        ]);
     }
 }
 ```
@@ -219,10 +236,10 @@ class AdminClass extends Base implements GetCustom {
 **__getCustomReturn** 需要返回整体的响应结果
 
 ```php
-return [
+return json([
     'error' => 0,
     'data' => $data
-];
+]);
 ```
 
 - **data** `array` 原数据

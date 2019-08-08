@@ -1,3 +1,4 @@
 - VERSION
   - [1.x](https://think-bit.v1.kain.net.cn)
-  - [5.x](/)
+  - [5.x](https://think-bit.v5.kain.net.cn)
+  - [6.x](/)

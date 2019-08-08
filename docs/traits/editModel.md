@@ -7,19 +7,23 @@ trait EditModel
 {
     public function edit()
     {
-        $validate = Validate::make($this->edit_default_validate);
-        if (!$validate->check($this->post)) return [
-            'error' => 1,
-            'msg' => $validate->getError()
-        ];
+        $validate = validate($this->edit_default_validate);
+        if (!$validate->check($this->post)) {
+            return json([
+                'error' => 1,
+                'msg' => $validate->getError()
+            ]);
+        }
 
         $this->edit_switch = $this->post['switch'];
         if (!$this->edit_switch) {
             $validate = validate($this->model);
-            if (!$validate->scene('edit')->check($this->post)) return [
-                'error' => 1,
-                'msg' => $validate->getError()
-            ];
+            if (!$validate->scene('edit')->check($this->post)) {
+                return json([
+                    'error' => 1,
+                    'msg' => $validate->getError()
+                ]);
+            }
         }
 
         unset($this->post['switch']);
@@ -27,24 +31,32 @@ trait EditModel
 
         if (method_exists($this, '__editBeforeHooks') &&
             !$this->__editBeforeHooks()) {
-            return $this->edit_before_result;
+            return json($this->edit_before_result);
         }
 
         return !Db::transaction(function () {
             $condition = $this->edit_condition;
 
-            if (isset($this->post['id'])) array_push(
-                $condition,
-                ['id', '=', $this->post['id']]
-            ); else $condition = array_merge(
-                $condition,
-                $this->post['where']
-            );
+            if (isset($this->post['id'])) {
+                array_push(
+                    $condition,
+                    ['id', '=', $this->post['id']]
+                );
+            } else {
+                $condition = array_merge(
+                    $condition,
+                    $this->post['where']
+                );
+            }
 
             unset($this->post['where']);
-            $result = Db::name($this->model)->where($condition)->update($this->post);
+            $result = Db::name($this->model)
+                ->where($condition)
+                ->update($this->post);
 
-            if (!$result) return false;
+            if (!$result) {
+                return false;
+            }
             if (method_exists($this, '__editAfterHooks') &&
                 !$this->__editAfterHooks()) {
                 $this->edit_fail_result = $this->edit_after_result;
@@ -53,22 +65,28 @@ trait EditModel
             }
 
             return true;
-        }) ? $this->edit_fail_result : [
+        }) ? json($this->edit_fail_result) : json([
             'error' => 0,
             'msg' => 'ok'
-        ];
+        ]);
     }
 }
 ```
 
-!> 条件查询：请求可使用 **id** 或 **where** 字段进行查询，二者选一即可
-
 - **id** `int|string`
 - **where** `array`，必须使用数组方式来定义
 
+!> 条件查询：请求可使用 **id** 或 **where** 字段进行查询，二者选一即可
+
 ```php
+// 正常情况
 $this->post['where'] = [
     ['name', '=', 'van']
+];
+
+// JSON 查询
+$this->post['where'] = [
+    ['extra->nickname', '=', 'kain']
 ];
 ```
 

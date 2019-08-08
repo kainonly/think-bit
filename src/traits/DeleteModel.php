@@ -2,8 +2,7 @@
 
 namespace think\bit\traits;
 
-use think\Db;
-use think\Validate;
+use think\facade\Db;
 
 /**
  * Trait DeleteModel
@@ -21,15 +20,17 @@ trait DeleteModel
 {
     public function delete()
     {
-        $validate = Validate::make($this->delete_default_validate);
-        if (!$validate->check($this->post)) return [
-            'error' => 1,
-            'msg' => $validate->getError()
-        ];
+        $validate = validate($this->delete_default_validate);
+        if (!$validate->check($this->post)) {
+            return json([
+                'error' => 1,
+                'msg' => $validate->getError()
+            ]);
+        }
 
         if (method_exists($this, '__deleteBeforeHooks') &&
             !$this->__deleteBeforeHooks()) {
-            return $this->delete_before_result;
+            return json($this->delete_before_result);
         }
 
         return !Db::transaction(function () {
@@ -40,14 +41,17 @@ trait DeleteModel
             }
 
             $condition = $this->delete_condition;
-            if (isset($this->post['id'])) $result = Db::name($this->model)
-                ->whereIn('id', $this->post['id'])
-                ->where($condition)
-                ->delete();
-            else $result = Db::name($this->model)
-                ->where($this->post['where'])
-                ->where($condition)
-                ->delete();
+            if (isset($this->post['id'])) {
+                $result = Db::name($this->model)
+                    ->whereIn('id', $this->post['id'])
+                    ->where($condition)
+                    ->delete();
+            } else {
+                $result = Db::name($this->model)
+                    ->where($this->post['where'])
+                    ->where($condition)
+                    ->delete();
+            }
 
             if (!$result) {
                 Db::rollBack();
@@ -62,9 +66,9 @@ trait DeleteModel
             }
 
             return true;
-        }) ? $this->delete_fail_result : [
+        }) ? json($this->delete_fail_result) : json([
             'error' => 0,
             'msg' => 'ok'
-        ];
+        ]);
     }
 }

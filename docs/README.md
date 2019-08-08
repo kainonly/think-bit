@@ -1,7 +1,7 @@
 Think-Bit
 =======
 
-基于 ThinkPHP5 设计的 RESTFul API 辅助框架
+基于 ThinkPHP6 设计的 RESTFul API 辅助框架
 
 ![Packagist Version](https://img.shields.io/packagist/v/kain/think-bit.svg?style=flat-square)
 ![Packagist](https://img.shields.io/packagist/dt/kain/think-bit.svg?color=blue&style=flat-square)

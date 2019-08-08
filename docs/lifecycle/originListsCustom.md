@@ -8,7 +8,7 @@ interface OriginListsCustom
     /**
      * 自定义无分页数据返回
      * @param array $lists
-     * @return array
+     * @return think\Response
      */
     public function __originListsCustomReturn(Array $lists);
 }
@@ -33,10 +33,10 @@ class AdminClass extends Base implements OriginListsCustom {
 
     public function __originListsCustomReturn(Array $lists)
     {
-        return [
+        return json([
             'error' => 0,
             'data' => $lists
-        ];
+        ]);
     }
 }
 ```

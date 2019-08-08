@@ -2,9 +2,7 @@
 
 namespace think\bit\traits;
 
-use think\Db;
-use think\Exception;
-use think\Validate;
+use think\facade\Db;
 
 /**
  * Trait GetModel
@@ -14,47 +12,56 @@ use think\Validate;
  * @property array get_default_validate 默认验证器
  * @property array get_before_result 前置返回结果
  * @property array get_condition 固定条件
- * @property array get_field 固定返回字段
+ * @property array get_field 固定字段
+ * @property array get_without_field 排除字段
  */
 trait GetModel
 {
     public function get()
     {
-        $validate = Validate::make($this->get_default_validate);
-        if (!$validate->check($this->post)) return [
-            'error' => 1,
-            'msg' => $validate->getError()
-        ];
+        $validate = validate($this->get_default_validate);
+        if (!$validate->check($this->post)) {
+            return json([
+                'error' => 1,
+                'msg' => $validate->getError()
+            ]);
+        }
 
         if (method_exists($this, '__getBeforeHooks') &&
             !$this->__getBeforeHooks()) {
-            return $this->get_before_result;
+            return json($this->get_before_result);
         }
 
         try {
             $condition = $this->get_condition;
-            if (isset($this->post['id'])) array_push(
-                $condition,
-                ['id', '=', $this->post['id']]
-            ); else $condition = array_merge(
-                $condition,
-                $this->post['where']
-            );
+            if (isset($this->post['id'])) {
+                array_push(
+                    $condition,
+                    ['id', '=', $this->post['id']]
+                );
+            } else {
+                $condition = array_merge(
+                    $condition,
+                    $this->post['where']
+                );
+            }
 
             $data = Db::name($this->model)
                 ->where($condition)
-                ->field($this->get_field[0], $this->get_field[1])
+                ->field($this->get_field)
+                ->withoutField($this->get_without_field)
                 ->find();
 
-            return method_exists($this, '__getCustomReturn') ? $this->__getCustomReturn($data) : [
-                'error' => 0,
-                'data' => $data
-            ];
-        } catch (Exception $e) {
-            return [
+            return method_exists($this, '__getCustomReturn') ?
+                $this->__getCustomReturn($data) : json([
+                    'error' => 0,
+                    'data' => $data
+                ]);
+        } catch (\Exception $e) {
+            return json([
                 'error' => 1,
                 'msg' => (string)$e->getMessage()
-            ];
+            ]);
         }
     }
 }

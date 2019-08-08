@@ -9,7 +9,7 @@ interface ListsCustom
      * 自定义无分页数据返回
      * @param array $lists
      * @param int $total
-     * @return array
+     * @return think\Response
      */
     public function __listsCustomReturn(Array $lists, int $total);
 }
@@ -35,13 +35,13 @@ class AdminClass extends Base implements ListsCustom {
 
     public function __listsCustomReturn(Array $lists, int $total)
     {
-        return [
+        return json([
             'error' => 0,
             'data' => [
                 'lists' => $lists,
                 'total' => $total,
             ]
-        ];
+        ]);
     }
 }
 ```

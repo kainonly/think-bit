@@ -8,38 +8,48 @@ trait AddModel
     public function add()
     {
         if (!empty($this->add_default_validate)) {
-            $validate = Validate::make($this->add_default_validate);
-            if (!$validate->check($this->post)) return [
-                'error' => 1,
-                'msg' => $validate->getError()
-            ];
+            $validate = validate($this->add_default_validate);
+            if (!$validate->check($this->post)) {
+                return json([
+                    'error' => 1,
+                    'msg' => $validate->getError()
+                ]);
+            }
         }
 
         $validate = validate($this->model);
-        if (!$validate->scene('add')->check($this->post)) return [
-            'error' => 1,
-            'msg' => $validate->getError()
-        ];
+        if (!$validate->scene('add')->check($this->post)) {
+            return json([
+                'error' => 1,
+                'msg' => $validate->getError()
+            ]);
+        }
 
         $this->post['create_time'] = $this->post['update_time'] = time();
 
         if (method_exists($this, '__addBeforeHooks') &&
             !$this->__addBeforeHooks()) {
-            return $this->add_before_result;
+            return json($this->add_before_result);
         }
 
         return !Db::transaction(function () {
             if (!method_exists($this, '__addAfterHooks')) {
-                return Db::name($this->model)->insert($this->post);
+                return Db::name($this->model)
+                    ->insert($this->post);
             }
 
             $id = null;
             if (isset($this->post['id'])) {
                 $id = $this->post['id'];
-                $result = Db::name($this->model)->insert($this->post);
-                if (!$result) return false;
+                $result = Db::name($this->model)
+                    ->insert($this->post);
+
+                if (!$result) {
+                    return false;
+                }
             } else {
-                $id = Db::name($this->model)->insertGetId($this->post);
+                $id = Db::name($this->model)
+                    ->insertGetId($this->post);
             }
 
             if (empty($id) || !$this->__addAfterHooks($id)) {
@@ -49,10 +59,10 @@ trait AddModel
             }
 
             return true;
-        }) ? $this->add_fail_result : [
+        }) ? json($this->add_fail_result) : json([
             'error' => 0,
             'msg' => 'ok'
-        ];
+        ]);
     }
 }
 ```

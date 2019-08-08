@@ -8,7 +8,7 @@ interface GetCustom
     /**
      * 自定义单个数据返回
      * @param array $data
-     * @return array
+     * @return think\Response
      */
     public function __getCustomReturn(Array $data);
 }
@@ -33,10 +33,10 @@ class AdminClass extends Base implements GetCustom {
 
     public function __getCustomReturn($data)
     {
-        return [
+        return json([
             'error' => 0,
             'data' => $data
-        ];
+        ]);
     }
 }
 ```

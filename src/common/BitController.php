@@ -2,9 +2,7 @@
 
 namespace think\bit\common;
 
-use think\Controller;
-
-abstract class BitController extends Controller
+abstract class BitController
 {
     protected $model;
     protected $post = [];
@@ -18,8 +16,9 @@ abstract class BitController extends Controller
     ];
     protected $origin_lists_condition = [];
     protected $origin_lists_condition_query = null;
-    protected $origin_lists_orders = 'create_time desc';
-    protected $origin_lists_field = ['update_time,create_time', true];
+    protected $origin_lists_orders = ['create_time' => 'desc'];
+    protected $origin_lists_field = [];
+    protected $origin_lists_without_field = ['update_time', 'create_time'];
 
     protected $lists_default_validate = [
         'page' => 'require',
@@ -33,8 +32,9 @@ abstract class BitController extends Controller
     ];
     protected $lists_condition = [];
     protected $lists_condition_query = null;
-    protected $lists_orders = 'create_time desc';
-    protected $lists_field = ['update_time,create_time', true];
+    protected $lists_orders = ['create_time' => 'desc'];
+    protected $lists_field = [];
+    protected $lists_without_field = ['update_time', 'create_time'];
 
     protected $get_default_validate = [
         'id' => 'requireWithout:where|number',
@@ -45,7 +45,8 @@ abstract class BitController extends Controller
         'msg' => 'error:before_fail'
     ];
     protected $get_condition = [];
-    protected $get_field = ['update_time,create_time', true];
+    protected $get_field = [];
+    protected $get_without_field = ['update_time', 'create_time'];
 
     protected $add_default_validate = [];
     protected $add_before_result = [
@@ -100,9 +101,4 @@ abstract class BitController extends Controller
         'error' => 1,
         'msg' => 'error:after_fail'
     ];
-
-    protected function initialize()
-    {
-        $this->post = input('post.');
-    }
 }

@@ -2,24 +2,34 @@
 
 namespace think\bit\middleware;
 
+use think\facade\Config;
 use think\Request;
-use think\response\Json;
 
 class Cors
 {
     public function handle(Request $request, \Closure $next)
     {
-        $cors = Config('cors.');
-        if (in_array($request->header('origin'), $cors['allow_origin'])) {
+        $config = Config::get('cors');
+        if (in_array($request->header('origin'), $config['allow_origin'])) {
             header('Access-Control-Allow-Origin:' . $request->header('origin'));
         }
-        if ($cors['with_credentials']) {
+
+        if ($config['with_credentials']) {
             header('Access-Control-Allow-Credentials:true');
         }
-        if ($request->isOptions()) header('Access-Control-Max-Age:' . $cors['option_max_age']);
-        header('Access-Control-Allow-Methods:' . $cors['methods']);
-        header('Access-Control-Allow-Headers:' . $cors['headers']);
-        if (!$request->isPost()) return new Json([]);
-        else return $next($request);
+
+        if ($request->isOptions()) {
+            header('Access-Control-Max-Age:' . $config['option_max_age']);
+        }
+
+        header('Access-Control-Allow-Headers:' . $config['headers']);
+        if (isset($config['only_post']) &&
+            $config['only_post'] &&
+            !$request->isPost()) {
+            return json([]);
+        } else {
+            header('Access-Control-Allow-Methods:' . $config['methods']);
+            return $next($request);
+        }
     }
 }

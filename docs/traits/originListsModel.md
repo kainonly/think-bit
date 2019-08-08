@@ -7,51 +7,79 @@ trait OriginListsModel
 {
     public function originLists()
     {
-        $validate = Validate::make($this->origin_lists_default_validate);
-        if (!$validate->check($this->post)) return [
-            'error' => 1,
-            'msg' => $validate->getError()
-        ];
+        $validate = validate($this->origin_lists_default_validate);
+        if (!$validate->check($this->post)) {
+            return json([
+                'error' => 1,
+                'msg' => $validate->getError()
+            ]);
+        }
 
         if (method_exists($this, '__originListsBeforeHooks') &&
             !$this->__originListsBeforeHooks()) {
-            return $this->origin_lists_before_result;
+            return json($this->origin_lists_before_result);
         }
 
         try {
             $condition = $this->origin_lists_condition;
-            if (isset($this->post['where'])) $condition = array_merge(
-                $condition,
-                $this->post['where']
-            );
+            if (isset($this->post['where'])) {
+                $condition = array_merge(
+                    $condition,
+                    $this->post['where']
+                );
+            }
 
-            $lists = Db::name($this->model)
+            $orders = $this->origin_lists_orders;
+            if (isset($this->post['order'])) {
+                $condition = array_merge(
+                    $orders,
+                    $this->post['order']
+                );
+            }
+
+            $listsQuery = Db::name($this->model)
                 ->where($condition)
-                ->field($this->origin_lists_field[0], $this->origin_lists_field[1])
-                ->order($this->origin_lists_orders)
-                ->select();
+                ->field($this->origin_lists_field)
+                ->withoutField($this->origin_lists_field)
+                ->order($orders);
 
-            return method_exists($this, '__originListsCustomReturn') ? $this->__originListsCustomReturn($lists) : [
-                'error' => 0,
-                'data' => $lists
-            ];
-        } catch (Exception $e) {
-            return [
+            $lists = empty($this->origin_lists_condition_query) ?
+                $listsQuery->select() :
+                $listsQuery->where($this->origin_lists_condition_query)->select();
+
+            return method_exists($this, '__originListsCustomReturn') ?
+                $this->__originListsCustomReturn($lists) : json([
+                    'error' => 0,
+                    'data' => $lists->toArray()
+                ]);
+        } catch (\Exception $e) {
+            return json([
                 'error' => 1,
                 'msg' => (string)$e->getMessage()
-            ];
+            ]);
         }
     }
 }
 ```
 
-!> 条件合并: 请求中的 **where** 将于 **origin_lists_condition** 合并
-
 - **where** `array` 必须使用数组方式来定义
 
+!> 条件合并: 请求中的 **where** 将于 **origin_lists_condition** 合并
+
 ```php
+// 正常情况
+$this->post['where'] = [
+    ['name', '=', 'kain']
+];
+
+// 模糊搜索
 $this->post['where'] = [
     ['name', 'like', '%v%']
+];
+
+// JSON 查询
+$this->post['where'] = [
+    ['extra->sex', '=', 0]
 ];
 ```
 
@@ -204,10 +232,10 @@ class AdminClass extends Base {
 如果需要列表按条件排序，只需要重写 **origin_lists_orders**，默认为
 
 ```php
-protected $origin_lists_orders = 'create_time desc';
+protected $origin_lists_orders = ['create_time' => 'desc'];
 ```
 
-例如按年龄进行排序
+多属性排序
 
 ```php
 use think\bit\traits\OriginListsModel;
@@ -216,16 +244,17 @@ class AdminClass extends Base {
     use OriginListsModel;
 
     protected $model = 'admin';
-    protected $origin_lists_orders = 'age desc';
+    protected $origin_lists_orders =  ['age', 'create_time' => 'desc'];
 }
 ```
 
-#### 限制返回字段
+#### 指定返回字段
 
 如需要给接口限制返回字段，只需要重写 **origin_lists_field**，默认为
 
 ```php
-protected $origin_lists_field = ['update_time,create_time', true];
+protected $origin_lists_field = [];
+protected $origin_lists_without_field = ['update_time', 'create_time'];
 ```
 
 例如返回除 **update_time** 修改时间所有的字段
@@ -237,7 +266,7 @@ class AdminClass extends Base {
     use OriginListsModel;
 
     protected $model = 'admin';
-    protected $origin_lists_field = ['update_time', true];
+    protected $origin_lists_without_field = ['update_time'];
 }
 ```
 
@@ -256,10 +285,10 @@ class AdminClass extends Base implements OriginListsCustom {
 
     public function __originListsCustomReturn(Array $lists)
     {
-        return [
+        return json([
             'error' => 0,
             'data' => $lists
-        ];
+        ]);
     }
 }
 ```
@@ -267,10 +296,10 @@ class AdminClass extends Base implements OriginListsCustom {
 **__originListsCustomReturn** 需要返回整体的响应结果
 
 ```php
-return [
+return json([
     'error' => 0,
     'data' => $data
-];
+]);
 ```
 
 - **data** `array` 原数据

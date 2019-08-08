@@ -9,10 +9,20 @@ return [
     ],
     'with_credentials' => true,
     'option_max_age' => 2592000,
+    'only_post' => false,
     'methods' => 'GET,OPTIONS,POST,PUT',
     'headers' => 'Content-Type,X-Requested-With,X-Token'
 ];
 ```
+
+- **allow_origin** `array` 允许跨域的域名
+- **with_credentials** `boolean` 允许跨域请求携带Cookie
+- **option_max_age** `int` 缓存OPTIONS请求时长
+- **only_post** `boolean` 仅允许POST请求跨域
+- **methods** `string` 允许跨域的请求类型
+- **headers** `string` 允许定义的头部
+
+!> 如果存在通用域名跨域，跨域请求无法携带Cookie。
 
 注册中间件，修改主配置目录下 `config/middleware.php`
 
@@ -45,15 +55,3 @@ class Index extends Controller
 ```php
 Route::rule('index','index')->middleware('cors');
 ```
-
-#### 配置详情
-
-| 名称             | 类型    | 说明                   |
-| ---------------- | ------- | ---------------------- |
-| allow_origin     | array   | 允许跨域的域名         |
-| with_credentials | boolean | 允许ajax请求携带Cookie |
-| option_max_age   | boolean | 缓存OPTIONS请求        |
-| methods          | string  | 允许请求类型           |
-| headers          | string  | 允许定义的头部         |
-
-!> 如果允许所有域名跨域，则将 `allow_origin` 设置为 `[*]`，但 `with_credentials` 将失效，并且ajax请求不能携带cookie。
