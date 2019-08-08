@@ -51,7 +51,7 @@ final class Tools
      * 随机数16位
      * @return string
      */
-    public function random()
+    public static function random()
     {
         return \ShortCode\Random::get(16);
     }
@@ -60,7 +60,7 @@ final class Tools
      * 随机数8位
      * @return string
      */
-    public function randomShort()
+    public static function randomShort()
     {
         return \ShortCode\Random::get(8);
     }
