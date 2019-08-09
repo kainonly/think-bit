@@ -41,17 +41,6 @@ return [
 ];
 ```
 
-在 `application/tags.php` 中增加扩展验证
-
-```php
-return [
-    // 应用初始化
-    'app_init' => [
-        \think\bit\common\BitValidate::class
-    ],
-];
-```
-
 使用 `composer` 安装与更新可附带优化参数提高性能
 
 ```shell
