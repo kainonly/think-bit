@@ -10,26 +10,26 @@ trait AddModel
         if (!empty($this->add_default_validate)) {
             $validate = validate($this->add_default_validate);
             if (!$validate->check($this->post)) {
-                return json([
+                return [
                     'error' => 1,
                     'msg' => $validate->getError()
-                ]);
+                ];
             }
         }
 
         $validate = validate($this->model);
         if (!$validate->scene('add')->check($this->post)) {
-            return json([
+            return [
                 'error' => 1,
                 'msg' => $validate->getError()
-            ]);
+            ];
         }
 
         $this->post['create_time'] = $this->post['update_time'] = time();
 
         if (method_exists($this, '__addBeforeHooks') &&
             !$this->__addBeforeHooks()) {
-            return json($this->add_before_result);
+            return $this->add_before_result;
         }
 
         return !Db::transaction(function () {
@@ -59,10 +59,10 @@ trait AddModel
             }
 
             return true;
-        }) ? json($this->add_fail_result) : json([
+        }) ? $this->add_fail_result : [
             'error' => 0,
             'msg' => 'ok'
-        ]);
+        ];
     }
 }
 ```

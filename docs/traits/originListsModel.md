@@ -9,15 +9,15 @@ trait OriginListsModel
     {
         $validate = validate($this->origin_lists_default_validate);
         if (!$validate->check($this->post)) {
-            return json([
+            return [
                 'error' => 1,
                 'msg' => $validate->getError()
-            ]);
+            ];
         }
 
         if (method_exists($this, '__originListsBeforeHooks') &&
             !$this->__originListsBeforeHooks()) {
-            return json($this->origin_lists_before_result);
+            return $this->origin_lists_before_result;
         }
 
         try {
@@ -48,15 +48,15 @@ trait OriginListsModel
                 $listsQuery->where($this->origin_lists_condition_query)->select();
 
             return method_exists($this, '__originListsCustomReturn') ?
-                $this->__originListsCustomReturn($lists) : json([
+                $this->__originListsCustomReturn($lists) : [
                     'error' => 0,
                     'data' => $lists->toArray()
-                ]);
+                ];
         } catch (\Exception $e) {
-            return json([
+            return [
                 'error' => 1,
                 'msg' => (string)$e->getMessage()
-            ]);
+            ];
         }
     }
 }

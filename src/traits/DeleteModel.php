@@ -22,15 +22,15 @@ trait DeleteModel
     {
         $validate = validate($this->delete_default_validate);
         if (!$validate->check($this->post)) {
-            return json([
+            return [
                 'error' => 1,
                 'msg' => $validate->getError()
-            ]);
+            ];
         }
 
         if (method_exists($this, '__deleteBeforeHooks') &&
             !$this->__deleteBeforeHooks()) {
-            return json($this->delete_before_result);
+            return $this->delete_before_result;
         }
 
         return !Db::transaction(function () {
@@ -66,9 +66,9 @@ trait DeleteModel
             }
 
             return true;
-        }) ? json($this->delete_fail_result) : json([
+        }) ? $this->delete_fail_result : [
             'error' => 0,
             'msg' => 'ok'
-        ]);
+        ];
     }
 }

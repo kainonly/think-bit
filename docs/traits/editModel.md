@@ -9,20 +9,20 @@ trait EditModel
     {
         $validate = validate($this->edit_default_validate);
         if (!$validate->check($this->post)) {
-            return json([
+            return [
                 'error' => 1,
                 'msg' => $validate->getError()
-            ]);
+            ];
         }
 
         $this->edit_switch = $this->post['switch'];
         if (!$this->edit_switch) {
             $validate = validate($this->model);
             if (!$validate->scene('edit')->check($this->post)) {
-                return json([
+                return [
                     'error' => 1,
                     'msg' => $validate->getError()
-                ]);
+                ];
             }
         }
 
@@ -31,7 +31,7 @@ trait EditModel
 
         if (method_exists($this, '__editBeforeHooks') &&
             !$this->__editBeforeHooks()) {
-            return json($this->edit_before_result);
+            return $this->edit_before_result;
         }
 
         return !Db::transaction(function () {
@@ -65,10 +65,10 @@ trait EditModel
             }
 
             return true;
-        }) ? json($this->edit_fail_result) : json([
+        }) ? $this->edit_fail_result : [
             'error' => 0,
             'msg' => 'ok'
-        ]);
+        ];
     }
 }
 ```

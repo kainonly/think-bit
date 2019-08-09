@@ -9,7 +9,6 @@ return [
     ],
     'with_credentials' => true,
     'option_max_age' => 2592000,
-    'only_post' => false,
     'methods' => 'GET,OPTIONS,POST,PUT',
     'headers' => 'Content-Type,X-Requested-With,X-Token'
 ];
@@ -17,8 +16,7 @@ return [
 
 - **allow_origin** `array` 允许跨域的域名
 - **with_credentials** `boolean` 允许跨域请求携带Cookie
-- **option_max_age** `int` 缓存OPTIONS请求时长
-- **only_post** `boolean` 仅允许POST请求跨域
+- **option_max_age** `int` 预检请求的返回结果被缓存多久
 - **methods** `string` 允许跨域的请求类型
 - **headers** `string` 允许定义的头部
 
