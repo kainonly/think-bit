@@ -5,51 +5,39 @@
 ```php
 return [
     'allow_origin' => [
-        'https://api.developer.com'
+        'http://localhost:3000',
     ],
-    'with_credentials' => true,
-    'option_max_age' => 2592000,
-    'methods' => 'GET,OPTIONS,POST,PUT',
-    'headers' => 'Content-Type,X-Requested-With,X-Token'
+    'allow_credentials' => false,
+    'allow_methods' => ['GET', 'OPTIONS', 'POST', 'PUT'],
+    'expose_headers' => [],
+    'allow_headers' => ['Content-Type', 'X-Requested-With', 'X-Token'],
+    'max_age' => 0,
 ];
 ```
 
-- **allow_origin** `array` 允许跨域的域名
-- **with_credentials** `boolean` 允许跨域请求携带Cookie
-- **option_max_age** `int` 预检请求的返回结果被缓存多久
-- **methods** `string` 允许跨域的请求类型
-- **headers** `string` 允许定义的头部
+- **allow_origin** `array` 允许访问该资源的外域 URI，对于不需要携带身份凭证的请求，服务器可以指定该字段的值为通配符 `['*']`
+- **allow_credentials** `boolean` 允许浏览器读取response的内容
+- **expose_headers** `array` 允许浏览器访问的头放入白名单
+- **allow_headers** `string` 允许携带的首部字段
+- **allow_methods** `array` 允许使用的 HTTP 方法
+- **max_age** `int` preflight请求的结果能够被缓存多久
 
-!> 如果存在通用域名跨域，跨域请求无法携带Cookie。
 
-注册中间件，修改主配置目录下 `config/middleware.php`
+注册中间件 `config/middleware.php`
 
 ```php
 return [
-    'cors' => \bit\middleware\Cors::class,
+    'cors' => \think\bit\middleware\Cors::class
 ];
 ```
 
-在控制器中使用
+在控制器中引入
 
 ```php
-namespace app\index\controller;
-
-use think\Controller;
-
-class Index extends Controller
+abstract class BaseController
 {
+
     protected $middleware = ['cors'];
 
-    public function index()
-    {
-        return 'index';
-    }
 }
-```
-
-在路由中使用
-
-```php
-Route::rule('index','index')->middleware('cors');
 ```
