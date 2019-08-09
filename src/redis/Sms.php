@@ -43,16 +43,21 @@ final class Sms extends BitRedis
      */
     public function check($phone, $code, $once = false)
     {
-        if (!$this->redis->exists($this->key . $phone)) return false;
+        if (!$this->redis->exists($this->key . $phone)) {
+            return false;
+        }
+
         $data = json_decode(
             $this->redis->get($this->key . $phone),
             true
         );
 
         $result = ($code === $data['code']);
-        if ($once && $result) $this->redis->del([
-            $this->key . $phone
-        ]);
+        if ($once && $result) {
+            $this->redis->del([
+                $this->key . $phone
+            ]);
+        }
 
         return $result;
     }
@@ -64,7 +69,10 @@ final class Sms extends BitRedis
      */
     public function time($phone)
     {
-        if (!$this->redis->exists($this->key . $phone)) return false;
+        if (!$this->redis->exists($this->key . $phone)) {
+            return false;
+        }
+
         $data = json_decode(
             $this->redis->get($this->key . $phone),
             true
