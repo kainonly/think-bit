@@ -1,7 +1,7 @@
 - Facade 门面
   - [Redis 缓存](facade/redis)
   - [Mongo 数据库](facade/mongo)
-  - [Rabbit 消息队列](facade/rabbit)
+  - [RabbitMQ 消息队列](facade/rabbitmq)
   - [Hash 密码](facade/hash)
   - [Cipher 对称加密](facade/cipher)
   - [Tools 工具](facade/tools)
