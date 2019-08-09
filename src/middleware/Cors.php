@@ -21,7 +21,7 @@ class Cors
                 $config['allow_origin'])
             ) {
                 header('Access-Control-Allow-Origin:' .
-                    $request->header('allow_origin')
+                    $request->header('origin')
                 );
             }
         }
