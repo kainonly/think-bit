@@ -29,7 +29,7 @@ class Cors
         if (!empty($config['allow_credentials']) &&
             is_bool($config['allow_credentials']) &&
             $config['allow_credentials'] === true) {
-            header('Access-Control-Allow-Credentials:' . true);
+            header('Access-Control-Allow-Credentials:true');
         }
 
         if (!empty($config['expose_headers']) &&
