@@ -9,15 +9,15 @@ trait GetModel
     {
         $validate = validate($this->get_default_validate);
         if (!$validate->check($this->post)) {
-            return json([
+            return [
                 'error' => 1,
                 'msg' => $validate->getError()
-            ]);
+            ];
         }
 
         if (method_exists($this, '__getBeforeHooks') &&
             !$this->__getBeforeHooks()) {
-            return json($this->get_before_result);
+            return $this->get_before_result;
         }
 
         try {
@@ -41,15 +41,15 @@ trait GetModel
                 ->find();
 
             return method_exists($this, '__getCustomReturn') ?
-                $this->__getCustomReturn($data) : json([
+                $this->__getCustomReturn($data) : [
                     'error' => 0,
                     'data' => $data
-                ]);
+                ];
         } catch (\Exception $e) {
-            return json([
+            return [
                 'error' => 1,
                 'msg' => (string)$e->getMessage()
-            ]);
+            ];
         }
     }
 }

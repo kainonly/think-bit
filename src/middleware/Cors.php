@@ -2,34 +2,62 @@
 
 namespace think\bit\middleware;
 
-use think\facade\Config;
 use think\Request;
 
 class Cors
 {
     public function handle(Request $request, \Closure $next)
     {
-        $config = Config::get('cors');
-        if (in_array($request->header('origin'), $config['allow_origin'])) {
-            header('Access-Control-Allow-Origin:' . $request->header('origin'));
+        $config = config('cors');
+        if (!empty($config['allow_origin']) &&
+            is_array($config['allow_origin'])) {
+            if (in_array(
+                '*',
+                $config['allow_origin'])
+            ) {
+                header('Access-Control-Allow-Origin:*');
+            } elseif (in_array(
+                $request->header('origin'),
+                $config['allow_origin'])
+            ) {
+                header('Access-Control-Allow-Origin:' .
+                    $request->header('origin')
+                );
+            }
         }
 
-        if ($config['allow_credentials']) {
-            header('Access-Control-Allow-Credentials:true');
+        if (!empty($config['allow_credentials']) &&
+            is_bool($config['allow_credentials']) &&
+            $config['allow_credentials'] === true) {
+            header('Access-Control-Allow-Credentials:' . true);
         }
 
-        if ($request->isOptions()) {
-            header('Access-Control-Max-Age:' . $config['option_max_age']);
+        if (!empty($config['expose_headers']) &&
+            is_array($config['expose_headers'])) {
+            header('Access-Control-Expose-Headers:' .
+                implode(',', $config['expose_headers'])
+            );
         }
 
-        header('Access-Control-Allow-Headers:' . $config['headers']);
-        if (isset($config['only_post']) &&
-            $config['only_post'] &&
-            !$request->isPost()) {
-            return json([]);
-        } else {
-            header('Access-Control-Allow-Methods:' . $config['methods']);
-            return $next($request);
+        if (!empty($config['allow_headers']) &&
+            is_array($config['allow_headers'])) {
+            header('Access-Control-Allow-Headers:' .
+                implode(',', $config['allow_headers'])
+            );
         }
+
+        if (!empty($config['allow_headers']) &&
+            is_array($config['allow_headers'])) {
+            header('Access-Control-Allow-Headers:' .
+                implode(',', $config['allow_headers'])
+            );
+        }
+
+        if (!empty($config['max_age']) &&
+            is_integer($config['max_age'])) {
+            header('Access-Control-Max-Age:' . $config['max_age']);
+        }
+
+        return $next($request);
     }
 }

@@ -24,15 +24,15 @@ trait ListsModel
     {
         $validate = validate($this->lists_default_validate);
         if (!$validate->check($this->post)) {
-            return json([
+            return [
                 'error' => 1,
                 'msg' => $validate->getError()
-            ]);
+            ];
         }
 
         if (method_exists($this, '__listsBeforeHooks') &&
             !$this->__listsBeforeHooks()) {
-            return json($this->lists_before_result);
+            return $this->lists_before_result;
         }
 
         try {
@@ -79,19 +79,19 @@ trait ListsModel
             if (method_exists($this, '__listsCustomReturn')) {
                 return $this->__listsCustomReturn($lists, $total);
             } else {
-                return json([
+                return [
                     'error' => 0,
                     'data' => [
                         'lists' => $lists->toArray(),
                         'total' => $total
                     ]
-                ]);
+                ];
             }
         } catch (\Exception $e) {
-            return json([
+            return [
                 'error' => 1,
                 'msg' => $e->getMessage()
-            ]);
+            ];
         }
     }
 }

@@ -18,12 +18,16 @@ final class Tools
             case 'v1':
                 return Uuid::uuid1()->toString();
             case 'v3':
-                if (empty($namespace) || empty($name)) return null;
+                if (empty($namespace) || empty($name)) {
+                    return null;
+                }
                 return Uuid::uuid3($namespace, $name)->toString();
             case 'v4':
                 return Uuid::uuid4()->toString();
             case 'v5':
-                if (empty($namespace) || empty($name)) return null;
+                if (empty($namespace) || empty($name)) {
+                    return null;
+                }
                 return Uuid::uuid5($namespace, $name)->toString();
             default:
                 return null;

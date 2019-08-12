@@ -20,12 +20,11 @@
   "require": {
     "php": ">=7.2.0",
     "ext-json": "*",
-    "topthink/framework": "5.1.*",
+    "topthink/framework": "^6.0.0",
     "predis/predis": "^1.1",
     "phpseclib/phpseclib": "^2.0",
     "ajaxray/short-code": "^1.1",
     "ramsey/uuid": "^3.8",
-    "hashids/hashids": "^3.0",
-    "nesbot/carbon": "^2.10"
+    "hashids/hashids": "^3.0"
   }
 }
