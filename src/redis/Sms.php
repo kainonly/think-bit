@@ -27,11 +27,7 @@ final class Sms extends BitRedis
             'timeout' => $timeout
         ]);
 
-        return $this->redis->setex(
-            $this->key . $phone,
-            $timeout,
-            $data
-        );
+        return $this->redis->setex($this->key . $phone, $timeout, $data);
     }
 
     /**
@@ -47,11 +43,7 @@ final class Sms extends BitRedis
             return false;
         }
 
-        $data = json_decode(
-            $this->redis->get($this->key . $phone),
-            true
-        );
-
+        $data = json_decode($this->redis->get($this->key . $phone), true);
         $result = ($code === $data['code']);
         if ($once && $result) {
             $this->redis->del([
@@ -73,10 +65,7 @@ final class Sms extends BitRedis
             return false;
         }
 
-        $data = json_decode(
-            $this->redis->get($this->key . $phone),
-            true
-        );
+        $data = json_decode($this->redis->get($this->key . $phone), true);
         /**
          * publish_time 发布时间
          * timeout 有效时间

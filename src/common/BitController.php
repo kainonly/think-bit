@@ -3,8 +3,6 @@
 namespace think\bit\common;
 
 use think\App;
-use think\exception\ValidateException;
-use think\Validate;
 
 abstract class BitController
 {
@@ -326,49 +324,5 @@ abstract class BitController
     protected function initialize()
     {
 
-    }
-
-    /**
-     * 验证数据
-     * @access protected
-     * @param array $data 数据
-     * @param string|array $validate 验证器名或者验证规则数组
-     * @param array $message 提示信息
-     * @param bool $batch 是否批量验证
-     * @return array|string|true
-     * @throws ValidateException
-     */
-    protected function validate(
-        $data,
-        $validate,
-        $message = [],
-        $batch = false
-    )
-    {
-        if (is_array($validate)) {
-            $v = new Validate();
-            $v->rule($validate);
-        } else {
-            if (strpos($validate, '.')) {
-                // 支持场景
-                list($validate, $scene) = explode('.', $validate);
-            }
-            $class = false !== strpos($validate, '\\') ?
-                $validate :
-                $this->app->parseClass('validate', $validate);
-            $v = new $class();
-            if (!empty($scene)) {
-                $v->scene($scene);
-            }
-        }
-
-        $v->message($message);
-
-        // 是否批量验证
-        if ($batch || $this->batchValidate) {
-            $v->batch(true);
-        }
-
-        return $v->failException(true)->check($data);
     }
 }
