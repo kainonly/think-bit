@@ -3,7 +3,6 @@
 namespace think\bit\common;
 
 use think\App;
-use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\Validate;
 
@@ -318,13 +317,7 @@ abstract class BitController
     {
         $this->app = $app;
         $this->request = $this->app->request;
-        if ($this->request->isPost() || $this->request->isOptions()) {
-            $this->post = $this->request->post();
-        } else {
-            throw new HttpResponseException(json([
-                'msg' => 'not support other method'
-            ]));
-        }
+
         // 控制器初始化
         $this->initialize();
     }
