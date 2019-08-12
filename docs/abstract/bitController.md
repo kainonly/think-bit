@@ -24,7 +24,7 @@ protected $model;
 
 - **post** `array`
  
-请求包含的数据
+请求body
 
 ```php
 protected $post = [];
@@ -34,7 +34,7 @@ protected $post = [];
 
 - **origin_lists_default_validate** `array`
 
-默认列表数据验证
+列表数据默认验证
 
 ```php
 protected $origin_lists_default_validate = [
@@ -69,20 +69,28 @@ protected $origin_lists_condition = [];
 protected $origin_lists_condition_query = null;
 ```
 
-- **origin_lists_orders** `string`
+- **origin_lists_orders** `array`
 
 列表数据排序
 
 ```php
-protected $origin_lists_orders = 'create_time desc';
+protected $origin_lists_orders = ['create_time' => 'desc'];
 ```
 
 - **origin_lists_field** `array`
 
-列表数据限制字段
+列表数据指定返回字段
 
 ```php
-protected $origin_lists_field = ['update_time,create_time', true];
+protected $origin_lists_field = [];
+```
+
+- **origin_lists_without_field** `array`
+
+列表数据指定排除的返回字段
+
+```php
+protected $origin_lists_without_field = ['update_time', 'create_time'];
 ```
 
 #### 获取分页数据请求属性
@@ -113,7 +121,7 @@ protected $lists_before_result = [
 
 - **lists_condition** `array`
 
-分页数据条件查询
+分页数据查询条件
 
 ```php
 protected $lists_condition = [];
@@ -127,12 +135,12 @@ protected $lists_condition = [];
 protected $lists_condition_query = null;
 ```
 
-- **lists_orders** `string`
+- **lists_orders** `array`
 
 分页数据排序
 
 ```php
-protected $lists_orders = 'create_time desc';
+protected $lists_orders = ['create_time' => 'desc'];
 ```
 
 - **lists_field** `array`
@@ -140,7 +148,15 @@ protected $lists_orders = 'create_time desc';
 分页数据限制字段
 
 ```php
-protected $lists_field = ['update_time,create_time', true];
+protected $lists_field = [];
+```
+
+- **lists_without_field** `array`
+
+分页数据指定排除的返回字段
+
+```php
+protected $lists_without_field = ['update_time', 'create_time'];
 ```
 
 #### 获取单条数据请求属性
@@ -177,10 +193,16 @@ protected $get_condition = [];
 
 - **get_field** `array`
 
-单条数据限制字段
+单条数据指定排除的返回字段
 
 ```php
-    protected $get_field = ['update_time,create_time', true];
+protected $get_field = [];
+```
+
+- **get_without_field** `array`
+
+```php
+protected $get_without_field = ['update_time', 'create_time'];
 ```
 
 #### 新增数据请求属性
