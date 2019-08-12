@@ -14,7 +14,7 @@ class Cors
             header('Access-Control-Allow-Origin:' . $request->header('origin'));
         }
 
-        if ($config['with_credentials']) {
+        if ($config['allow_credentials']) {
             header('Access-Control-Allow-Credentials:true');
         }
 
