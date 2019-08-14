@@ -17,16 +17,6 @@
       "think\\bit\\": "src/"
     }
   },
-  "extra": {
-    "think": {
-      "services": [
-        "think\\bit\\service\\CollectionService",
-        "think\\bit\\service\\StrService",
-        "think\\bit\\service\\HashService",
-        "think\\bit\\service\\CipherService"
-      ]
-    }
-  },
   "authors": [
     {
       "name": "kain",
