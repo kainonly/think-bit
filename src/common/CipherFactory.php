@@ -5,6 +5,7 @@ declare (strict_types=1);
 namespace think\bit\common;
 
 use phpseclib\Crypt\AES;
+use think\bit\facade\Str;
 
 /**
  * 对称加密类
@@ -56,12 +57,14 @@ final class CipherFactory
      * @param bool $is_array 是否为数组
      * @return string|array 数据源
      */
-    public function decrypt(string $ciphertext, bool $is_array = false)
+    public function decrypt(string $ciphertext, bool $auto_conver = true)
     {
         $data = $this->cipher->decrypt(
             base64_decode($ciphertext)
         );
 
-        return !$is_array ? $data : json_decode($data, true);
+        return Str::data($data)->isJson() && $auto_conver ?
+            json_decode($data, true) :
+            $data;
     }
 }

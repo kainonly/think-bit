@@ -6,8 +6,8 @@ use think\Facade;
 
 /**
  * Class Cipher
- * @method static encrypt($context)
- * @method static decrypt(string $ciphertext, bool $is_array = false)
+ * @method static string encrypt($context)
+ * @method static string|array decrypt(string $ciphertext, bool $auto_conver = true)
  * @package think\bit\facade
  */
 final class Cipher extends Facade

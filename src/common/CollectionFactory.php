@@ -13,6 +13,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 final class CollectionFactory
 {
+    /**
+     * 创建集合
+     * @param array $elements 元素
+     * @return ArrayCollection
+     */
     public function data(array $elements)
     {
         return new ArrayCollection($elements);
