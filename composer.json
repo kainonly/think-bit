@@ -1,7 +1,32 @@
 {
   "name": "kain/think-bit",
   "description": "基于 ThinkPHP6 设计的 RESTFul API 辅助框架",
-  "license": "MIT",
+  "require": {
+    "php": ">=7.2.0",
+    "ext-json": "*",
+    "topthink/framework": "^6.0.0",
+    "nesbot/carbon": "^2.10",
+    "ramsey/uuid": "^3.8",
+    "danielstjules/stringy": "^3.1",
+    "ircmaxell/random-lib": "^1.2",
+    "phpseclib/phpseclib": "^2.0",
+    "doctrine/collections": "^1.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "think\\bit\\": "src/"
+    }
+  },
+  "extra": {
+    "think": {
+      "services": [
+        "think\\bit\\service\\CollectionService",
+        "think\\bit\\service\\StrService",
+        "think\\bit\\service\\HashService",
+        "think\\bit\\service\\CipherService"
+      ]
+    }
+  },
   "authors": [
     {
       "name": "kain",
@@ -12,19 +37,5 @@
     "docs": "https://think-bit.kain.net.cn",
     "email": "zhangtqx@vip.qq.com"
   },
-  "autoload": {
-    "psr-4": {
-      "think\\bit\\": "src/"
-    }
-  },
-  "require": {
-    "php": ">=7.2.0",
-    "ext-json": "*",
-    "topthink/framework": "^6.0.0",
-    "phpseclib/phpseclib": "^2.0",
-    "ajaxray/short-code": "^1.1",
-    "ramsey/uuid": "^3.8",
-    "hashids/hashids": "^3.0",
-    "doctrine/collections": "^1.6"
-  }
+  "license": "MIT"
 }
