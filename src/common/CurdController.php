@@ -1,10 +1,17 @@
 <?php
 
+declare (strict_types=1);
+
 namespace think\bit\common;
 
 use think\App;
 
-abstract class BitController
+/**
+ * CURD 抽象类
+ * Class CurdController
+ * @package think\bit\common
+ */
+abstract class CurdController
 {
     /**
      * Request实例

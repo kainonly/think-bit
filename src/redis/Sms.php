@@ -2,9 +2,9 @@
 
 namespace think\bit\redis;
 
-use think\bit\common\BitRedis;
+use think\bit\common\RedisModel;
 
-final class Sms extends BitRedis
+final class Sms extends RedisModel
 {
     protected $key = 'sms:';
 
