@@ -8,6 +8,7 @@ use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Token;
 use think\bit\facade\Str;
 
 /**
@@ -32,6 +33,11 @@ final class JwtFactory
      * @var Sha256 $signer
      */
     private $signer;
+    /**
+     * 令牌
+     * @var Token
+     */
+    private $token;
 
     /**
      * 构造处理
@@ -44,6 +50,15 @@ final class JwtFactory
         $this->secret = $secret;
         $this->config = $config;
         $this->signer = new Sha256();
+    }
+
+    /**
+     * 获取令牌
+     * @return Token
+     */
+    public function getToken()
+    {
+        return $this->token;
     }
 
     /**
@@ -63,7 +78,7 @@ final class JwtFactory
         $jti = Str::uuid()->toString();
         $ack = Str::random();
 
-        $token = (new Builder())
+        $this->token = (new Builder())
             ->issuedBy($this->config[$scene]['issuer'])
             ->permittedFor($this->config[$scene]['audience'])
             ->identifiedBy($jti, true)
@@ -81,7 +96,7 @@ final class JwtFactory
             }
         }
 
-        return (string)$token;
+        return (string)$this->token;
     }
 
     /**
@@ -98,25 +113,25 @@ final class JwtFactory
             throw new \Exception('not exists scene: ' . $scene);
         }
 
-        $token = (new Parser())->parse($token);
+        $this->token = (new Parser())->parse($token);
 
-        if (!$token->verify($this->signer, $this->secret)) {
+        if (!$this->token->verify($this->signer, $this->secret)) {
             return false;
         }
 
-        if ($token->getClaim('iss') != $this->config[$scene]['issuer'] ||
-            $token->getClaim('aud') != $this->config[$scene]['audience']) {
+        if ($this->token->getClaim('iss') != $this->config[$scene]['issuer'] ||
+            $this->token->getClaim('aud') != $this->config[$scene]['audience']) {
             return false;
         }
 
-        if ($token->isExpired()) {
+        if ($this->token->isExpired()) {
             if (empty($this->config[$scene]['auto_refresh'])) {
                 return false;
             }
 
             $result = (new \think\redis\library\RefreshToken)->verify(
-                $token->getClaim('jti'),
-                $token->getClaim('ack')
+                $this->token->getClaim('jti'),
+                $this->token->getClaim('ack')
             );
 
             if (!$result) {
@@ -126,14 +141,14 @@ final class JwtFactory
             $newToken = (new Builder())
                 ->issuedBy($this->config[$scene]['issuer'])
                 ->permittedFor($this->config[$scene]['audience'])
-                ->identifiedBy($token->getClaim('jti'), true)
-                ->withClaim('ack', $token->getClaim('ack'))
-                ->withClaim('symbol', $token->getClaim('symbol'))
+                ->identifiedBy($this->token->getClaim('jti'), true)
+                ->withClaim('ack', $this->token->getClaim('ack'))
+                ->withClaim('symbol', $this->token->getClaim('symbol'))
                 ->expiresAt(time() + $this->config[$scene]['expires'])
                 ->getToken($this->signer, new Key($this->secret));
 
-            $token = $newToken;
-            return (string)$token;
+            $this->token = $newToken;
+            return (string)$this->token;
         }
 
         return true;
