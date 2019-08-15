@@ -7,8 +7,8 @@ use think\facade\Db;
 /**
  * Trait DeleteModel
  * @package think\bit\traits
- * @property string model 模型名称
- * @property array post 请求主体
+ * @property string $model 模型名称
+ * @property array $post 请求主体
  * @property array delete_default_validate 默认验证器
  * @property array delete_before_result 前置返回结果
  * @property array delete_prep_result 操作执行前事务之后返回结果

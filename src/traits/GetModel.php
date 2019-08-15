@@ -7,13 +7,13 @@ use think\facade\Db;
 /**
  * Trait GetModel
  * @package think\bit\traits
- * @property string model 模型名称
- * @property array post 请求主体
- * @property array get_default_validate 默认验证器
- * @property array get_before_result 前置返回结果
- * @property array get_condition 固定条件
- * @property array get_field 固定字段
- * @property array get_without_field 排除字段
+ * @property string $model 模型名称
+ * @property array $post 请求主体
+ * @property array $get_default_validate 默认验证器
+ * @property array $get_before_result 前置返回结果
+ * @property array $get_condition 固定条件
+ * @property array $get_field 固定字段
+ * @property array $get_without_field 排除字段
  */
 trait GetModel
 {

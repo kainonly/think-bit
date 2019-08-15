@@ -7,14 +7,14 @@ use think\facade\Db;
 /**
  * Trait EditModel
  * @package think\bit\traits
- * @property string model 模型名称
- * @property array post 请求主体
- * @property array edit_default_validate 默认验证器
- * @property boolean edit_switch 是否为状态变更请求
- * @property array edit_before_result 前置返回结果
- * @property array edit_condition 默认条件
- * @property array edit_after_result 后置返回结果
- * @property array edit_fail_result 新增执行失败结果
+ * @property string $model 模型名称
+ * @property array $post 请求主体
+ * @property array $edit_default_validate 默认验证器
+ * @property boolean $edit_switch 是否为状态变更请求
+ * @property array $edit_before_result 前置返回结果
+ * @property array $edit_condition 默认条件
+ * @property array $edit_after_result 后置返回结果
+ * @property array $edit_fail_result 新增执行失败结果
  */
 trait EditModel
 {

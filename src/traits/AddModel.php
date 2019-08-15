@@ -7,12 +7,12 @@ use think\facade\Db;
 /**
  * Trait AddModel
  * @package think\bit\traits
- * @property string model 模型名称
- * @property array post 请求主体
- * @property array add_default_validate 默认验证器
- * @property array add_before_result 前置返回结果
- * @property array add_after_result 后置返回结果
- * @property array add_fail_result 新增执行失败结果
+ * @property string $model 模型名称
+ * @property array $post 请求主体
+ * @property array $add_default_validate 默认验证器
+ * @property array $add_before_result 前置返回结果
+ * @property array $add_after_result 后置返回结果
+ * @property array $add_fail_result 新增执行失败结果
  */
 trait AddModel
 {
