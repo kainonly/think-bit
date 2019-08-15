@@ -6,8 +6,8 @@ use think\Facade;
 
 /**
  * Class Hash
- * @method static bool|string create(string $password, array $options = [])
- * @method static bool check(string $password, string $hashPassword)
+ * @method static boolean|string create(string $password, array $options = [])
+ * @method static boolean check(string $password, string $hashPassword)
  * @package think\bit\facade
  */
 final class Hash extends Facade

@@ -7,7 +7,7 @@ use Stringy\Stringy;
 use think\Facade;
 
 /**
- * Class String
+ * Class Str
  * @method static Stringy data($str = '', $encoding = null)
  * @method static string random(int $length = 8)
  * @method static UuidInterface uuid()

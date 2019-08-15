@@ -49,7 +49,7 @@ final class HashFactory
      * HASH加密
      * @param string $password 密码值
      * @param array $options
-     * @return bool|string
+     * @return boolean|string
      */
     public function create(string $password, array $options = [])
     {
@@ -60,7 +60,7 @@ final class HashFactory
      * HASH验证
      * @param string $password 密码值
      * @param string $hashPassword Hash值
-     * @return bool
+     * @return boolean
      */
     public function check(string $password, string $hashPassword)
     {

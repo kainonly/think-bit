@@ -12,8 +12,7 @@ final class CipherService extends Service
     public function register()
     {
         $this->app->bind('cipher', function () {
-            $config = $this->app
-                ->make('config')
+            $config = $this->app->config
                 ->get('app');
 
             return new CipherFactory(

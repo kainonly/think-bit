@@ -1,9 +1,16 @@
 <?php
 
+declare (strict_types=1);
+
 namespace think\bit\middleware;
 
 use think\Request;
 
+/**
+ * 跨域设置中间件
+ * Class Cors
+ * @package think\bit\middleware
+ */
 class Cors
 {
     public function handle(Request $request, \Closure $next)

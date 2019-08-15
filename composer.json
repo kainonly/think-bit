@@ -10,11 +10,23 @@
     "danielstjules/stringy": "^3.1",
     "ircmaxell/random-lib": "^1.2",
     "phpseclib/phpseclib": "^2.0",
-    "doctrine/collections": "^1.6"
+    "doctrine/collections": "^1.6",
+    "lcobucci/jwt": "^3.3"
   },
   "autoload": {
     "psr-4": {
       "think\\bit\\": "src/"
+    }
+  },
+  "extra": {
+    "think": {
+      "services": [
+        "think\\bit\\service\\HashService",
+        "think\\bit\\service\\CipherService",
+        "think\\bit\\service\\CollectionService",
+        "think\\bit\\service\\StrService",
+        "think\\bit\\service\\JwtService"
+      ]
     }
   },
   "authors": [

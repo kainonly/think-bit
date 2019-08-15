@@ -14,8 +14,7 @@ final class HashService extends Service
     public function register()
     {
         $this->app->bind('hash', function () {
-            $type = $this->app
-                ->make('config')
+            $type = $this->app->config
                 ->get('app.app_hash');
 
             return new HashFactory($type);
