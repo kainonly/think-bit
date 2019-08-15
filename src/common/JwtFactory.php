@@ -65,7 +65,7 @@ final class JwtFactory
      * 设置令牌
      * @param string $scene 场景
      * @param array $symbol 标识
-     * @return boolean|string
+     * @return bool|string
      * @throws \Exception
      */
     public function setToken(string $scene,
@@ -103,7 +103,7 @@ final class JwtFactory
      * 令牌验证
      * @param string $scene 令牌场景
      * @param string $token 字符串令牌
-     * @return boolean|string
+     * @return bool|string
      * @throws \Exception
      */
     public function verify(string $scene,
