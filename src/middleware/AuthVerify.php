@@ -14,6 +14,10 @@ use think\Request;
  */
 class AuthVerify
 {
+    /**
+     * 场景
+     * @var string
+     */
     protected $scene;
 
     public function handle(Request $request, \Closure $next)
