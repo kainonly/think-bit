@@ -25,7 +25,8 @@
         "think\\bit\\service\\CipherService",
         "think\\bit\\service\\CollectionService",
         "think\\bit\\service\\StrService",
-        "think\\bit\\service\\JwtService"
+        "think\\bit\\service\\JwtService",
+        "think\\bit\\service\\AuthService"
       ]
     }
   },
