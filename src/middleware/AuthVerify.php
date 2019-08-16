@@ -32,7 +32,7 @@ abstract class AuthVerify
         }
 
         $result = Auth::verify($this->scene);
-        if ($result) {
+        if (!$result) {
             return json([
                 'error' => 1,
                 'msg' => 'token invalid'
