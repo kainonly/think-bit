@@ -122,6 +122,19 @@ final class AuthFactory
             throw new \Exception('must set auth token name');
         }
 
+        if (!empty($this->config[$scene]['auto_refresh'])) {
+            $token = Jwt::getToken();
+
+            $result = (new \think\redis\library\RefreshToken)->clear(
+                $token->getClaim('jti'),
+                $token->getClaim('ack')
+            );
+
+            if (!$result) {
+                throw new \Exception('clear refresh token failed');
+            }
+        }
+
         Cookie::delete($this->config[$scene]['auth']);
     }
 
