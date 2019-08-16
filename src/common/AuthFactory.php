@@ -123,7 +123,7 @@ final class AuthFactory
         }
 
         if (!empty($this->config[$scene]['auto_refresh'])) {
-            $token = Jwt::getToken();
+            $token = Jwt::getToken(Cookie::get($this->config[$scene]['auth']));
 
             $result = (new \think\redis\library\RefreshToken)->clear(
                 $token->getClaim('jti'),

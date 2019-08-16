@@ -54,11 +54,14 @@ final class JwtFactory
 
     /**
      * 获取令牌
+     * @param string $token 令牌字符创
      * @return Token
      */
-    public function getToken()
+    public function getToken(string $token = null)
     {
-        return $this->token;
+        return empty($token) ?
+            $this->token :
+            (new Parser())->parse($token);
     }
 
     /**
