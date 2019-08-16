@@ -38,15 +38,7 @@ abstract class AuthVerify
                 'msg' => 'token invalid'
             ]);
         } else {
-            $this->definedSymbol($request);
             return $next($request);
         }
-    }
-
-    protected function definedSymbol(Request $request)
-    {
-        $symbol = Auth::symbol($this->scene);
-        $request->user = $symbol['user'];
-        $request->role = $symbol['role'];
     }
 }
