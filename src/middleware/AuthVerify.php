@@ -12,7 +12,7 @@ use think\Request;
  * Class JsonResponse
  * @package think\bit\middleware
  */
-class AuthVerify
+abstract class AuthVerify
 {
     /**
      * 场景
@@ -20,6 +20,11 @@ class AuthVerify
      */
     protected $scene;
 
+    /**
+     * @param Request $request
+     * @param \Closure $next
+     * @return mixed|\think\response\Json
+     */
     public function handle(Request $request, \Closure $next)
     {
         if (empty($this->scene)) {
