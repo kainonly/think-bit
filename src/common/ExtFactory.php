@@ -4,6 +4,7 @@ declare (strict_types=1);
 
 namespace think\bit\common;
 
+use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Stringy\Stringy;

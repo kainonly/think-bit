@@ -63,7 +63,7 @@ final class CipherFactory
             base64_decode($ciphertext)
         );
 
-        return Ext::data($data)->isJson() && $auto_conver ?
+        return Ext::stringy($data)->isJson() && $auto_conver ?
             json_decode($data, true) :
             $data;
     }

@@ -10,6 +10,7 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
 use think\bit\facade\Ext;
+use think\helper\Str;
 
 /**
  * 令牌操作类
@@ -79,7 +80,7 @@ final class JwtFactory
         }
 
         $jti = Ext::uuid()->toString();
-        $ack = Ext::random();
+        $ack = Str::random();
 
         $this->token = (new Builder())
             ->issuedBy($this->config[$scene]['issuer'])
