@@ -8,7 +8,6 @@ use OSS\Core\OssException;
 use OSS\OssClient;
 use think\bit\facade\Ext;
 use think\facade\Request;
-use think\helper\Str;
 
 /**
  * 对象存储处理类
