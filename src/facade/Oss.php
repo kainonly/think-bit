@@ -2,7 +2,6 @@
 
 namespace think\bit\facade;
 
-use Lcobucci\JWT\Token;
 use think\Facade;
 
 /**

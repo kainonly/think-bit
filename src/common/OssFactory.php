@@ -6,7 +6,9 @@ namespace think\bit\common;
 
 use OSS\Core\OssException;
 use OSS\OssClient;
+use think\bit\facade\Ext;
 use think\facade\Request;
+use think\helper\Str;
 
 /**
  * 对象存储处理类
@@ -51,7 +53,10 @@ final class OssFactory
     public function put(string $name)
     {
         $file = Request::file($name);
-        $fileName = date('Ymd') . '/' . $file->hash() . '.' . $file->getOriginalExtension();
+        $fileName = date('Ymd') . '/' .
+            Ext::uuid()->toString() . '.' .
+            $file->getOriginalExtension();
+
         $this->client->uploadFile(
             $this->aliyun['oss']['bucket'],
             $fileName,
