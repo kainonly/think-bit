@@ -5,7 +5,7 @@ declare (strict_types=1);
 namespace think\bit\common;
 
 use phpseclib\Crypt\AES;
-use think\bit\facade\Str;
+use think\bit\facade\Ext;
 
 /**
  * 对称加密类
@@ -63,7 +63,7 @@ final class CipherFactory
             base64_decode($ciphertext)
         );
 
-        return Str::data($data)->isJson() && $auto_conver ?
+        return Ext::data($data)->isJson() && $auto_conver ?
             json_decode($data, true) :
             $data;
     }

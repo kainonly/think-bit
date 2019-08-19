@@ -9,7 +9,7 @@ use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token;
-use think\bit\facade\Str;
+use think\bit\facade\Ext;
 
 /**
  * 令牌操作类
@@ -78,8 +78,8 @@ final class JwtFactory
             throw new \Exception('not exists scene: ' . $scene);
         }
 
-        $jti = Str::uuid()->toString();
-        $ack = Str::random();
+        $jti = Ext::uuid()->toString();
+        $ack = Ext::random();
 
         $this->token = (new Builder())
             ->issuedBy($this->config[$scene]['issuer'])

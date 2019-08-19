@@ -4,12 +4,12 @@ declare (strict_types=1);
 
 namespace think\bit\service;
 
-use think\bit\common\StrFactory;
+use think\bit\common\ExtFactory;
 use think\Service;
 
-final class StrService extends Service
+final class ExtService extends Service
 {
     public $bind = [
-        'str' => StrFactory::class,
+        'ext' => ExtFactory::class,
     ];
 }

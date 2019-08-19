@@ -6,38 +6,23 @@ namespace think\bit\common;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use SecurityLib\Strength;
 use Stringy\Stringy;
 
 /**
- * 字符串处理类
+ * 扩展处理类
  * Class StrFactory
  * @package think\bit\common
  */
-final class StrFactory
+final class ExtFactory
 {
     /**
-     * 初始化 Stringy
      * @param string $str
      * @param null $encoding
      * @return Stringy
      */
-    public function data($str = '', $encoding = null)
+    public function stringy($str = '', $encoding = null)
     {
         return Stringy::create($str, $encoding);
-    }
-
-    /**
-     * 随机字符串
-     * @param int $length 长度
-     * @return string
-     */
-    public function random(int $length = 8)
-    {
-        $factory = new \RandomLib\Factory;
-        $strength = new Strength(Strength::MEDIUM);
-        $generator = $factory->getGenerator($strength);
-        return $generator->generateString($length);
     }
 
     /**

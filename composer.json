@@ -5,12 +5,9 @@
     "php": ">=7.2.0",
     "ext-json": "*",
     "topthink/framework": "^6.0.0",
-    "nesbot/carbon": "^2.10",
     "ramsey/uuid": "^3.8",
     "danielstjules/stringy": "^3.1",
-    "ircmaxell/random-lib": "^1.2",
     "phpseclib/phpseclib": "^2.0",
-    "doctrine/collections": "^1.6",
     "lcobucci/jwt": "^3.3"
   },
   "autoload": {
@@ -23,8 +20,7 @@
       "services": [
         "think\\bit\\service\\HashService",
         "think\\bit\\service\\CipherService",
-        "think\\bit\\service\\CollectionService",
-        "think\\bit\\service\\StrService",
+        "think\\bit\\service\\ExtService",
         "think\\bit\\service\\JwtService",
         "think\\bit\\service\\AuthService"
       ]
