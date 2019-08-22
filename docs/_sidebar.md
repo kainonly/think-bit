@@ -3,7 +3,7 @@
   - [Mongo 数据库](facade/mongo)
   - [RabbitMQ 消息队列](facade/rabbitmq)
   - [Hash 密码](facade/hash)
-  - [Cipher 对称加密](facade/cipher)
+  - [Cipher 数据加密](facade/cipher)
   - [Tools 工具](facade/tools)
   - [Lists 列表数组](facade/lists)
   - [Logging 队列处理](facade/logging)
