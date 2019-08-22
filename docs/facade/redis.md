@@ -10,6 +10,7 @@ composer require kain/think-redis
 
 ```php
 return [
+
     'redis' => [
         'default' => [
             'scheme' => 'tcp',
@@ -19,6 +20,7 @@ return [
             'database' => env('redis.db', 0),
         ]
     ],
+    
 ];
 ```
 
