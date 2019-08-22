@@ -1,12 +1,12 @@
 ## Mongo 数据库
 
-MongoDB 数据库的操作类，使用前请确实是否已安装 [MongoDB](http://pecl.php.net/package/mongodb) 扩展，并安装操作库
+MongoDB 数据库的操作类使用 [MongoDB](http://pecl.php.net/package/mongodb) 扩展作为支持，首先使用 `composer` 安装操作服务
 
 ```shell
 composer require kain/think-mgo
 ```
 
-你需要更新配置 `config/database.php`，例如：
+然后需要更新配置 `config/database.php`，例如：
 
 ```php
 return [
@@ -39,14 +39,14 @@ mongodb://[username:password@]host1[:port1][,...hostN[:portN]]][/[database][?opt
 查询数据
 
 ```php
-$result = Mgo::name('api')->find();
+$result = Mongo::name('api')->find();
 return $result->toArray();
 ```
 
 写入数据
 
 ```php
-$result = Mgo::name('admin')->insertOne([
+$result = Mongo::name('admin')->insertOne([
     'name' => 'kain',
     'status' => 1,
     'create_time' => new \MongoDB\BSON\UTCDateTime(time() * 1000),
@@ -66,7 +66,7 @@ return $result;
 - **sort** 排序条件
 
 ```php
-$data = Mgo::page('log', [
+$data = Mongo::page('log', [
     'status' => true
 ], 1, 20, [
     'create_time' => -1
