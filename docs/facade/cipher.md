@@ -16,7 +16,7 @@ return [
 
 #### encrypt($context)
 
-加密明文
+加密数据
 
 - **context** `string|array` 数据
 - **Return** `string` 密文
@@ -35,7 +35,7 @@ dump(Cipher::encrypt([
 
 #### decrypt(string $ciphertext, bool $auto_conver = true)
 
-解密密文
+解密数据
 
 - **ciphertext** `string` 密文
 - **auto_conver** `bool` 数据属于数组时是否自动转换
