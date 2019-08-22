@@ -1,6 +1,12 @@
 ## Redis 缓存
 
-Redis 缓存使用 [Predis](https://github.com/nrk/predis) 做为依赖，你需要更新配置 `config/database.php`，例如：
+Redis 缓存使用 [Predis](https://github.com/nrk/predis) 做为依赖，首先使用 `composer` 安装操作服务
+
+```shell
+composer require kain/think-redis
+```
+
+然后需要更新配置 `config/database.php`，例如：
 
 ```php
 return [
@@ -11,14 +17,7 @@ return [
             'password' => env('redis.password', ''),
             'port' => env('redis.port', 6379),
             'database' => env('redis.db', 0),
-        ],
-        'someone' => [
-            'scheme' => 'tcp',
-            'host' => '10.0.0.1',
-            'password' => '',
-            'port' => 6379,
-            'database' => 0,
-        ] 
+        ]
     ],
 ];
 ```
@@ -38,18 +37,16 @@ return [
 - **iterable_multibulk** `boolean` 当设置为true时，Predis将从Redis返回multibulk作为迭代器实例而不是简单的PHP数组
 - **throw_errors** `boolean` 设置为true时，Redis生成的服务器错误将转换为PHP异常
 
-#### client($multiple = 'default')
-
 测试写入一个缓存
 
 ```php
-Redis::client()->set('name', 'abc')
+Redis::set('name', 'abc')
 ```
 
 使用 `pipeline` 批量执行一万条写入
 
 ```php
-Redis::client()->pipeline(function (Pipeline $pipeline) {
+Redis::pipeline(function (Pipeline $pipeline) {
     for ($i = 0; $i < 10000; $i++) {
         $pipeline->set('test:' . $i, $i);
     }
@@ -60,13 +57,13 @@ Redis::client()->pipeline(function (Pipeline $pipeline) {
 
 ```php
 // success
-Redis::client()->transaction(function (MultiExec $multiExec) {
+Redis::transaction(function (MultiExec $multiExec) {
     $multiExec->set('name:a', 'a');
     $multiExec->set('name:b', 'b');
 });
 
 // failed
-Redis::client()->transaction(function (MultiExec $multiExec) {
+Redis::transaction(function (MultiExec $multiExec) {
     $multiExec->set('name:a', 'a');
     // mock exception
     throw new Exception('error');

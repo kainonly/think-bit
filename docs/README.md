@@ -32,19 +32,15 @@ return [
     'app_backstage' => env('app.backstage', 'http://localhost:4200'),
     // 密码模式
     'app_hash' => env('app.hash', 'argon2i'),
-    // 应用调试模式
-    'app_debug' => env('app.debug', true),
-    // 应用Trace
-    'app_trace' => env('app.trace', true),
-    // 默认输出类型
-    'default_return_type' => 'json',
 ];
 ```
 
-使用 `composer` 安装与更新可附带优化参数提高性能
+使用 `composer` 安装与更新
 
 ```shell
-composer install --optimize-autoloader --no-dev --ignore-platform-reqs --no-scripts
+// 安装
+composer install --optimize-autoloader --no-dev --ignore-platform-reqs
 
-composer update --optimize-autoloader --no-dev --ignore-platform-reqs --no-scripts
+// 更新
+composer update --optimize-autoloader --no-dev --ignore-platform-reqs
 ```
