@@ -1,20 +1,20 @@
-## Logging 队列处理
+## Logging 日志收集
 
-是用于简化数据收集消息队列写入的函数, 首先需要配置 `Rabbitmq`，并安装库
+Logging 日志收集器可通过 RabbitMQ 消息队列写入可选择可包含的信息数据，然后将 Logging 异步写入存储的日志数据库中分析需要的系统运行情况、用户操作行为或喜好等等，首先使用 `composer` 安装操作服务
 
 ```shell
-composer require kain/think-logging
+composer require kain/think-amqp
 ```
 
-!> 使用前需配置 Logging 队列写入服务 https://github.com/kainonly/amqp-logging-service
-
-配置 `config/queue.php`
+然后需要更新配置 `config/queue.php`
 
 ```php
 return [
+
     'logging' => [
         'exchange' => 'app.logging.direct',
     ]
+    
 ];
 ```
 

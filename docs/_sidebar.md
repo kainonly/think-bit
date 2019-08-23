@@ -5,8 +5,8 @@
   - [Redis 缓存](facade/redis)
   - [MongoDB 数据库](facade/mongo)
   - [RabbitMQ 消息队列](facade/rabbitmq)
+  - [Logging 日志收集](facade/logging)
   - [Lists 列表数组](facade/lists)
-  - [Logging 队列处理](facade/logging)
 
 - Middleware 中间件
   - [CORS 跨站访问](middleware/cors)
