@@ -6,10 +6,10 @@
 
 设置手机验证码缓存
 
-- `phone` string，手机号
-- `code` string，验证码
-- `timeout` int，超时时间，默认60秒
-- 返回 `bool`
+- **phone** `string` 手机号
+- **code** `string` 验证码
+- **timeout** `int` 超时时间，默认60秒
+- **Return** `bool`
 
 ```php
 $sms = new Sms();
@@ -20,10 +20,10 @@ $sms->factory('12345678910', '13125');
 
 验证手机验证码
 
-- `phone` string，手机号
-- `code` string，验证码
-- `once` bool，验证成功后失效，默认`false`
-- 返回 `bool`
+- **phone** `string` 手机号
+- **code** `string` 验证码
+- **once** `bool` 验证成功后失效，默认`false`
+- **Return** `bool`
 
 ```php
 $sms = new Sms();
@@ -45,8 +45,8 @@ dump($checked);
 
 获取验证时间
 
-- `phone` string，手机号
-- 返回 `bool|array`
+- **phone** `string` 手机号
+- **Return** `bool|array`
 
 ```php
 $sms = new Sms();
@@ -59,5 +59,5 @@ dump($data);
 //   'timeout' => int 3600
 ```
 
-- `publish_time` 指发布时间
-- `timeout` 指有效时间
+- **publish_time** `int` 指发布时间
+- **timeout** `int` 指有效时间

@@ -14,14 +14,24 @@
   - [CurdController 模型控制器](abstract/curdController)
   - [RedisModel 缓存模型](abstract/redisModel)
     - [SMS 短信验证](redis/sms)
+    - [Refresh Token 缓存](redis/refreshToken)
 
 - Middleware 中间件
   - [CORS 跨站设置](middleware/cors)
+  - [AuthVerify 鉴权验证](middleware/authVerify)
   - [全局返回 JSON](middleware/jsonResponse)
   - [只允许 POST 请求](middleware/onlyPostRequest)
   - [LoggingSystem 系统日志](middleware/loggingSystem)
 
 - 推荐库
+  - [Think 助手工具库](https://www.kancloud.cn/manual/thinkphp6_0/1149630)
+  - [GuzzleHttp 请求库](http://docs.guzzlephp.org/en/stable/)
+  - [Carbon 时间库](https://carbon.nesbot.com/docs/)
+  - [EasyWechat 微信库](https://www.easywechat.com/docs)
+  - [EasySMS 短信库](https://github.com/overtrue/easy-sms)
+  - [Pinyin 拼音库](https://github.com/overtrue/pinyin)
+  - [PHP-Casbin 授权库](https://github.com/php-casbin/php-casbin/blob/master/README_CN.md)
+  - [swiftmailer 邮件库](https://swiftmailer.symfony.com/docs/introduction.html)
 
 - CURD 模型库
   - traits 特性引用
