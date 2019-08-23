@@ -7,6 +7,7 @@
   - [MongoDB 数据库](facade/mongo)
   - [RabbitMQ 消息队列](facade/rabbitmq)
   - [Logging 日志收集](facade/logging)
+  - [OSS 对象存储上传](facade/oss)
   - [Ext 扩展器](facade/ext)
 
 - Abstract 抽象类
