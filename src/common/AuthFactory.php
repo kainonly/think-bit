@@ -44,7 +44,8 @@ final class AuthFactory
             throw new \Exception('must set auth token name');
         }
 
-        return Jwt::getToken()->getClaim('symbol');
+        $token = Cookie::get($this->config[$scene]['auth']);
+        return Jwt::getToken($token)->getClaim('symbol');
     }
 
     /**
@@ -77,7 +78,7 @@ final class AuthFactory
     /**
      * 验证授权认证
      * @param string $scene 场景
-     * @return bool|string
+     * @return bool
      * @throws \Exception
      */
     public function verify(string $scene)
@@ -104,7 +105,7 @@ final class AuthFactory
             return true;
         }
 
-        return $result;
+        return (bool)$result;
     }
 
     /**

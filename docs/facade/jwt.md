@@ -22,7 +22,7 @@ return [
 
 当中 `system` `xsrf` 就是 `JWT` 的 Label 标签，可以自行定义名称
 
-- **auth** `string` 存储在 Cookie 中的键名，用于 [Auth 用户鉴权](/facade/auth) 
+- **auth** `string` 存储在 Cookie 中的键名，用于 [Auth 登录鉴权](/facade/auth) 
 - **issuer** `string` 发行者
 - **audience** `string` 听众
 - **expires** `int` 令牌有效期限，单位<秒>

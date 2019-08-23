@@ -2,6 +2,7 @@
   - [Hash 密码](facade/hash)
   - [Cipher 数据加密](facade/cipher)
   - [Jwt 令牌](facade/jwt)
+  - [Auth 登录鉴权](facade/auth)
   - [Redis 缓存](facade/redis)
   - [MongoDB 数据库](facade/mongo)
   - [RabbitMQ 消息队列](facade/rabbitmq)
