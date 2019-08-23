@@ -14,7 +14,7 @@ return [
     'logging' => [
         'exchange' => 'app.logging.direct',
     ]
-    
+
 ];
 ```
 
@@ -31,9 +31,9 @@ return [
 
 ```php
 Logging::push('pay_order', [
-    'order' => Tools::orderNumber('L1', 'A1', '1100'),
-    'product' => Tools::uuid(),
-    'user' => Tools::uuid(),
+    'order' => 'oa1578456215654',
+    'product' => 'b527920b-e933-4431-9231-14a1831f571d',
+    'user' => 'c801fbc1-2464-4449-b221-b56f4d8a5e93',
     'create_time' => time(),
     'update_time' => time()
 ]);

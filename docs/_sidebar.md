@@ -1,12 +1,11 @@
 - Facade 门面
-  - [Hash 密码](facade/hash)
-  - [Cipher 数据加密](facade/cipher)
-  - [Ext 扩展器](facade/ext)
   - [Redis 缓存](facade/redis)
   - [MongoDB 数据库](facade/mongo)
   - [RabbitMQ 消息队列](facade/rabbitmq)
   - [Logging 日志收集](facade/logging)
-  - [Lists 列表数组](facade/lists)
+  - [Hash 密码](facade/hash)
+  - [Cipher 数据加密](facade/cipher)
+  - [Ext 扩展器](facade/ext)
 
 - Middleware 中间件
   - [CORS 跨站访问](middleware/cors)
