@@ -5,7 +5,7 @@
 
 - Middleware 中间件
   - [CORS 跨站访问](middleware/cors)
-  - [SystemLog 系统日志收集](middleware/system-log)
+  - [LoggingSystem 系统日志](middleware/loggingSystem)
 
 - Facade 门面
   - [Redis 缓存](facade/redis)
