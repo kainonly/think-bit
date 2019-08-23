@@ -1,4 +1,4 @@
-## Mongo 数据库
+## MongoDB 数据库
 
 MongoDB 数据库的操作类使用 [MongoDB](http://pecl.php.net/package/mongodb) 扩展作为支持，首先使用 `composer` 安装操作服务
 

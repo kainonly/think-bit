@@ -1,15 +1,16 @@
 ## RabbitMQ 消息队列
 
-RabbitMQ 消息队列 AMQP 操作类，安装操作库 `kain/van-amqp`，详细操作查看 [kainonly/van-amqp](https://github.com/kainonly/van-amqp)
+RabbitMQ 消息队列 AMQP 操作类使用 [kain/tidy-amqp](https://github.com/kainonly/tidy-amqp) 做为依赖，首先使用 `composer` 安装操作服务
 
 ```shell
-composer require kain/van-amqp
+composer require kain/think-amqp
 ```
 
-你需要更新配置 `config/queue.php`，例如：
+然后需要更新配置 `config/queue.php`，例如：
 
 ```php
 return [
+
     'rabbitmq' => [
         'hostname' => env('rabbitmq.host', 'localhost'),
         'port' => env('rabbitmq.port', 5672),
@@ -17,10 +18,11 @@ return [
         'username' => env('rabbitmq.username', 'guest'),
         'password' => env('rabbitmq.password', 'guest'),
     ]
+
 ];
 ```
 
-### create($closure, $args = [], $config = [])
+### channel($closure, $args = [], $config = [])
 
 创建默认信道
 
@@ -49,7 +51,7 @@ return [
   - **method_sig** `array` 默认 `[0,0]`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->queue('hello')->create();
 });
 ```
@@ -61,7 +63,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `AMQPChannel`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->getChannel();
 });
 ```
@@ -75,7 +77,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `AMQPMessage`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->message('test');
 });
 ```
@@ -88,7 +90,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **config** `array` 操作配置
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
     $client->queue('hello')->create();
     $client->queue('hello')->bind('extest', [
@@ -109,7 +111,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `Exchange` 交换器类
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $exchange = $client->exchange('extest');
 });
 ```
@@ -130,7 +132,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
 });
 ```
@@ -148,7 +150,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
     $client->exchange('newtest')->create('direct');
     $client->exchange('newtest')->bind('extest');
@@ -168,7 +170,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `mixed`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
     $client->exchange('newtest')->create('direct');
     $client->exchange('newtest')->bind('extest');
@@ -187,7 +189,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->delete();
 });
 ```
@@ -200,7 +202,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `Queue`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->queue('hello')->create();
 });
 ```
@@ -220,7 +222,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->queue('hello')->create();
 });
 ```
@@ -238,7 +240,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
     $queue = $client->queue('hello');
     $queue->create();
@@ -258,7 +260,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `mixed`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
     $queue = $client->queue('hello');
     $queue->create();
@@ -277,7 +279,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('fanout');
     $queue = $client->queue('hello');
     $queue->create();
@@ -303,7 +305,7 @@ RabbitClient::create(function (RabbitClient $client) {
 !> `if_empty` 删除队列时，如果在服务器配置中定义了任何挂起的消息，则会将任何挂起的消息发送到死信队列，并且队列中的所有使用者都将被取消
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $queue = $client->queue('hello');
     $queue->create();
     $queue->delete();
@@ -320,7 +322,7 @@ RabbitClient::create(function (RabbitClient $client) {
 - **Return** `mixed`
 
 ```php
-RabbitClient::create(function (RabbitClient $client) {
+AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('fanout');
     $queue = $client->queue('hello');
     $queue->create();

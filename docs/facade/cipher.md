@@ -4,7 +4,7 @@ Cipher 可以将字符串或数组进行加密解密的工具，需要添加配�
 
 ```php
 return [
-    
+
     'app_id' => env('app.id', null),
     'app_secret' => env('app.secret', null),
 
@@ -22,13 +22,13 @@ return [
 - **Return** `string` 密文
 
 ```php
-dump(Cipher::encrypt('123'));
+Cipher::encrypt('123');
 
 // FLgXf5EXF6eGEqphO3WVJQ==
 
-dump(Cipher::encrypt([
+Cipher::encrypt([
     'name' => 'kain'
-]));
+]);
 
 // IyGcnXqDT6ersFhAKdduUQ==
 ```
@@ -46,7 +46,7 @@ $result = Cipher::encrypt([
     'name' => 'kain'
 ]);
 
-dump(Cipher::decrypt($result));
+Cipher::decrypt($result);
 
 // array:1 [▼
 //   "name" => "kain"

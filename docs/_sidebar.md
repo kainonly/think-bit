@@ -3,8 +3,8 @@
   - [Cipher 数据加密](facade/cipher)
   - [Ext 扩展器](facade/ext)
   - [Redis 缓存](facade/redis)
+  - [MongoDB 数据库](facade/mongo)
   - [RabbitMQ 消息队列](facade/rabbitmq)
-  - [Mongo 数据库](facade/mongo)
   - [Lists 列表数组](facade/lists)
   - [Logging 队列处理](facade/logging)
 

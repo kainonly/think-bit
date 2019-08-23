@@ -6,7 +6,7 @@ Hash 是用于密码加密与验证的工具函数，需要添加配置 `app_has
 return [
 
     'app_hash' => env('app.hash', 'argon2i'),
-    
+
 ];
 ```
 
@@ -32,8 +32,14 @@ Hash::create('123456789');
 
 ```php
 $hash = Hash::create('123456789');
-dump(Hash::check('12345678', $hash));
+
+// "$argon2id$v=19$m=65536,t=4,p=1$QmlpMEpNY2x3S0FMZ1phVg$XBhTEMcblOge1svlB2/5NNieCDfoT1BvJDinuyBwkKQ"
+
+Hash::check('12345678', $hash);
+
 // false
-dump(Hash::check('123456789', $hash));
+
+Hash::check('123456789', $hash);
+
 // true
 ```
