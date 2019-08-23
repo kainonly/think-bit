@@ -1,17 +1,22 @@
-## BitController 通用控制器
+## CurdController 模型控制器
 
-BitController 是辅助框架的主控制器，使用辅助处理则需要继承该控制器
+CurdController 是辅助 CURD 模型库的主控制器，库用所有 Trait 特性类属性都继承于此，CurdController 控制器已经包含了 ThinkPHP6 内 BaseController 的属性，因此无需再次定义，也可以多定义个 Base 控制器做过渡继承处理，例如：
 
 ```php
-use think\bit\common\BitController;
-
-class Base extends BitController
+abstract class Base extends CurdController
 {
-    // customize
+    protected $middleware = ['cors', 'json', 'post', 'auth'];
+
+    protected function initialize()
+    {
+        if ($this->request->isPost()) {
+            $this->post = $this->request->post();
+        }
+    }
 }
 ```
 
-#### 通用属性
+#### 模型属性
 
 - **model** `string`
 

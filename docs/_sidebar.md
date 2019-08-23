@@ -1,3 +1,12 @@
+- Abstract 抽象类
+  - [CurdController 模型控制器](abstract/curdController)
+  - [RedisModel 缓存模型](abstract/redisModel)
+    - [SMS 短信验证](redis/sms)
+
+- Middleware 中间件
+  - [CORS 跨站访问](middleware/cors)
+  - [SystemLog 系统日志收集](middleware/system-log)
+
 - Facade 门面
   - [Redis 缓存](facade/redis)
   - [MongoDB 数据库](facade/mongo)
@@ -7,18 +16,9 @@
   - [Cipher 数据加密](facade/cipher)
   - [Ext 扩展器](facade/ext)
 
-- Middleware 中间件
-  - [CORS 跨站访问](middleware/cors)
-  - [SystemLog 系统日志收集](middleware/system-log)
+- 推荐第三方库
 
-- Abstract 抽象类
-  - [BitController 通用控制器](abstract/bitController)
-  - [RedisModel 缓存模型](abstract/redisModel)
-
-- 缓存模型
-  - [SMS 短信验证](redis/sms)
-
-- CURD 请求处理库
+- CURD 模型库
   - traits 特性引用
     - [GetModel 获取单个数据](traits/getModel)
     - [OriginListsModel 获取列表数据](traits/originListsModel)
