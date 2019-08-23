@@ -1,6 +1,6 @@
 ## 只允许 POST 请求
 
-使用 `OnlyPostRequest` 中间件限制 POST 以外的请求方式，首先加入 `middleware.php`
+在前后端分离场景下，请求全局采用 `POST` 类型，可以避免请求字段清晰泄漏，防止请求直接被恶意利用，首先加入 `middleware.php`
 
 ```php
 <?php

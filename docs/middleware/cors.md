@@ -1,9 +1,10 @@
-## CORS 跨站访问
+## CORS 跨站设置
 
 使用CORS中间定义跨站的请求策略，你需要在主配置或对应的模块下创建配置 `config/cors.php`，例如：
 
 ```php
 return [
+
     'allow_origin' => [
         'http://localhost:3000',
     ],
@@ -12,6 +13,7 @@ return [
     'expose_headers' => [],
     'allow_headers' => ['Content-Type', 'X-Requested-With', 'X-Token'],
     'max_age' => 0,
+
 ];
 ```
 

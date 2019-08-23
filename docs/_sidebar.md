@@ -4,7 +4,9 @@
     - [SMS 短信验证](redis/sms)
 
 - Middleware 中间件
-  - [CORS 跨站访问](middleware/cors)
+  - [CORS 跨站设置](middleware/cors)
+  - [全局返回 JSON](middleware/jsonResponse)
+  - [只允许 POST 请求](middleware/onlyPostRequest)
   - [LoggingSystem 系统日志](middleware/loggingSystem)
 
 - Facade 门面
