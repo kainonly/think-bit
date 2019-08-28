@@ -220,6 +220,10 @@ protected $get_without_field = ['update_time', 'create_time'];
 protected $add_default_validate = [];
 ```
 
+- **add_auto_timestamp** `bool`
+
+自动更新字段 `create_time` `update_time` 的时间戳
+
 - **add_before_result** `array`
 
 新增数据前置返回结果
@@ -265,6 +269,10 @@ protected $edit_default_validate = [
     'switch' => 'require|bool'
 ];
 ```
+
+- **edit_auto_timestamp** `bool`
+
+自动更新字段 `update_time` 的时间戳
 
 - **edit_switch** `boolean`
 

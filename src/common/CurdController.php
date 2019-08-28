@@ -189,6 +189,12 @@ abstract class CurdController
     protected $add_default_validate = [];
 
     /**
+     * 自动更新时间戳
+     * @var bool
+     */
+    protected $add_auto_timestamp = true;
+
+    /**
      * 新增数据前置返回结果
      * @var array
      */
@@ -223,6 +229,12 @@ abstract class CurdController
         'id' => 'require|number',
         'switch' => 'require|bool'
     ];
+
+    /**
+     * 自动更新时间戳
+     * @var bool
+     */
+    protected $edit_auto_timestamp = true;
 
     /**
      * 是否仅为状态编辑

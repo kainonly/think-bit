@@ -10,6 +10,7 @@ use think\facade\Db;
  * @property string $model 模型名称
  * @property array $post 请求主体
  * @property array $edit_default_validate 默认验证器
+ * @property bool $edit_auto_timestamp 自动更新时间戳
  * @property boolean $edit_switch 是否为状态变更请求
  * @property array $edit_before_result 前置返回结果
  * @property array $edit_condition 默认条件
@@ -40,7 +41,10 @@ trait EditModel
         }
 
         unset($this->post['switch']);
-        $this->post['update_time'] = time();
+
+        if ($this->edit_auto_timestamp) {
+            $this->post['update_time'] = time();
+        }
 
         if (method_exists($this, '__editBeforeHooks') &&
             !$this->__editBeforeHooks()) {

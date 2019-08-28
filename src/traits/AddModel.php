@@ -10,6 +10,7 @@ use think\facade\Db;
  * @property string $model 模型名称
  * @property array $post 请求主体
  * @property array $add_default_validate 默认验证器
+ * @property bool $add_auto_timestamp 自动更新时间戳
  * @property array $add_before_result 前置返回结果
  * @property array $add_after_result 后置返回结果
  * @property array $add_fail_result 新增执行失败结果
@@ -36,7 +37,9 @@ trait AddModel
             ];
         }
 
-        $this->post['create_time'] = $this->post['update_time'] = time();
+        if ($this->add_auto_timestamp) {
+            $this->post['create_time'] = $this->post['update_time'] = time();
+        }
 
         if (method_exists($this, '__addBeforeHooks') &&
             !$this->__addBeforeHooks()) {
