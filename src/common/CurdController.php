@@ -183,6 +183,12 @@ abstract class CurdController
     protected $get_without_field = ['update_time', 'create_time'];
 
     /**
+     * 分离新增模型名称
+     * @var string
+     */
+    protected $add_model;
+
+    /**
      * 新增数据默认验证器
      * @var array
      */
@@ -220,6 +226,12 @@ abstract class CurdController
         'error' => 1,
         'msg' => 'error:insert_fail'
     ];
+
+    /**
+     * 分离修改模型名称
+     * @var string
+     */
+    protected $edit_model;
 
     /**
      * 编辑默认验证器
@@ -274,6 +286,12 @@ abstract class CurdController
         'error' => 1,
         'msg' => 'error:after_fail'
     ];
+
+    /**
+     * 分离删除模型名称
+     * @var string
+     */
+    protected $delete_model;
 
     /**
      * 删除默认验证器

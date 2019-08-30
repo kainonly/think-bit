@@ -8,6 +8,7 @@ use think\facade\Db;
  * Trait EditModel
  * @package think\bit\traits
  * @property string $model 模型名称
+ * @property string $edit_model 分离修改模型名称
  * @property array $post 请求主体
  * @property array $edit_default_validate 默认验证器
  * @property bool $edit_auto_timestamp 自动更新时间戳
@@ -21,6 +22,7 @@ trait EditModel
 {
     public function edit()
     {
+        $model = !empty($this->edit_model) ? $this->edit_model : $this->model;
         $validate = validate($this->edit_default_validate);
         if (!$validate->check($this->post)) {
             return [
@@ -51,7 +53,7 @@ trait EditModel
             return $this->edit_before_result;
         }
 
-        return !Db::transaction(function () {
+        return !Db::transaction(function () use ($model) {
             $condition = $this->edit_condition;
 
             if (isset($this->post['id'])) {
@@ -67,7 +69,7 @@ trait EditModel
             }
 
             unset($this->post['where']);
-            $result = Db::name($this->model)
+            $result = Db::name($model)
                 ->where($condition)
                 ->update($this->post);
 

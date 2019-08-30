@@ -212,6 +212,10 @@ protected $get_without_field = ['update_time', 'create_time'];
 
 #### 新增数据请求属性
 
+- **add_model** `string`
+
+分离新增模型名称
+
 - **add_default_validate** `array`
 
 新增数据默认验证器
@@ -258,6 +262,10 @@ protected $add_fail_result = [
 ```
 
 #### 修改数据请求属性
+
+- **edit_model** `string`
+
+分离编辑模型名称
 
 - **edit_default_validate** `array`
 
@@ -324,6 +332,10 @@ protected $edit_after_result = [
 ```
 
 #### 删除数据请求属性
+
+- **delete_model** `string`
+
+分离删除模型名称
 
 - **delete_default_validate** `array`
 
