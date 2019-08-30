@@ -29,7 +29,7 @@ trait DeleteModel
             }
 
             $condition = $this->delete_condition;
-            if (isset($this->post['id'])) {
+            if (!empty($this->post['id'])) {
                 $result = Db::name($model)
                     ->whereIn('id', $this->post['id'])
                     ->where($condition)

@@ -22,7 +22,7 @@ trait GetModel
 
         try {
             $condition = $this->get_condition;
-            if (isset($this->post['id'])) {
+            if (!empty($this->post['id'])) {
                 array_push(
                     $condition,
                     ['id', '=', $this->post['id']]

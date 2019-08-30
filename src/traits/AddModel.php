@@ -55,7 +55,7 @@ trait AddModel
             }
 
             $id = null;
-            if (isset($this->post['id'])) {
+            if (!empty($this->post['id'])) {
                 $id = $this->post['id'];
                 $result = Db::name($model)
                     ->insert($this->post);

@@ -56,7 +56,7 @@ trait EditModel
         return !Db::transaction(function () use ($model) {
             $condition = $this->edit_condition;
 
-            if (isset($this->post['id'])) {
+            if (!empty($this->post['id'])) {
                 array_push(
                     $condition,
                     ['id', '=', $this->post['id']]
