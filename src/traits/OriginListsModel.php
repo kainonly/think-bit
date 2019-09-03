@@ -37,7 +37,7 @@ trait OriginListsModel
 
         try {
             $condition = $this->origin_lists_condition;
-            if (isset($this->post['where'])) {
+            if (!empty($this->post['where'])) {
                 $condition = array_merge(
                     $condition,
                     $this->post['where']
@@ -45,7 +45,7 @@ trait OriginListsModel
             }
 
             $orders = $this->origin_lists_orders;
-            if (isset($this->post['order'])) {
+            if (!empty($this->post['order'])) {
                 $condition = array_merge(
                     $orders,
                     $this->post['order']

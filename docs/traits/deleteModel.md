@@ -7,6 +7,7 @@ trait DeleteModel
 {
     public function delete()
     {
+        $model = !empty($this->delete_model) ? $this->delete_model : $this->model;
         $validate = validate($this->delete_default_validate);
         if (!$validate->check($this->post)) {
             return [
@@ -20,7 +21,7 @@ trait DeleteModel
             return $this->delete_before_result;
         }
 
-        return !Db::transaction(function () {
+        return !Db::transaction(function () use ($model) {
             if (method_exists($this, '__deletePrepHooks') &&
                 !$this->__deletePrepHooks()) {
                 $this->delete_fail_result = $this->delete_prep_result;
@@ -28,13 +29,13 @@ trait DeleteModel
             }
 
             $condition = $this->delete_condition;
-            if (isset($this->post['id'])) {
-                $result = Db::name($this->model)
+            if (!empty($this->post['id'])) {
+                $result = Db::name($model)
                     ->whereIn('id', $this->post['id'])
                     ->where($condition)
                     ->delete();
             } else {
-                $result = Db::name($this->model)
+                $result = Db::name($model)
                     ->where($this->post['where'])
                     ->where($condition)
                     ->delete();

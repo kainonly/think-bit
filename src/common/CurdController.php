@@ -183,10 +183,22 @@ abstract class CurdController
     protected $get_without_field = ['update_time', 'create_time'];
 
     /**
+     * 分离新增模型名称
+     * @var string
+     */
+    protected $add_model;
+
+    /**
      * 新增数据默认验证器
      * @var array
      */
     protected $add_default_validate = [];
+
+    /**
+     * 自动更新时间戳
+     * @var bool
+     */
+    protected $add_auto_timestamp = true;
 
     /**
      * 新增数据前置返回结果
@@ -216,6 +228,12 @@ abstract class CurdController
     ];
 
     /**
+     * 分离修改模型名称
+     * @var string
+     */
+    protected $edit_model;
+
+    /**
      * 编辑默认验证器
      * @var array
      */
@@ -223,6 +241,12 @@ abstract class CurdController
         'id' => 'require|number',
         'switch' => 'require|bool'
     ];
+
+    /**
+     * 自动更新时间戳
+     * @var bool
+     */
+    protected $edit_auto_timestamp = true;
 
     /**
      * 是否仅为状态编辑
@@ -262,6 +286,12 @@ abstract class CurdController
         'error' => 1,
         'msg' => 'error:after_fail'
     ];
+
+    /**
+     * 分离删除模型名称
+     * @var string
+     */
+    protected $delete_model;
 
     /**
      * 删除默认验证器

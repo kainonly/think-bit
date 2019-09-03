@@ -22,7 +22,7 @@ trait ListsModel
 
         try {
             $condition = $this->lists_condition;
-            if (isset($this->post['where'])) {
+            if (!empty($this->post['where'])) {
                 $condition = array_merge(
                     $condition,
                     $this->post['where']
@@ -30,7 +30,7 @@ trait ListsModel
             }
 
             $orders = $this->lists_orders;
-            if (isset($this->post['order'])) {
+            if (!empty($this->post['order'])) {
                 $condition = array_merge(
                     $orders,
                     $this->post['order']

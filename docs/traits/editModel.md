@@ -7,6 +7,7 @@ trait EditModel
 {
     public function edit()
     {
+        $model = !empty($this->edit_model) ? $this->edit_model : $this->model;
         $validate = validate($this->edit_default_validate);
         if (!$validate->check($this->post)) {
             return [
@@ -27,17 +28,20 @@ trait EditModel
         }
 
         unset($this->post['switch']);
-        $this->post['update_time'] = time();
+
+        if ($this->edit_auto_timestamp) {
+            $this->post['update_time'] = time();
+        }
 
         if (method_exists($this, '__editBeforeHooks') &&
             !$this->__editBeforeHooks()) {
             return $this->edit_before_result;
         }
 
-        return !Db::transaction(function () {
+        return !Db::transaction(function () use ($model) {
             $condition = $this->edit_condition;
 
-            if (isset($this->post['id'])) {
+            if (!empty($this->post['id'])) {
                 array_push(
                     $condition,
                     ['id', '=', $this->post['id']]
@@ -50,7 +54,7 @@ trait EditModel
             }
 
             unset($this->post['where']);
-            $result = Db::name($this->model)
+            $result = Db::name($model)
                 ->where($condition)
                 ->update($this->post);
 
