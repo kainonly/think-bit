@@ -1,9 +1,9 @@
-## Logging 日志收集
+## Logging 数据收集
 
-Logging 日志收集器可通过 RabbitMQ 消息队列写入可选择可包含的信息数据，然后将 Logging 异步写入存储的日志数据库中分析需要的系统运行情况、用户操作行为或喜好等等，首先使用 `composer` 安装操作服务
+Logging 通过 RabbitMQ 消息队列异步对数据进行收集，首先使用 `composer` 安装操作服务
 
 ```shell
-composer require kain/think-amqp
+composer require kain/think-logging
 ```
 
 然后需要更新配置 `config/queue.php`
@@ -22,7 +22,7 @@ return [
 
 #### push($namespace, $raws = [])
 
-日志收集队列写入
+数据收集队列写入
 
 - **$namespace** `string` 行为命名
 - **raws** `array` 原始数据

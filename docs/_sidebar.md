@@ -6,9 +6,10 @@
   - [Redis 缓存](facade/redis)
   - [MongoDB 数据库](facade/mongo)
   - [RabbitMQ 消息队列](facade/rabbitmq)
-  - [Logging 日志收集](facade/logging)
-  - [OSS 对象存储上传](facade/oss)
+  - [Elastic 搜索分析](facade/elastic)
+  - [Logging 数据收集](facade/logging)
   - [Ext 扩展器](facade/ext)
+  - [阿里云相关扩展](facade/aliyun)
 
 - Abstract 抽象类
   - [CurdController 模型控制器](abstract/curdController)
@@ -21,7 +22,6 @@
   - [AuthVerify 鉴权验证](middleware/authVerify)
   - [全局返回 JSON](middleware/jsonResponse)
   - [只允许 POST 请求](middleware/onlyPostRequest)
-  - [LoggingSystem 系统日志](middleware/loggingSystem)
 
 - 推荐库
   - [Think 助手工具库](https://www.kancloud.cn/manual/thinkphp6_0/1149630)
