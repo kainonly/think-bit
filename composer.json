@@ -9,7 +9,8 @@
     "danielstjules/stringy": "^3.1",
     "phpseclib/phpseclib": "^2.0",
     "lcobucci/jwt": "^3.3",
-    "aliyuncs/oss-sdk-php": "^2.3"
+    "aliyuncs/oss-sdk-php": "^2.3",
+    "elasticsearch/elasticsearch": "^7.2"
   },
   "autoload": {
     "psr-4": {
@@ -24,7 +25,8 @@
         "think\\bit\\service\\ExtService",
         "think\\bit\\service\\JwtService",
         "think\\bit\\service\\AuthService",
-        "think\\bit\\service\\OssService"
+        "think\\bit\\service\\OssService",
+        "think\\bit\\service\\ElasticService"
       ]
     }
   },
