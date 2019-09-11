@@ -6,71 +6,96 @@
 class Acl extends RedisModel
 {
     protected $key = 'system:acl';
+    private $rows = [];
 
     /**
-     * 刷新访问控制缓存
+     * 清除缓存
      * @return bool
+     */
+    public function clear()
+    {
+        return (bool)$this->redis->del([$this->key]);
+    }
+
+    /**
+     * @param string $key 访问控制键
+     * @param int $policy 控制策略
+     * @return array
      * @throws \Exception
      */
-    public function refresh()
+    public function get(string $key, int $policy)
     {
-        $this->redis->del([$this->key]);
+        if (!$this->redis->exists($this->key)) {
+            $this->update($key);
+        } else {
+            $this->rows = json_decode($this->redis->hget($this->key, $key), true);
+        }
+
+        switch ($policy) {
+            case 0:
+                return explode(',', $this->rows['read']);
+            case 1:
+                return array_merge(
+                    explode(',', $this->rows['read']),
+                    explode(',', $this->rows['write'])
+                );
+            default:
+                return [];
+        }
+    }
+
+    /**
+     * 更新缓存
+     * @param string $key 访问控制键
+     * @throws \Exception
+     */
+    private function update(string $key)
+    {
         $lists = Db::name('acl')
             ->where('status', '=', 1)
             ->field(['key', 'write', 'read'])
             ->select();
 
         if (empty($lists)) {
-            return true;
+            return;
         }
 
-        return !empty($this->redis->pipeline(
-            function (Pipeline $pipeline) use ($lists) {
-                foreach ($lists as $key => $value) {
-                    $pipeline->hset($this->key, $value['key'], json_encode([
+        $this->redis->pipeline(function (Pipeline $pipeline) use ($key, $lists) {
+            foreach ($lists as $index => $value) {
+                $pipeline->hset($this->key, $value['key'], json_encode([
+                    'write' => $value['write'],
+                    'read' => $value['read']
+                ]));
+                if ($key == $value['key']) {
+                    $this->rows = [
                         'write' => $value['write'],
                         'read' => $value['read']
-                    ]));
+                    ];
                 }
             }
-        ));
-    }
-
-    /**
-     * @param string $key 访问键
-     * @return mixed
-     * @throws \Exception
-     */
-    public function get(string $key)
-    {
-        if (!$this->redis->exists($this->key)) {
-            $this->refresh();
-        }
-
-        return json_decode($this->redis->hget($this->key, $url), true);
+        });
     }
 }
 ```
 
-当对应的 `acl` 表数据发生变更时，执行 `refresh()` 来重置刷新
+当对应的 `acl` 表数据发生变更时，执行 `clear()` 来清除缓存
 
 ```php
-(new Acl())->refresh();
+(new Acl())->clear();
 ```
 
-通过缓存模型自定义的获取规则获取对应的数据，例如：查访问键 `admin` 对应的数据
+通过缓存模型自定义的获取规则获取对应的数据，例如：查访问键 `admin` 对应的数据，如缓存不存在则生成缓存并返回数据
 
 ```php
-(new Acl())->get('admin');
+(new Acl())->get('admin', 0);
 ```
 
 如果同时要执行多个缓存模型，可以注入事务对象
 
 ```php
 Redis::transaction(function (MultiExec $multiExec) {
-    (new Acl($multiExec))->refresh();
-    (new Someone1($multiExec))->refresh();
-    (new Someone2($multiExec))->refresh();
-    (new Someone3($multiExec))->refresh();
+    (new Someone1($multiExec))->factory();
+    (new Someone2($multiExec))->factory();
+    (new Someone3($multiExec))->factory();
 });
 ```
