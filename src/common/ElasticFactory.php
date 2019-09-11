@@ -7,9 +7,15 @@ use Elasticsearch\ClientBuilder;
 final class ElasticFactory
 {
     /**
+     * 配置
      * @var array
      */
-    private $client = [];
+    private $config = [];
+    /**
+     * 客户端
+     * @var \Elasticsearch\Client
+     */
+    private $client;
 
     /**
      * ElasticFactory constructor.
@@ -17,9 +23,8 @@ final class ElasticFactory
      */
     public function __construct(array $config)
     {
-        foreach ($config as $key => $value) {
-            $this->client[$key] = $this->factory($value);
-        }
+        $this->config = $config;
+        $this->client = $this->factory($config['default']);
     }
 
     /**
@@ -53,11 +58,20 @@ final class ElasticFactory
 
     /**
      * ElasticSearch 客户端
-     * @param string $label 客户端配置 label
      * @return \Elasticsearch\Client
      */
-    public function client(string $label = 'default')
+    public function client()
     {
-        return $this->client[$label];
+        return $this->client;
+    }
+
+    /**
+     * 创建 ElasticSearch 客户端
+     * @param string $label 客户端配置标识
+     * @return \Elasticsearch\Client
+     */
+    public function create(string $label)
+    {
+        return $this->factory($this->config[$label]);
     }
 }
