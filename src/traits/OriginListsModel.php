@@ -41,6 +41,14 @@ trait OriginListsModel
                 $this->post['where']
             );
 
+            $condition = array_map(function ($value) {
+                if ($value[1] == 'exp') {
+                    $value[0] = null;
+                    $value[2] = Db::raw($value[2]);
+                }
+                return $value;
+            }, $condition);
+
             $listsQuery = Db::name($this->model)
                 ->where($condition)
                 ->field($this->origin_lists_field[0], $this->origin_lists_field[1])

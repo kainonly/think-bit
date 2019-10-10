@@ -41,6 +41,14 @@ trait ListsModel
                 $this->post['where']
             );
 
+            $condition = array_map(function ($value) {
+                if ($value[1] == 'exp') {
+                    $value[0] = null;
+                    $value[2] = Db::raw($value[2]);
+                }
+                return $value;
+            }, $condition);
+
             $totalQuery = Db::name($this->model)->where($condition);
             $total = empty($this->lists_condition_query) ?
                 $totalQuery->count() :
