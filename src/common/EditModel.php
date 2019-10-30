@@ -1,12 +1,12 @@
 <?php
 
-namespace think\bit\traits;
+namespace think\bit\common;
 
 use think\facade\Db;
 
 /**
  * Trait EditModel
- * @package think\bit\traits
+ * @package think\bit\common
  * @property string $model 模型名称
  * @property string $edit_model 分离修改模型名称
  * @property array $post 请求主体

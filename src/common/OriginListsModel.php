@@ -1,13 +1,13 @@
 <?php
 
-namespace think\bit\traits;
+namespace think\bit\common;
 
 use Closure;
 use think\facade\Db;
 
 /**
  * Trait OriginListsModel
- * @package think\bit\traits
+ * @package think\bit\common
  * @property string $model 模型名称
  * @property array $post 请求主体
  * @property array $origin_lists_default_validate 默认验证器

@@ -5,7 +5,7 @@
 ```php
 <?php
 return [
-    'post' => \think\bit\middleware\OnlyPostRequest::class,
+    'post' => \think\bit\middleware\FilterPostRequest::class,
 ];
 ```
 

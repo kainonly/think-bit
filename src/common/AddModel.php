@@ -1,12 +1,12 @@
 <?php
 
-namespace think\bit\traits;
+namespace think\bit\common;
 
 use think\facade\Db;
 
 /**
  * Trait AddModel
- * @package think\bit\traits
+ * @package think\bit\common
  * @property string $model 模型名称
  * @property string $add_model 分离新增模型名称
  * @property array $post 请求主体

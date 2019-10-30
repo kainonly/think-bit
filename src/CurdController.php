@@ -1,8 +1,7 @@
 <?php
-
 declare (strict_types=1);
 
-namespace think\bit\common;
+namespace think\bit;
 
 use think\App;
 
