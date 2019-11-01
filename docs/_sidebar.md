@@ -1,3 +1,12 @@
+- CURD 模型库
+  - [CurdController 模型控制器](curd/controller)
+  - [GetModel 获取单个数据](curd/get)
+  - [OriginListsModel 获取列表数据](curd/originLists)
+  - [ListsModel 获取分页数据](curd/lists)
+  - [AddModel 新增数据](curd/add)
+  - [EditModel 编辑数据](curd/edit)
+  - [DeleteModel 删除数据](curd/delete)
+
 - Facade 门面
   - [Hash 密码](facade/hash)
   - [Cipher 数据加密](facade/cipher)
@@ -12,7 +21,7 @@
   - [阿里云相关扩展](facade/aliyun)
 
 - Abstract 抽象类
-  - [CurdController 模型控制器](abstract/curdController)
+  - 
   - [RedisModel 缓存模型](abstract/redisModel)
     - [SMS 短信验证](redis/sms)
     - [Refresh Token 缓存](redis/refreshToken)
@@ -32,26 +41,3 @@
   - [Pinyin 拼音库](https://github.com/overtrue/pinyin)
   - [PHP-Casbin 授权库](https://github.com/php-casbin/php-casbin/blob/master/README_CN.md)
   - [swiftmailer 邮件库](https://swiftmailer.symfony.com/docs/introduction.html)
-
-- CURD 模型库
-  - traits 特性引用
-    - [GetModel 获取单个数据](traits/getModel)
-    - [OriginListsModel 获取列表数据](traits/originListsModel)
-    - [ListsModel 获取分页数据](traits/listsModel)
-    - [AddModel 新增数据](traits/addModel)
-    - [EditModel 编辑数据](traits/editModel)
-    - [DeleteModel 删除数据](traits/deleteModel)
-  - lifecycle 生命周期
-    - [GetBeforeHooks](lifecycle/getBeforeHooks)
-    - [GetCustom](lifecycle/getCustom)
-    - [ListsBeforeHooks](lifecycle/listsBeforeHooks)
-    - [ListsCustom](lifecycle/listsCustom)
-    - [OriginListsBeforeHooks](lifecycle/originListsBeforeHooks)
-    - [OriginListsCustom](lifecycle/originListsCustom)
-    - [AddBeforeHooks](lifecycle/addBeforeHooks)
-    - [AddAfterHooks](lifecycle/addAfterHooks)
-    - [EditBeforeHooks](lifecycle/editBeforeHooks)
-    - [EditAfterHooks](lifecycle/editAfterHooks)
-    - [DeleteBeforeHooks](lifecycle/deleteBeforeHooks)
-    - [DeletePrepHooks](lifecycle/deletePrepHooks.md)
-    - [DeleteAfterHooks](lifecycle/deleteAfterHooks)

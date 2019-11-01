@@ -1,114 +1,47 @@
 ## ListsModel 获取分页数据
 
-ListsModel 是针对分页数据的通用请求处理
+ListsModel 是针对分页数据的通用请求处理，请求 `body` 使用数组查询方式来定义
 
-```php
-trait ListsModel
+- **where** `array` 查询条件
+
+!> 请求中的 **where** 还会与 **lists_condition** 合并条件
+
+**where** 必须使用数组查询方式来定义，例如
+
+```json
 {
-    public function lists()
-    {
-        $validate = validate($this->lists_default_validate);
-        if (!$validate->check($this->post)) {
-            return [
-                'error' => 1,
-                'msg' => $validate->getError()
-            ];
-        }
-
-        if (method_exists($this, '__listsBeforeHooks') &&
-            !$this->__listsBeforeHooks()) {
-            return $this->lists_before_result;
-        }
-
-        try {
-            $condition = $this->lists_condition;
-            if (!empty($this->post['where'])) {
-                $condition = array_merge(
-                    $condition,
-                    $this->post['where']
-                );
-            }
-
-            $orders = $this->lists_orders;
-            if (!empty($this->post['order'])) {
-                $condition = array_merge(
-                    $orders,
-                    $this->post['order']
-                );
-            }
-
-            $totalQuery = Db::name($this->model)
-                ->where($condition);
-
-            $total = empty($this->lists_condition_query) ?
-                $totalQuery->count() :
-                $totalQuery->where($this->lists_condition_query)->count();
-
-            $listsQuery = Db::name($this->model)
-                ->where($condition)
-                ->field($this->lists_field)
-                ->withoutField($this->lists_without_field)
-                ->order($orders)
-                ->limit($this->post['page']['limit'])
-                ->page($this->post['page']['index']);
-
-            if (empty($this->lists_condition_query)) {
-                $lists = $listsQuery
-                    ->select();
-            } else {
-                $lists = $listsQuery
-                    ->where($this->lists_condition_query)
-                    ->select();
-            }
-
-            if (method_exists($this, '__listsCustomReturn')) {
-                return $this->__listsCustomReturn($lists, $total);
-            } else {
-                return [
-                    'error' => 0,
-                    'data' => [
-                        'lists' => $lists->toArray(),
-                        'total' => $total
-                    ]
-                ];
-            }
-        } catch (\Exception $e) {
-            return [
-                'error' => 1,
-                'msg' => $e->getMessage()
-            ];
-        }
-    }
+    "where":[
+        ["name", "=", "kain"]
+    ]
 }
 ```
 
-- **where** `array` 必须使用数组方式来定义
+如果条件中包含模糊查询
 
-!> 条件合并: 请求中的 **where** 将于 **lists_condition** 合并
-
-```php
-// 正常情况
-$this->post['where'] = [
-    ['name', '=', 'kain']
-];
-
-// 模糊搜索
-$this->post['where'] = [
-    ['name', 'like', '%v%']
-];
-
-// JSON 查询
-$this->post['where'] = [
-    ['extra->sex', '=', 0]
-];
+```json
+{
+    "where":[
+        ["name", "like", "%v%"]
+    ]
+}
 ```
 
-#### 引入特性
+如果查询条件为 JSON 
 
-需要定义必须的操作模型 **model**
+```json
+{
+    "where":[
+        ["extra->nickname", "=", "kain"]
+    ]
+}
+```
+
+#### 初始化
+
+将 **think\bit\common\ListsModel** 引入，然后定义模型 **model** 的名称（即表名称）
 
 ```php
-use think\bit\traits\ListsModel;
+use think\bit\common\ListsModel;
 
 class AdminClass extends Base {
     use ListsModel;
@@ -119,10 +52,10 @@ class AdminClass extends Base {
 
 #### 判断是否有前置处理
 
-如自定义前置处理，则需要调用生命周期 **ListsBeforeHooks**
+如自定义前置处理，则需要调用生命周期 **think\bit\lifecycle\ListsBeforeHooks**
 
 ```php
-use think\bit\traits\ListsModel;
+use think\bit\common\ListsModel;
 use think\bit\lifecycle\ListsBeforeHooks;
 
 class AdminClass extends Base implements ListsBeforeHooks {
@@ -149,7 +82,7 @@ protected $lists_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
-use think\bit\traits\ListsModel;
+use think\bit\common\ListsModel;
 use think\bit\lifecycle\ListsBeforeHooks;
 
 class AdminClass extends Base implements ListsBeforeHooks {
@@ -179,7 +112,7 @@ protected $lists_condition = [];
 例如加入企业主键限制
 
 ```php
-use think\bit\traits\ListsModel;
+use think\bit\common\ListsModel;
 
 class AdminClass extends Base {
     use ListsModel;
@@ -194,7 +127,7 @@ class AdminClass extends Base {
 如果接口的查询条件较为特殊，可以重写 **lists_condition_query**
 
 ```php
-use think\bit\traits\ListsModel;
+use think\bit\common\ListsModel;
 
 class AdminClass extends Base {
     use ListsModel;
@@ -224,7 +157,7 @@ protected $lists_orders = ['create_time' => 'desc'];
 多属性排序
 
 ```php
-use think\bit\traits\ListsModel;
+use think\bit\common\ListsModel;
 
 class AdminClass extends Base {
     use ListsModel;
@@ -246,7 +179,7 @@ protected $lists_without_field = ['update_time', 'create_time'];
 例如返回除 **update_time** 修改时间所有的字段
 
 ```php
-use think\bit\traits\ListsModel;
+use think\bit\common\ListsModel;
 
 class AdminClass extends Base {
     use ListsModel;
@@ -258,10 +191,10 @@ class AdminClass extends Base {
 
 #### 自定义返回结果
 
-如自定义返回结果，则需要调用生命周期 **ListsCustom**
+如自定义返回结果，则需要继承生命周期 **think\bit\lifecycle\ListsCustom**
 
 ```php
-use think\bit\traits\ListsModel;
+use think\bit\common\ListsModel;
 use think\bit\lifecycle\ListsCustom;
 
 class AdminClass extends Base implements ListsCustom {

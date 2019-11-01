@@ -1,90 +1,36 @@
 ## DeleteModel 删除数据
 
-DeleteModel 是针对删除数据的通用请求处理，执行周期为：
+DeleteModel 是针对删除数据的通用请求处理，请求 `body` 可使用 **id** 或 **where** 字段进行查询，二者选一
 
-```php
-trait DeleteModel
+- **id** `int|string` 主键
+- **where** `array` 查询条件
+
+**where** 必须使用数组查询方式来定义，例如
+
+```json
 {
-    public function delete()
-    {
-        $model = !empty($this->delete_model) ? $this->delete_model : $this->model;
-        $validate = validate($this->delete_default_validate);
-        if (!$validate->check($this->post)) {
-            return [
-                'error' => 1,
-                'msg' => $validate->getError()
-            ];
-        }
-
-        if (method_exists($this, '__deleteBeforeHooks') &&
-            !$this->__deleteBeforeHooks()) {
-            return $this->delete_before_result;
-        }
-
-        return !Db::transaction(function () use ($model) {
-            if (method_exists($this, '__deletePrepHooks') &&
-                !$this->__deletePrepHooks()) {
-                $this->delete_fail_result = $this->delete_prep_result;
-                return false;
-            }
-
-            $condition = $this->delete_condition;
-            if (!empty($this->post['id'])) {
-                $result = Db::name($model)
-                    ->whereIn('id', $this->post['id'])
-                    ->where($condition)
-                    ->delete();
-            } else {
-                $result = Db::name($model)
-                    ->where($this->post['where'])
-                    ->where($condition)
-                    ->delete();
-            }
-
-            if (!$result) {
-                Db::rollBack();
-                return false;
-            }
-
-            if (method_exists($this, '__deleteAfterHooks') &&
-                !$this->__deleteAfterHooks()) {
-                $this->delete_fail_result = $this->delete_after_result;
-                Db::rollBack();
-                return false;
-            }
-
-            return true;
-        }) ? $this->delete_fail_result : [
-            'error' => 0,
-            'msg' => 'ok'
-        ];
-    }
+    "where":[
+        ["name", "=", "van"]
+    ]
 }
 ```
 
-- **id** `int|string`
-- **where** `array`，必须使用数组方式来定义
+如果查询条件为 JSON 
 
-!> 条件查询：请求可使用 **id** 或 **where** 字段进行查询，二者选一即可
-
-```php
-// 正常情况
-$this->post['where'] = [
-    ['name', '=', 'van']
-];
-
-// JSON 查询
-$this->post['where'] = [
-    ['extra->nickname', '=', 'kain']
-];
+```json
+{
+    "where":[
+        ["extra->nickname", "=", "kain"]
+    ]
+}
 ```
 
-#### 引入特性
+#### 初始化
 
-需要定义必须的操作模型 **model**
+将 **think\bit\common\DeleteModel** 引入，然后定义模型 **model** 的名称（即表名称）
 
 ```php
-use think\bit\traits\DeleteModel;
+use think\bit\common\DeleteModel;
 
 class AdminClass extends Base {
     use DeleteModel;
@@ -106,7 +52,7 @@ protected $delete_validate = [
 也可以在控制器中针对性修改
 
 ```php
-use think\bit\traits\DeleteModel;
+use think\bit\common\DeleteModel;
 
 class AdminClass extends Base {
     use DeleteModel;
@@ -121,10 +67,10 @@ class AdminClass extends Base {
 
 #### 判断是否有前置处理
 
-如自定义前置处理，则需要调用生命周期 **DeleteBeforeHooks**
+如自定义前置处理（发生在验证之后与数据删除之前），则需要继承生命周期 **think\bit\lifecycle\DeleteBeforeHooks**
 
 ```php
-use think\bit\traits\DeleteModel;
+use think\bit\common\DeleteModel;
 use think\bit\lifecycle\DeleteBeforeHooks;
 
 class AdminClass extends Base implements DeleteBeforeHooks {
@@ -151,7 +97,7 @@ protected $delete_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
-use think\bit\traits\DeleteModel;
+use think\bit\common\DeleteModel;
 use think\bit\lifecycle\DeleteBeforeHooks;
 
 class AdminClass extends Base implements DeleteBeforeHooks {
@@ -170,12 +116,12 @@ class AdminClass extends Base implements DeleteBeforeHooks {
 }
 ```
 
-#### 判断是否有存在事务之后模型写入之前的处理
+#### 判断是否有存在事务开始之后与数据删除之前的处理
 
-如该周期处理，则需要调用生命周期 **DeletePrepHooks**
+如该周期处理，则需要继承生命周期 **think\bit\lifecycle\DeletePrepHooks**
 
 ```php
-use think\bit\traits\DeleteModel;
+use think\bit\common\DeleteModel;
 use think\bit\lifecycle\DeletePrepHooks;
 
 class AdminClass extends Base implements DeletePrepHooks {
@@ -202,7 +148,7 @@ protected $delete_prep_result = [
 在生命周期函数中可以通过重写自定义返回
 
 ```php
-use think\bit\traits\DeleteModel;
+use think\bit\common\DeleteModel;
 use think\bit\lifecycle\DeletePrepHooks;
 
 class AdminClass extends Base implements DeletePrepHooks {
@@ -223,10 +169,10 @@ class AdminClass extends Base implements DeletePrepHooks {
 
 #### 判断是否有后置处理
 
-如自定义后置处理，则需要调用生命周期 **DeleteAfterHooks**
+如自定义后置处理（发生在数据删除成功之后与提交事务之前），则需要继承生命周期 **think\bit\lifecycle\DeleteAfterHooks**
 
 ```php
-use think\bit\traits\DeleteModel;
+use think\bit\common\DeleteModel;
 use think\bit\lifecycle\DeleteAfterHooks;
 
 class AdminClass extends Base implements DeleteAfterHooks {
@@ -253,7 +199,7 @@ protected $delete_after_result = [
 在生命周期函数中可以通过重写自定义后置返回
 
 ```php
-use think\bit\traits\DeleteModel;
+use think\bit\common\DeleteModel;
 use think\bit\lifecycle\DeleteAfterHooks;
 
 class AdminClass extends Base implements DeleteAfterHooks {

@@ -1,83 +1,36 @@
 ## GetModel 获取单个数据
 
-GetModel 是针对获取单条数据的通用请求处理
+GetModel 是针对获取单条数据的通用请求处理，请求 `body` 可使用 **id** 或 **where** 字段进行查询，二者选一
 
-```php
-trait GetModel
+- **id** `int|string` 主键
+- **where** `array` 查询条件
+
+**where** 必须使用数组查询方式来定义，例如
+
+```json
 {
-    public function get()
-    {
-        $validate = validate($this->get_default_validate);
-        if (!$validate->check($this->post)) {
-            return [
-                'error' => 1,
-                'msg' => $validate->getError()
-            ];
-        }
-
-        if (method_exists($this, '__getBeforeHooks') &&
-            !$this->__getBeforeHooks()) {
-            return $this->get_before_result;
-        }
-
-        try {
-            $condition = $this->get_condition;
-            if (!empty($this->post['id'])) {
-                array_push(
-                    $condition,
-                    ['id', '=', $this->post['id']]
-                );
-            } else {
-                $condition = array_merge(
-                    $condition,
-                    $this->post['where']
-                );
-            }
-
-            $data = Db::name($this->model)
-                ->where($condition)
-                ->field($this->get_field)
-                ->withoutField($this->get_without_field)
-                ->find();
-
-            return method_exists($this, '__getCustomReturn') ?
-                $this->__getCustomReturn($data) : [
-                    'error' => 0,
-                    'data' => $data
-                ];
-        } catch (\Exception $e) {
-            return [
-                'error' => 1,
-                'msg' => (string)$e->getMessage()
-            ];
-        }
-    }
+    "where":[
+        ["name", "=", "van"]
+    ]
 }
 ```
 
-- **id** `int|string`
-- **where** `array`，必须使用数组方式来定义
+如果查询条件为 JSON 
 
-!> 条件查询：请求可使用 **id** 或 **where** 字段进行查询，二者选一即可
-
-```php
-// 正常情况
-$this->post['where'] = [
-    ['name', '=', 'van']
-];
-
-// JSON 查询
-$this->post['where'] = [
-    ['extra->nickname', '=', 'kain']
-];
+```json
+{
+    "where":[
+        ["extra->nickname", "=", "kain"]
+    ]
+}
 ```
 
-#### 引入特性
+#### 初始化
 
-需要定义必须的操作模型 **model**
+将 **think\bit\common\GetModel** 引入，然后定义模型 **model** 的名称（即表名称）
 
 ```php
-use think\bit\traits\GetModel;
+use think\bit\common\GetModel;
 
 class AdminClass extends Base {
     use GetModel;
@@ -88,7 +41,7 @@ class AdminClass extends Base {
 
 #### 自定义获取验证器
 
-自定义删除验证器为 **get_validate**，默认为
+自定义删除验证器为 **get_validate** ，验证器与ThinkPHP验证器使用一致，默认为
 
 ```php
 protected $get_validate = [
@@ -99,7 +52,7 @@ protected $get_validate = [
 也可以在控制器中针对性修改
 
 ```php
-use think\bit\traits\GetModel;
+use think\bit\common\GetModel;
 
 class AdminClass extends Base {
     use GetModel;
@@ -114,10 +67,10 @@ class AdminClass extends Base {
 
 #### 判断是否有前置处理
 
-如自定义前置处理，则需要调用生命周期 **GetBeforeHooks**
+如自定义前置处理，则需要继承生命周期 **think\bit\lifecycle\GetBeforeHooks**
 
 ```php
-use think\bit\traits\GetModel;
+use think\bit\common\GetModel;
 use think\bit\lifecycle\GetBeforeHooks;
 
 class AdminClass extends Base implements GetBeforeHooks {
@@ -144,7 +97,7 @@ protected $get_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
-use think\bit\traits\GetModel;
+use think\bit\common\GetModel;
 use think\bit\lifecycle\GetBeforeHooks;
 
 class AdminClass extends Base implements GetBeforeHooks {
@@ -174,7 +127,7 @@ protected $get_condition = [];
 例如加入企业主键限制
 
 ```php
-use think\bit\traits\GetModel;
+use think\bit\common\GetModel;
 
 class AdminClass extends Base {
     use GetModel;
@@ -200,7 +153,7 @@ protected $get_without_field = ['update_time', 'create_time'];
 例如返回除 **update_time** 修改时间所有的字段
 
 ```php
-use think\bit\traits\GetModel;
+use think\bit\common\GetModel;
 
 class AdminClass extends Base {
     use GetModel;
@@ -212,10 +165,10 @@ class AdminClass extends Base {
 
 #### 自定义返回结果
 
-如自定义返回结果，则需要调用生命周期 **GetCustom**
+如自定义返回结果，则需要继承生命周期 **think\bit\lifecycle\GetCustom**
 
 ```php
-use think\bit\traits\GetModel;
+use think\bit\common\GetModel;
 use think\bit\lifecycle\GetCustom;
 
 class AdminClass extends Base implements GetCustom {

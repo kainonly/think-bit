@@ -1,94 +1,47 @@
 ## OriginListsModel 获取列表数据
 
-OriginListsModel 是针对列表数据的通用请求处理
+OriginListsModel 是针对列表数据的通用请求处理，请求 `body` 使用数组查询方式来定义
 
-```php
-trait OriginListsModel
+- **where** `array` 查询条件
+
+!> 请求中的 **where** 还会与 **origin_lists_condition** 合并条件
+
+**where** 必须使用数组查询方式来定义，例如
+
+```json
 {
-    public function originLists()
-    {
-        $validate = validate($this->origin_lists_default_validate);
-        if (!$validate->check($this->post)) {
-            return [
-                'error' => 1,
-                'msg' => $validate->getError()
-            ];
-        }
-
-        if (method_exists($this, '__originListsBeforeHooks') &&
-            !$this->__originListsBeforeHooks()) {
-            return $this->origin_lists_before_result;
-        }
-
-        try {
-            $condition = $this->origin_lists_condition;
-            if (!empty($this->post['where'])) {
-                $condition = array_merge(
-                    $condition,
-                    $this->post['where']
-                );
-            }
-
-            $orders = $this->origin_lists_orders;
-            if (!empty($this->post['order'])) {
-                $condition = array_merge(
-                    $orders,
-                    $this->post['order']
-                );
-            }
-
-            $listsQuery = Db::name($this->model)
-                ->where($condition)
-                ->field($this->origin_lists_field)
-                ->withoutField($this->origin_lists_field)
-                ->order($orders);
-
-            $lists = empty($this->origin_lists_condition_query) ?
-                $listsQuery->select() :
-                $listsQuery->where($this->origin_lists_condition_query)->select();
-
-            return method_exists($this, '__originListsCustomReturn') ?
-                $this->__originListsCustomReturn($lists) : [
-                    'error' => 0,
-                    'data' => $lists->toArray()
-                ];
-        } catch (\Exception $e) {
-            return [
-                'error' => 1,
-                'msg' => (string)$e->getMessage()
-            ];
-        }
-    }
+    "where":[
+        ["name", "=", "kain"]
+    ]
 }
 ```
 
-- **where** `array` 必须使用数组方式来定义
+如果条件中包含模糊查询
 
-!> 条件合并: 请求中的 **where** 将于 **origin_lists_condition** 合并
-
-```php
-// 正常情况
-$this->post['where'] = [
-    ['name', '=', 'kain']
-];
-
-// 模糊搜索
-$this->post['where'] = [
-    ['name', 'like', '%v%']
-];
-
-// JSON 查询
-$this->post['where'] = [
-    ['extra->sex', '=', 0]
-];
+```json
+{
+    "where":[
+        ["name", "like", "%v%"]
+    ]
+}
 ```
 
-#### 引入特性
+如果查询条件为 JSON 
 
-需要定义必须的操作模型 **model**
+```json
+{
+    "where":[
+        ["extra->nickname", "=", "kain"]
+    ]
+}
+```
+
+#### 初始化
+
+将 **think\bit\common\OriginListsModel** 引入，然后定义模型 **model** 的名称（即表名称）
 
 ```php
-use think\bit\traits\OriginListsModel;
+use think\bit\common\OriginListsModel;
 
 class AdminClass extends Base {
     use OriginListsModel;
@@ -97,9 +50,9 @@ class AdminClass extends Base {
 }
 ```
 
-#### 合并模型验证器下origin场景
+#### 验证器下 origin 场景
 
-所以需要对应创建验证器场景 **validate/AdminClass**， 并加入场景 `origin`
+创建验证器场景 **validate/AdminClass**， 并加入场景 `origin`
 
 ```php
 use think\Validate;
@@ -116,10 +69,10 @@ class AdminClass extends Validate
 }
 ```
 
-可定义固定条件属性 `$this->origin_lists_condition`，默认为 `[]`
+可定义固定条件属性 **origin_lists_condition**，默认为 `[]`
 
 ```php
-use think\bit\traits\OriginListsModel;
+use think\bit\common\OriginListsModel;
 
 class NoBodyClass extends Base {
     use OriginListsModel;
@@ -134,7 +87,7 @@ class NoBodyClass extends Base {
 如果接口的查询条件较为特殊，可以重写 **origin_lists_condition_query**
 
 ```php
-use think\bit\traits\OriginListsModel;
+use think\bit\common\OriginListsModel;
 
 class NoBodyClass extends Base {
     use OriginListsModel;
@@ -155,10 +108,10 @@ class NoBodyClass extends Base {
 
 #### 判断是否有前置处理
 
-如自定义前置处理，则需要调用生命周期 **OriginListsBeforeHooks**
+如自定义前置处理，则需要继承生命周期 **think\bit\lifecycle\OriginListsBeforeHooks**
 
 ```php
-use think\bit\traits\OriginListsModel;
+use think\bit\common\OriginListsModel;
 use think\bit\lifecycle\OriginListsBeforeHooks;
 
 class AdminClass extends Base implements OriginListsBeforeHooks {
@@ -185,7 +138,7 @@ protected $origin_lists_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
-use think\bit\traits\OriginListsModel;
+use think\bit\common\OriginListsModel;
 use think\bit\lifecycle\OriginListsBeforeHooks;
 
 class AdminClass extends Base implements OriginListsBeforeHooks {
@@ -215,7 +168,7 @@ protected $origin_lists_condition = [];
 例如加入企业主键限制
 
 ```php
-use think\bit\traits\OriginListsModel;
+use think\bit\common\OriginListsModel;
 
 class AdminClass extends Base {
     use OriginListsModel;
@@ -238,7 +191,7 @@ protected $origin_lists_orders = ['create_time' => 'desc'];
 多属性排序
 
 ```php
-use think\bit\traits\OriginListsModel;
+use think\bit\common\OriginListsModel;
 
 class AdminClass extends Base {
     use OriginListsModel;
@@ -260,7 +213,7 @@ protected $origin_lists_without_field = ['update_time', 'create_time'];
 例如返回除 **update_time** 修改时间所有的字段
 
 ```php
-use think\bit\traits\OriginListsModel;
+use think\bit\common\OriginListsModel;
 
 class AdminClass extends Base {
     use OriginListsModel;
@@ -272,10 +225,10 @@ class AdminClass extends Base {
 
 #### 自定义返回结果
 
-如自定义返回结果，则需要调用生命周期 **OriginListsCustom**
+如自定义返回结果，则需要继承生命周期 **think\bit\lifecycle\OriginListsCustom**
 
 ```php
-use think\bit\traits\OriginListsModel;
+use think\bit\common\OriginListsModel;
 use think\bit\lifecycle\OriginListsCustom;
 
 class AdminClass extends Base implements OriginListsCustom {
