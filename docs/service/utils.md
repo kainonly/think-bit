@@ -1,4 +1,18 @@
-## Ext 扩展器
+## Utils 工具
+
+Utils 是常用工具服务，此服务必须安装 `kain/think-extra`， 安装后服务将自动注册可通过依赖注入使用
+
+```php
+use think\extra\contract\UtilsInterface;
+
+class Index extends BaseController
+{
+    public function index(UtilsInterface $utils)
+    {
+        $utils->uuid();
+    }
+}
+```
 
 #### uuid()
 
@@ -7,7 +21,9 @@
 - **Return** `UuidInterface`
 
 ```php
-$uuid = Ext::uuid();
+use think\support\facade\Utils;
+
+$uuid = Utils::uuid();
 
 dump($uuid);
 
@@ -37,9 +53,17 @@ dump($uuid->toString());
 
 创建一个Stringy字符串操作工具
 
+- **str** `string`
+- **encoding** `string`
+- **Return** `Stringy\Stringy`
+
 ```php
-Ext::stringy('abc');
+use think\support\facade\Utils;
+
+Utils::stringy('abc');
 ```
+
+**Stringy\Stringy** 对象说明
 
 <table>
     <tr>

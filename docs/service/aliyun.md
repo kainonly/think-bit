@@ -1,6 +1,6 @@
 ## 阿里云相关扩展
 
-阿里云相关扩展是针对阿里云部分库的简化，首先使用 `composer` 安装操作服务
+阿里云相关扩展是针对阿里云部分库的简化，首先使用 `composer` 安装操作服务，安装后服务将自动注册
 
 ```shell
 composer require kain/think-aliyun-extra
@@ -18,6 +18,8 @@ OSS 可以将上传文件直接上传至阿里云 OSS 对象存储中，不做�
 - **Return** `string` 对象名称
 
 ```php
+use think\support\facade\Oss;
+
 public function uploads()
 {
     try {

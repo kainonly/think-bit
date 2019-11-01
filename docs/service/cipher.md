@@ -1,6 +1,6 @@
 ## Cipher 数据加密
 
-Cipher 可以将字符串或数组进行加密解密的工具，需要添加配置 `app_secret` 与 `app_id` 到 `config/app.php`
+Cipher 可以将字符串或数组进行加密解密的服务，此服务必须安装 `kain/think-extra`，需要添加配置 `app_secret` 与 `app_id` 到 `config/app.php`
 
 ```php
 return [
@@ -14,6 +14,20 @@ return [
 - **app_id** `string` 应用ID
 - **app_secret** `string` 应用密钥
 
+安装后服务将自动注册可通过依赖注入使用
+
+```php
+use think\extra\contract\CipherInterface;
+
+class Index extends BaseController
+{
+    public function index(CipherInterface $cipher)
+    {
+        $cipher->encrypt('123');
+    }
+}
+```
+
 #### encrypt($context)
 
 加密数据
@@ -22,6 +36,8 @@ return [
 - **Return** `string` 密文
 
 ```php
+use think\support\facade\Cipher;
+
 Cipher::encrypt('123');
 
 // FLgXf5EXF6eGEqphO3WVJQ==
@@ -42,6 +58,8 @@ Cipher::encrypt([
 - **Return** `string|array` 明文
 
 ```php
+use think\support\facade\Cipher;
+
 $result = Cipher::encrypt([
     'name' => 'kain'
 ]);

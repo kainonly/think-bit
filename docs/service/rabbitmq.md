@@ -6,7 +6,7 @@ RabbitMQ 消息队列 AMQP 操作类使用 [kain/tidy-amqp](https://github.com/k
 composer require kain/think-amqp
 ```
 
-然后需要更新配置 `config/queue.php`，例如：
+安装后服务将自动注册，然后需要更新配置 `config/queue.php`，例如：
 
 ```php
 return [
@@ -51,6 +51,8 @@ return [
   - **method_sig** `array` 默认 `[0,0]`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->queue('hello')->create();
 });
@@ -63,6 +65,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `AMQPChannel`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->getChannel();
 });
@@ -77,6 +81,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `AMQPMessage`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->message('test');
 });
@@ -90,6 +96,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **config** `array` 操作配置
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
     $client->queue('hello')->create();
@@ -111,6 +119,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `Exchange` 交换器类
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $exchange = $client->exchange('extest');
 });
@@ -132,6 +142,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
 });
@@ -150,6 +162,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
     $client->exchange('newtest')->create('direct');
@@ -170,6 +184,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `mixed`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
     $client->exchange('newtest')->create('direct');
@@ -189,6 +205,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->delete();
 });
@@ -202,6 +220,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `Queue`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->queue('hello')->create();
 });
@@ -222,6 +242,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->queue('hello')->create();
 });
@@ -240,6 +262,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
     $queue = $client->queue('hello');
@@ -260,6 +284,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `mixed`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('direct');
     $queue = $client->queue('hello');
@@ -279,6 +305,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `mixed|null`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('fanout');
     $queue = $client->queue('hello');
@@ -305,6 +333,8 @@ AMQP::channel(function (RabbitClient $client) {
 !> `if_empty` 删除队列时，如果在服务器配置中定义了任何挂起的消息，则会将任何挂起的消息发送到死信队列，并且队列中的所有使用者都将被取消
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $queue = $client->queue('hello');
     $queue->create();
@@ -322,6 +352,8 @@ AMQP::channel(function (RabbitClient $client) {
 - **Return** `mixed`
 
 ```php
+use think\support\facade\AMQP;
+
 AMQP::channel(function (RabbitClient $client) {
     $client->exchange('extest')->create('fanout');
     $queue = $client->queue('hello');

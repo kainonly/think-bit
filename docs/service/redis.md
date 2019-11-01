@@ -1,12 +1,12 @@
 ## Redis 缓存
 
-Redis 缓存使用 [Predis](https://github.com/nrk/predis) 做为依赖，首先使用 `composer` 安装操作服务
+Redis 缓存使用 [Predis](https://github.com/nrk/predis) 做为依赖，还需要安装 `kain/think-redis`
 
 ```shell
 composer require kain/think-redis
 ```
 
-然后需要更新配置 `config/database.php`，例如：
+安装后服务将自动注册，然后需要更新配置 `config/database.php`，例如：
 
 ```php
 return [
@@ -42,12 +42,16 @@ return [
 测试写入一个缓存
 
 ```php
+use think\support\facade\Redis;
+
 Redis::set('name', 'abc')
 ```
 
 使用 `pipeline` 批量执行一万条写入
 
 ```php
+use think\support\facade\Redis;
+
 Redis::pipeline(function (Pipeline $pipeline) {
     for ($i = 0; $i < 10000; $i++) {
         $pipeline->set('test:' . $i, $i);
@@ -58,6 +62,8 @@ Redis::pipeline(function (Pipeline $pipeline) {
 面向缓存使用事务处理
 
 ```php
+use think\support\facade\Redis;
+
 // success
 Redis::transaction(function (MultiExec $multiExec) {
     $multiExec->set('name:a', 'a');

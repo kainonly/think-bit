@@ -70,3 +70,14 @@ services:
 ```shell
 docker-compose run --rm --no-deps update
 ```
+
+#### 推荐库
+
+- [topthink/think-helper](https://www.kancloud.cn/manual/thinkphp6_0/1149630) Think 助手工具库
+- [composer require guzzlehttp/guzzle](http://docs.guzzlephp.org/en/stable/) GuzzleHttp 请求库
+- [nesbot/carbon](https://carbon.nesbot.com/docs/) Carbon 时间处理库
+- [overtrue/wechat](https://www.easywechat.com/docs) EasyWechat 微信第三方库
+- [overtrue/easy-sms](https://github.com/overtrue/easy-sms) EasySMS 短信库
+- [overtrue/pinyin](https://github.com/overtrue/pinyin) Pinyin 拼音库
+- [casbin/casbin](https://github.com/php-casbin/php-casbin/blob/master/README_CN.md) PHP-Casbin 授权库
+- [swiftmailer/swiftmailer](https://swiftmailer.symfony.com/docs/introduction.html) swiftmailer 邮件库

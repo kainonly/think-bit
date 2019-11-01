@@ -6,7 +6,7 @@ MongoDB 数据库的操作类使用 [MongoDB](http://pecl.php.net/package/mongod
 composer require kain/think-mgo
 ```
 
-然后需要更新配置 `config/database.php`，例如：
+安装后服务将自动注册，然后需要更新配置 `config/database.php`，例如：
 
 ```php
 return [
@@ -41,6 +41,8 @@ mongodb://[username:password@]host1[:port1][,...hostN[:portN]]][/[database][?opt
 查询数据
 
 ```php
+use think\support\facade\Mongo;
+
 $result = Mongo::name('api')->find();
 return $result->toArray();
 ```
@@ -48,6 +50,8 @@ return $result->toArray();
 写入数据
 
 ```php
+use think\support\facade\Mongo;
+
 $result = Mongo::name('admin')->insertOne([
     'name' => 'kain',
     'status' => 1,
@@ -68,6 +72,8 @@ return $result;
 - **sort** 排序条件
 
 ```php
+use think\support\facade\Mongo;
+
 $data = Mongo::page('log', [
     'status' => true
 ], 1, 20, [

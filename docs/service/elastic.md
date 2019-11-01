@@ -6,7 +6,7 @@ Elastic 可对数据进行全文搜索或针对数据分析查询，例如：系
 composer require kain/think-elastic
 ```
 
-然后需要更新配置 `config/elastic.php`
+安装后服务将自动注册，然后需要更新配置 `config/elastic.php`
 
 ```php
 return [
@@ -43,6 +43,8 @@ return [
 使用 Elastic 客户端
 
 ```php
+use think\support\facade\Elastic;
+
 $data = Elastic::client()
     ->search();
 ```
@@ -55,6 +57,8 @@ $data = Elastic::client()
 创建 Elastic 客户端
 
 ```php
+use think\support\facade\Elastic;
+
 $client = Elastic::create('test');
 $data = $client->search();
 ```

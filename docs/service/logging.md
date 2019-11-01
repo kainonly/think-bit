@@ -6,7 +6,7 @@ Logging 通过 RabbitMQ 消息队列异步对数据进行收集，首先使用 `
 composer require kain/think-logging
 ```
 
-然后需要更新配置 `config/queue.php`
+安装后服务将自动注册，然后需要更新配置 `config/queue.php`
 
 ```php
 return [
@@ -30,6 +30,8 @@ return [
 使用如下
 
 ```php
+use think\support\facade\Logging;
+
 Logging::push('pay_order', [
     'order' => 'oa1578456215654',
     'product' => 'b527920b-e933-4431-9231-14a1831f571d',
