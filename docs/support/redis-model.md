@@ -1,6 +1,6 @@
 ## RedisModel 缓存模型
 
-使用 RedisModel 定义缓存模型，目的是将分散的缓存操作统一定义，与数据库即时执行同步去耦合，同时支持多个模型注入事务，例如：设定Acl访问控制表的缓存模型
+使用 RedisModel 定义缓存模型，目的是将分散的缓存操作统一定义，例如：设定Acl访问控制表的缓存模型
 
 ```php
 class Acl extends RedisModel
@@ -81,21 +81,21 @@ class Acl extends RedisModel
 当对应的 `acl` 表数据发生变更时，执行 `clear()` 来清除缓存
 
 ```php
-(new Acl())->clear();
+Acl::create()->clear();
 ```
 
 通过缓存模型自定义的获取规则获取对应的数据，例如：查访问键 `admin` 对应的数据，如缓存不存在则生成缓存并返回数据
 
 ```php
-(new Acl())->get('admin', 0);
+Acl::create()->get('admin', 0);
 ```
 
 如果同时要执行多个缓存模型，可以注入事务对象
 
 ```php
 Redis::transaction(function (MultiExec $multiExec) {
-    (new Someone1($multiExec))->factory();
-    (new Someone2($multiExec))->factory();
-    (new Someone3($multiExec))->factory();
+    Someone1::create($multiExec)->factory();
+    Someone2::create($multiExec)->factory();
+    Someone3::create($multiExec)->factory();
 });
 ```

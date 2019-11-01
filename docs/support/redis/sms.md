@@ -12,8 +12,7 @@
 - **Return** `bool`
 
 ```php
-$sms = new Sms();
-$sms->factory('12345678910', '13125');
+Sms::create()->factory('12345678910', '13125');
 ```
 
 #### check($phone, $code, $once)
@@ -26,7 +25,7 @@ $sms->factory('12345678910', '13125');
 - **Return** `bool`
 
 ```php
-$sms = new Sms();
+$sms = Sms::create();
 $checked = $sms->check('12345678910', '11224');
 dump($checked);
 // false
@@ -49,7 +48,7 @@ dump($checked);
 - **Return** `bool|array`
 
 ```php
-$sms = new Sms();
+$sms = Sms::create();
 $sms->factory('12345678910', '13125', 3600);
 
 $data = $sms->time('12345678910');

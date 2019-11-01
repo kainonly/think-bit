@@ -23,8 +23,7 @@ $token = (new Builder())
     ->expiresAt(time() + $expires)
     ->getToken($signer, new Key($secret));
 
-(new \think\redis\library\RefreshToken)
-    ->factory($jti, $ack, $auto_refresh);
+RefreshToken::create()->factory($jti, $ack, $auto_refresh);
 ```
 
 #### verify(string $jti, string $ack)
@@ -36,8 +35,7 @@ $token = (new Builder())
 - **Return** `bool`
 
 ```php
-(new \think\redis\library\RefreshToken)
-    ->verify($jti, $ack);
+RefreshToken::create()->verify($jti, $ack);
 ```
 
 #### clear(string $jti, tring $ack)
@@ -49,6 +47,5 @@ $token = (new Builder())
 - **Return** `bool`
 
 ```php
-(new \think\redis\library\RefreshToken)
-    ->clear($jti, $ack);
+RefreshToken::create()->clear($jti, $ack);
 ```
