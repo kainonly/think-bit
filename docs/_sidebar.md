@@ -21,7 +21,7 @@
 
 - Middleware 中间件
   - [CORS 跨站设置](middleware/cors)
-  - [AuthVerify 鉴权验证](middleware/auth-verify)
+  - [Auth 鉴权验证](middleware/auth-verify)
   - [全局返回 JSON](middleware/json)
   - [过滤 POST 请求](middleware/post)
 
