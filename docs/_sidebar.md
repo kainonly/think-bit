@@ -26,6 +26,7 @@
   - [过滤 POST 请求](middleware/post)
 
 - Func 功能
+  - [Auth 登录鉴权](support/auth)
   - [RedisModel 缓存模型](support/redis-model)
     - [SMS 短信验证](support/redis/sms)
     - [Refresh Token 缓存](support/redis/refresh-token)
