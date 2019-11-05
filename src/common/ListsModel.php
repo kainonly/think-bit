@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 namespace think\bit\common;
 
@@ -22,20 +23,15 @@ trait ListsModel
 {
     public function lists()
     {
-        $validate = validate($this->lists_default_validate);
-        if (!$validate->check($this->post)) {
-            return [
-                'error' => 1,
-                'msg' => $validate->getError()
-            ];
-        }
-
-        if (method_exists($this, '__listsBeforeHooks') &&
-            !$this->__listsBeforeHooks()) {
-            return $this->lists_before_result;
-        }
-
         try {
+            validate($this->lists_default_validate)
+                ->check($this->post);
+
+            if (method_exists($this, '__listsBeforeHooks') &&
+                !$this->__listsBeforeHooks()) {
+                return $this->lists_before_result;
+            }
+
             $condition = $this->lists_condition;
             if (!empty($this->post['where'])) {
                 $condition = array_merge(

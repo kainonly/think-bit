@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 namespace think\bit\common;
 
@@ -20,64 +21,61 @@ trait AddModel
 {
     public function add()
     {
-        $model = !empty($this->add_model) ? $this->add_model : $this->model;
-        if (!empty($this->add_default_validate)) {
-            $validate = validate($this->add_default_validate);
-            if (!$validate->check($this->post)) {
-                return [
-                    'error' => 1,
-                    'msg' => $validate->getError()
-                ];
-            }
-        }
-
-        $validate = validate($this->model);
-        if (!$validate->scene('add')->check($this->post)) {
-            return [
-                'error' => 1,
-                'msg' => $validate->getError()
-            ];
-        }
-
-        if ($this->add_auto_timestamp) {
-            $this->post['create_time'] = $this->post['update_time'] = time();
-        }
-
-        if (method_exists($this, '__addBeforeHooks') &&
-            !$this->__addBeforeHooks()) {
-            return $this->add_before_result;
-        }
-
-        return !Db::transaction(function () use ($model) {
-            if (!method_exists($this, '__addAfterHooks')) {
-                return Db::name($model)
-                    ->insert($this->post);
+        try {
+            $model = !empty($this->add_model) ? $this->add_model : $this->model;
+            if (!empty($this->add_default_validate)) {
+                validate($this->add_default_validate)
+                    ->check($this->post);
             }
 
-            $id = null;
-            if (!empty($this->post['id'])) {
-                $id = $this->post['id'];
-                $result = Db::name($model)
-                    ->insert($this->post);
+            validate($this->model)->scene('add')
+                ->check($this->post);
 
-                if (!$result) {
+            if ($this->add_auto_timestamp) {
+                $this->post['create_time'] = $this->post['update_time'] = time();
+            }
+
+            if (method_exists($this, '__addBeforeHooks') &&
+                !$this->__addBeforeHooks()) {
+                return $this->add_before_result;
+            }
+
+            return !Db::transaction(function () use ($model) {
+                if (!method_exists($this, '__addAfterHooks')) {
+                    return Db::name($model)
+                        ->insert($this->post);
+                }
+
+                $id = null;
+                if (!empty($this->post['id'])) {
+                    $id = $this->post['id'];
+                    $result = Db::name($model)
+                        ->insert($this->post);
+
+                    if (!$result) {
+                        return false;
+                    }
+                } else {
+                    $id = Db::name($model)
+                        ->insertGetId($this->post);
+                }
+
+                if (empty($id) || !$this->__addAfterHooks($id)) {
+                    $this->add_fail_result = $this->add_after_result;
+                    Db::rollback();
                     return false;
                 }
-            } else {
-                $id = Db::name($model)
-                    ->insertGetId($this->post);
-            }
 
-            if (empty($id) || !$this->__addAfterHooks($id)) {
-                $this->add_fail_result = $this->add_after_result;
-                Db::rollback();
-                return false;
-            }
-
-            return true;
-        }) ? $this->add_fail_result : [
-            'error' => 0,
-            'msg' => 'ok'
-        ];
+                return true;
+            }) ? $this->add_fail_result : [
+                'error' => 0,
+                'msg' => 'ok'
+            ];
+        } catch (\Exception $e) {
+            return [
+                'error' => 1,
+                'msg' => $e->getMessage()
+            ];
+        }
     }
 }

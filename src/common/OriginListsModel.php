@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 namespace think\bit\common;
 
@@ -22,20 +23,15 @@ trait OriginListsModel
 {
     public function originLists()
     {
-        $validate = validate($this->origin_lists_default_validate);
-        if (!$validate->check($this->post)) {
-            return [
-                'error' => 1,
-                'msg' => $validate->getError()
-            ];
-        }
-
-        if (method_exists($this, '__originListsBeforeHooks') &&
-            !$this->__originListsBeforeHooks()) {
-            return $this->origin_lists_before_result;
-        }
-
         try {
+            validate($this->origin_lists_default_validate)
+                ->check($this->post);
+
+            if (method_exists($this, '__originListsBeforeHooks') &&
+                !$this->__originListsBeforeHooks()) {
+                return $this->origin_lists_before_result;
+            }
+
             $condition = $this->origin_lists_condition;
             if (!empty($this->post['where'])) {
                 $condition = array_merge(
@@ -71,7 +67,7 @@ trait OriginListsModel
         } catch (\Exception $e) {
             return [
                 'error' => 1,
-                'msg' => (string)$e->getMessage()
+                'msg' => $e->getMessage()
             ];
         }
     }

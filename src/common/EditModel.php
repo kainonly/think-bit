@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 namespace think\bit\common;
 
@@ -22,71 +23,68 @@ trait EditModel
 {
     public function edit()
     {
-        $model = !empty($this->edit_model) ? $this->edit_model : $this->model;
-        $validate = validate($this->edit_default_validate);
-        if (!$validate->check($this->post)) {
+        try {
+            $model = !empty($this->edit_model) ? $this->edit_model : $this->model;
+            validate($this->edit_default_validate)
+                ->check($this->post);
+
+            $this->edit_switch = $this->post['switch'];
+            if (!$this->edit_switch) {
+                validate($this->model)->scene('edit')
+                    ->check($this->post);
+            }
+
+            unset($this->post['switch']);
+
+            if ($this->edit_auto_timestamp) {
+                $this->post['update_time'] = time();
+            }
+
+            if (method_exists($this, '__editBeforeHooks') &&
+                !$this->__editBeforeHooks()) {
+                return $this->edit_before_result;
+            }
+
+            return !Db::transaction(function () use ($model) {
+                $condition = $this->edit_condition;
+
+                if (!empty($this->post['id'])) {
+                    array_push(
+                        $condition,
+                        ['id', '=', $this->post['id']]
+                    );
+                } else {
+                    $condition = array_merge(
+                        $condition,
+                        $this->post['where']
+                    );
+                }
+
+                unset($this->post['where']);
+                $result = Db::name($model)
+                    ->where($condition)
+                    ->update($this->post);
+
+                if (!$result) {
+                    return false;
+                }
+                if (method_exists($this, '__editAfterHooks') &&
+                    !$this->__editAfterHooks()) {
+                    $this->edit_fail_result = $this->edit_after_result;
+                    Db::rollBack();
+                    return false;
+                }
+
+                return true;
+            }) ? $this->edit_fail_result : [
+                'error' => 0,
+                'msg' => 'ok'
+            ];
+        } catch (\Exception $e) {
             return [
                 'error' => 1,
-                'msg' => $validate->getError()
+                'msg' => $e->getMessage()
             ];
         }
-
-        $this->edit_switch = $this->post['switch'];
-        if (!$this->edit_switch) {
-            $validate = validate($this->model);
-            if (!$validate->scene('edit')->check($this->post)) {
-                return [
-                    'error' => 1,
-                    'msg' => $validate->getError()
-                ];
-            }
-        }
-
-        unset($this->post['switch']);
-
-        if ($this->edit_auto_timestamp) {
-            $this->post['update_time'] = time();
-        }
-
-        if (method_exists($this, '__editBeforeHooks') &&
-            !$this->__editBeforeHooks()) {
-            return $this->edit_before_result;
-        }
-
-        return !Db::transaction(function () use ($model) {
-            $condition = $this->edit_condition;
-
-            if (!empty($this->post['id'])) {
-                array_push(
-                    $condition,
-                    ['id', '=', $this->post['id']]
-                );
-            } else {
-                $condition = array_merge(
-                    $condition,
-                    $this->post['where']
-                );
-            }
-
-            unset($this->post['where']);
-            $result = Db::name($model)
-                ->where($condition)
-                ->update($this->post);
-
-            if (!$result) {
-                return false;
-            }
-            if (method_exists($this, '__editAfterHooks') &&
-                !$this->__editAfterHooks()) {
-                $this->edit_fail_result = $this->edit_after_result;
-                Db::rollBack();
-                return false;
-            }
-
-            return true;
-        }) ? $this->edit_fail_result : [
-            'error' => 0,
-            'msg' => 'ok'
-        ];
     }
 }

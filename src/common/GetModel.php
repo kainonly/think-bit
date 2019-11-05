@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 namespace think\bit\common;
 
@@ -19,20 +20,15 @@ trait GetModel
 {
     public function get()
     {
-        $validate = validate($this->get_default_validate);
-        if (!$validate->check($this->post)) {
-            return [
-                'error' => 1,
-                'msg' => $validate->getError()
-            ];
-        }
-
-        if (method_exists($this, '__getBeforeHooks') &&
-            !$this->__getBeforeHooks()) {
-            return $this->get_before_result;
-        }
-
         try {
+            validate($this->get_default_validate)
+                ->check($this->post);
+
+            if (method_exists($this, '__getBeforeHooks') &&
+                !$this->__getBeforeHooks()) {
+                return $this->get_before_result;
+            }
+
             $condition = $this->get_condition;
             if (!empty($this->post['id'])) {
                 array_push(
