@@ -18,7 +18,11 @@ use think\facade\Db;
  */
 trait GetModel
 {
-    public function get()
+    /**
+     * 获取单条数据请求
+     * @return array
+     */
+    public function get(): array
     {
         try {
             validate($this->get_default_validate)

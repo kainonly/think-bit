@@ -19,7 +19,11 @@ use think\facade\Db;
  */
 trait AddModel
 {
-    public function add()
+    /**
+     * 新增请求
+     * @return array
+     */
+    public function add(): array
     {
         try {
             $model = !empty($this->add_model) ? $this->add_model : $this->model;

@@ -1,8 +1,18 @@
 <?php
+declare (strict_types=1);
 
 namespace think\bit\lifecycle;
 
+/**
+ * Interface AddAfterHooks
+ * @package think\bit\lifecycle
+ */
 interface AddAfterHooks
 {
-    public function __addAfterHooks($id);
+    /**
+     * 后置处理
+     * @param int|string $id
+     * @return bool
+     */
+    public function __addAfterHooks($id): bool;
 }

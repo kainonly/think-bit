@@ -1,8 +1,17 @@
 <?php
+declare (strict_types=1);
 
 namespace think\bit\lifecycle;
 
+/**
+ * Interface OriginListsBeforeHooks
+ * @package think\bit\lifecycle
+ */
 interface OriginListsBeforeHooks
 {
-    public function __originListsBeforeHooks();
+    /**
+     * 前置处理
+     * @return bool
+     */
+    public function __originListsBeforeHooks(): bool;
 }

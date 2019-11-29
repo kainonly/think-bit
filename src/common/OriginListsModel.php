@@ -21,7 +21,11 @@ use think\facade\Db;
  */
 trait OriginListsModel
 {
-    public function originLists()
+    /**
+     * 获取列表数据请求
+     * @return array
+     */
+    public function originLists(): array
     {
         try {
             validate($this->origin_lists_default_validate)

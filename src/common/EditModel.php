@@ -21,7 +21,11 @@ use think\facade\Db;
  */
 trait EditModel
 {
-    public function edit()
+    /**
+     * 编辑与状态变更请求
+     * @return array
+     */
+    public function edit(): array
     {
         try {
             $model = !empty($this->edit_model) ? $this->edit_model : $this->model;

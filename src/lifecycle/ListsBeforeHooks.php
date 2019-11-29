@@ -1,8 +1,17 @@
 <?php
+declare (strict_types=1);
 
 namespace think\bit\lifecycle;
 
+/**
+ * Interface ListsBeforeHooks
+ * @package think\bit\lifecycle
+ */
 interface ListsBeforeHooks
 {
-    public function __listsBeforeHooks();
+    /**
+     * 前置处理
+     * @return bool
+     */
+    public function __listsBeforeHooks(): bool;
 }

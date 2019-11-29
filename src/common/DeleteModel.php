@@ -20,7 +20,11 @@ use think\facade\Db;
  */
 trait DeleteModel
 {
-    public function delete()
+    /**
+     * 删除请求
+     * @return array
+     */
+    public function delete(): array
     {
         try {
             $model = !empty($this->delete_model) ? $this->delete_model : $this->model;

@@ -21,7 +21,11 @@ use think\facade\Db;
  */
 trait ListsModel
 {
-    public function lists()
+    /**
+     * 获取分页数据请求
+     * @return array
+     */
+    public function lists(): array
     {
         try {
             validate($this->lists_default_validate)
