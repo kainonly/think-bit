@@ -3,7 +3,9 @@ declare (strict_types=1);
 
 namespace think\bit;
 
+use Closure;
 use think\App;
+use think\Request;
 
 /**
  * CURD 抽象类
@@ -14,13 +16,13 @@ abstract class CurdController
 {
     /**
      * Request实例
-     * @var \think\Request
+     * @var Request
      */
     protected $request;
 
     /**
      * 应用实例
-     * @var \think\App
+     * @var App
      */
     protected $app;
 
@@ -44,7 +46,7 @@ abstract class CurdController
 
     /**
      * 请求body
-     * @var array|mixed
+     * @var array
      */
     protected $post = [];
 
@@ -73,7 +75,7 @@ abstract class CurdController
 
     /**
      * 列表查询闭包条件
-     * @var \Closure|null
+     * @var Closure|null
      */
     protected $origin_lists_condition_query = null;
 
@@ -123,7 +125,7 @@ abstract class CurdController
 
     /**
      * 分页数据查询闭包条件
-     * @var \Closure|null
+     * @var Closure|null
      */
     protected $lists_condition_query = null;
 

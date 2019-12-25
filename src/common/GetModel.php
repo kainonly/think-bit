@@ -3,6 +3,7 @@ declare (strict_types=1);
 
 namespace think\bit\common;
 
+use Exception;
 use think\facade\Db;
 
 /**
@@ -57,7 +58,7 @@ trait GetModel
                     'error' => 0,
                     'data' => $data
                 ];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [
                 'error' => 1,
                 'msg' => (string)$e->getMessage()

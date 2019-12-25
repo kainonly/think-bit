@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace think\bit\common;
 
 use Closure;
+use Exception;
 use think\facade\Db;
 
 /**
@@ -87,7 +88,7 @@ trait ListsModel
                     ]
                 ];
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [
                 'error' => 1,
                 'msg' => $e->getMessage()

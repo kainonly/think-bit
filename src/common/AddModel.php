@@ -3,6 +3,7 @@ declare (strict_types=1);
 
 namespace think\bit\common;
 
+use Exception;
 use think\facade\Db;
 
 /**
@@ -75,7 +76,7 @@ trait AddModel
                 'error' => 0,
                 'msg' => 'ok'
             ];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return [
                 'error' => 1,
                 'msg' => $e->getMessage()

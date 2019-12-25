@@ -1,6 +1,6 @@
 # Think Bit
 
-辅助 ThinkPHP 快速集成 RESTFul API 的工具集
+辅助 ThinkPHP 快速集成 Curd API 的工具集
 
 ![Packagist Version](https://img.shields.io/packagist/v/kain/think-bit.svg?style=flat-square)
 ![Packagist](https://img.shields.io/packagist/dt/kain/think-bit.svg?color=blue&style=flat-square)
@@ -40,14 +40,12 @@ return [
 
 从 `kain/think-bit` 版本 `>= 6.0.6` 组件开始独立化维护，并逐步遵循 `PSR` 规范与 `PHP` 严格模式
 
-- [kain/think-extra](https://packagist.org/packages/kain/think-extra) ThinkPHP 扩展库，让它具备类似 Laravel 的常用功能
+- [kain/think-extra](https://packagist.org/packages/kain/think-extra) ThinkPHP 工具扩展库
 - [kain/think-support](https://packagist.org/packages/kain/think-support) ThinkPHP 依赖与功能支持库
 - [kain/think-redis](https://packagist.org/packages/kain/think-redis) ThinkPHP Redis 扩展
 - [kain/think-amqp](https://packagist.org/packages/kain/think-amqp) Think RabbitMQ 消息队列 AMQP 操作类
 - [kain/think-elastic](https://packagist.org/packages/kain/think-elastic) ThinkPHP Elasticsearch 扩展
-- [kain/think-logging](https://packagist.org/packages/kain/think-logging) ThinkPHP 数据异步收集扩展
 - [kain/think-aliyun-extra](https://packagist.org/packages/kain/think-aliyun-extra) ThinkPHP 阿里云相关扩展
-- [kain/think-mgo](https://packagist.org/packages/kain/think-mgo) ThinkPHP MongoDB CURD 扩展
 
 
 #### 依赖安装

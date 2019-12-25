@@ -1,6 +1,6 @@
 {
   "name": "kain/think-bit",
-  "description": "辅助 ThinkPHP 快速集成 RESTFul API 的手脚架",
+  "description": "辅助 ThinkPHP 快速集成 Curd API 的手脚架",
   "require": {
     "php": ">=7.2.0",
     "topthink/framework": "^6.0.0"
@@ -11,7 +11,7 @@
     }
   },
   "suggest": {
-    "kain/think-extra": "ThinkPHP 工具扩展库，让它具备类似 Laravel 的常用功能",
+    "kain/think-extra": "ThinkPHP 工具扩展库",
     "kain/think-support": "ThinkPHP 依赖与功能支持库"
   },
   "authors": [
