@@ -13,11 +13,14 @@ return [
 
     'redis' => [
         'default' => [
-            'scheme' => 'tcp',
-            'host' => env('redis.host', '127.0.0.1'),
-            'password' => env('redis.password', ''),
-            'port' => env('redis.port', 6379),
-            'database' => env('redis.db', 0),
+            // 服务器地址
+            'host' => Env::get('redis.host', '127.0.0.1'),
+            // 密码
+            'password' => Env::get('redis.password', null),
+            // 端口
+            'port' => Env::get('redis.port', 6379),
+            // 数据库号
+            'database' => Env::get('redis.db', 0),
         ]
     ],
     
@@ -39,12 +42,17 @@ return [
 - **iterable_multibulk** `boolean` 当设置为true时，Predis将从Redis返回multibulk作为迭代器实例而不是简单的PHP数组
 - **throw_errors** `boolean` 设置为true时，Redis生成的服务器错误将转换为PHP异常
 
+### client(string $name = 'default')
+
+- **name** `string` 配置标识
+- **Return** `Predis\Client`
+
 测试写入一个缓存
 
 ```php
 use think\support\facade\Redis;
 
-Redis::set('name', 'abc')
+Redis::client()->set('name', 'abc')
 ```
 
 使用 `pipeline` 批量执行一万条写入
@@ -52,7 +60,7 @@ Redis::set('name', 'abc')
 ```php
 use think\support\facade\Redis;
 
-Redis::pipeline(function (Pipeline $pipeline) {
+Redis::client()->pipeline(function (Pipeline $pipeline) {
     for ($i = 0; $i < 10000; $i++) {
         $pipeline->set('test:' . $i, $i);
     }
@@ -65,13 +73,13 @@ Redis::pipeline(function (Pipeline $pipeline) {
 use think\support\facade\Redis;
 
 // success
-Redis::transaction(function (MultiExec $multiExec) {
+Redis::client()->transaction(function (MultiExec $multiExec) {
     $multiExec->set('name:a', 'a');
     $multiExec->set('name:b', 'b');
 });
 
 // failed
-Redis::transaction(function (MultiExec $multiExec) {
+Redis::client()->transaction(function (MultiExec $multiExec) {
     $multiExec->set('name:a', 'a');
     // mock exception
     throw new Exception('error');

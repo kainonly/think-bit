@@ -1,4 +1,4 @@
-## Utils 工具
+## Utils 工具集
 
 Utils 是常用工具服务，此服务必须安装 `kain/think-extra`， 安装后服务将自动注册可通过依赖注入使用
 

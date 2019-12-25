@@ -1,14 +1,17 @@
 ## Hash 密码
 
-Hash 是用于密码加密与验证的服务，此服务必须安装 `kain/think-extra`，需要添加配置 `config/hashing.php`
+Hash 用于密码加密与验证，此服务必须安装 `kain/think-extra`，需要添加配置 `config/hashing.php`
 
 ```php
 return [
 
+    // 散列类型
     'driver' => 'argon2id',
+    // Bcrypt 配置
     'bcrypt' => [
         'rounds' => env('BCRYPT_ROUNDS', 10),
     ],
+    // Argon2i 与Argon2id 配置
     'argon' => [
         'memory' => 1024,
         'threads' => 2,

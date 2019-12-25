@@ -8,15 +8,13 @@
   - [DeleteModel 删除数据](curd/delete)
 
 - Service 服务
-  - [Utils 工具](service/utils)
+  - [Utils 工具集](service/utils)
   - [Hash 密码](service/hash)
   - [Cipher 数据加密](service/cipher)
   - [Token 令牌](service/token)
   - [Redis 缓存](service/redis)
-  - [RabbitMQ 消息队列](service/rabbitmq)
-  - [Elastic 搜索分析](service/elastic)
-  - [Logging 数据收集](service/logging)
-  - [MongoDB 数据库](service/mongo)
+  - [AMQP 消息队列](service/amqp)
+  - [ElasticSearch 全文搜索](service/elastic)
   - [阿里云相关扩展](service/aliyun)
 
 - Middleware 中间件
