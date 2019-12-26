@@ -26,7 +26,7 @@ return [
 
 namespace app\system\controller;
 
-class Index extends Base
+class Index extends BaseController
 {
     protected $middleware = ['auth'];
 
