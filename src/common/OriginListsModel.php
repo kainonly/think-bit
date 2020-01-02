@@ -56,7 +56,7 @@ trait OriginListsModel
             $listsQuery = Db::name($this->model)
                 ->where($condition)
                 ->field($this->origin_lists_field)
-                ->withoutField($this->origin_lists_field)
+                ->withoutField($this->origin_lists_without_field)
                 ->order($orders);
 
             $lists = empty($this->origin_lists_condition_query) ?
