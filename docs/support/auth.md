@@ -3,7 +3,10 @@
 Auth 创建登录后将 Token 字符串存储在Cookie 中，通过主控制去引用该特性
 
 ```php
-class Main extends Base
+use app\system\controller\BaseController;
+use think\support\traits\Auth;
+
+class Main extends BaseController
 {
     use Auth;
 }
@@ -16,7 +19,10 @@ class Main extends Base
 - **Return** `int` 默认 `604800`，单位< 秒 >
 
 ```php
-class Main extends Base
+use app\system\controller\BaseController;
+use think\support\traits\Auth;
+
+class Main extends BaseController
 {
     use Auth;
 
@@ -38,7 +44,10 @@ class Main extends Base
 在登录验证成功后调用
 
 ```php
-class Main extends Base
+use app\system\controller\BaseController;
+use think\support\traits\Auth;
+
+class Main extends BaseController
 {
     use Auth;
 
@@ -56,20 +65,23 @@ class Main extends Base
 }
 ```
 
-#### __verify($scene)
+#### verify($scene)
 
 验证登录
 
 - **scene** `string` 场景标签
 
 ```php
-class Main extends Base
+use app\system\controller\BaseController;
+use think\support\traits\Auth;
+
+class Main extends BaseController
 {
     use Auth;
 
     public function verify()
     {
-        return $this->__verify('system');
+        return $this->authVerify('system');
     }
 }
 ```
@@ -81,7 +93,10 @@ class Main extends Base
 - **scene** `string` 场景标签
 
 ```php
-class Main extends Base
+use app\system\controller\BaseController;
+use think\support\traits\Auth;
+
+class Main extends BaseController
 {
     use Auth;
 
