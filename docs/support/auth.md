@@ -65,7 +65,7 @@ class Main extends BaseController
 }
 ```
 
-#### verify($scene)
+#### authVerify(string $scene)
 
 验证登录
 
