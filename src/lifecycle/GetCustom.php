@@ -14,5 +14,5 @@ interface GetCustom
      * @param array $data
      * @return array
      */
-    public function __getCustomReturn(array $data): array;
+    public function getCustomReturn(array $data): array;
 }

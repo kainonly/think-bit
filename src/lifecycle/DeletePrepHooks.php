@@ -13,5 +13,5 @@ interface DeletePrepHooks
      * 事务开始之后与数据删除之前的处理
      * @return bool
      */
-    public function __deletePrepHooks(): bool;
+    public function deletePrepHooks(): bool;
 }

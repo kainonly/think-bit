@@ -30,9 +30,10 @@ GetModel 是针对获取单条数据的通用请求处理，请求 `body` 可使
 将 **think\bit\common\GetModel** 引入，然后定义模型 **model** 的名称（即表名称）
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\GetModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use GetModel;
 
     protected $model = 'admin';
@@ -41,10 +42,10 @@ class AdminClass extends Base {
 
 #### 自定义获取验证器
 
-自定义删除验证器为 **get_validate** ，验证器与ThinkPHP验证器使用一致，默认为
+自定义验证器为 **get_default_validate** ，验证器与ThinkPHP验证器使用一致，默认为
 
 ```php
-protected $get_validate = [
+[
     'id' => 'require'
 ];
 ```
@@ -52,13 +53,14 @@ protected $get_validate = [
 也可以在控制器中针对性修改
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\GetModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use GetModel;
 
     protected $model = 'admin';
-    protected $get_validate = [
+    protected $get_default_validate = [
         'id' => 'require',
         'name' => 'require'
     ];
@@ -70,22 +72,23 @@ class AdminClass extends Base {
 如自定义前置处理，则需要继承生命周期 **think\bit\lifecycle\GetBeforeHooks**
 
 ```php
-use think\bit\common\GetModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\GetBeforeHooks;
+use think\bit\common\GetModel;
 
-class AdminClass extends Base implements GetBeforeHooks {
+class AdminClass extends BaseController implements GetBeforeHooks {
     use GetModel;
 
     protected $model = 'admin';
 
-    public function __getBeforeHooks()
+    public function getBeforeHooks(): bool
     {
         return true;
     }
 }
 ```
 
-**__getBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **get_before_result** 属性的值，默认为：
+**getBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **get_before_result** 属性的值，默认为：
 
 ```php
 protected $get_before_result = [
@@ -97,15 +100,16 @@ protected $get_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
-use think\bit\common\GetModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\GetBeforeHooks;
+use think\bit\common\GetModel;
 
-class AdminClass extends Base implements GetBeforeHooks {
+class AdminClass extends BaseController implements GetBeforeHooks {
     use GetModel;
 
     protected $model = 'admin';
 
-    public function __getBeforeHooks()
+    public function getBeforeHooks(): bool
     {
         $this->get_before_result = [
             'error'=> 1,
@@ -121,15 +125,16 @@ class AdminClass extends Base implements GetBeforeHooks {
 如需要给接口在后端就设定固定条件，只需要重写 **get_condition**，默认为
 
 ```php
-protected $get_condition = [];
+[];
 ```
 
 例如加入企业主键限制
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\GetModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use GetModel;
 
     protected $model = 'admin';
@@ -144,8 +149,8 @@ class AdminClass extends Base {
 如需要给接口指定返回字段，只需要重写 **get_field** 或 **get_without_field**，默认为
 
 ```php
-protected $get_field = [];
-protected $get_without_field = ['update_time', 'create_time'];
+$get_field = [];
+$get_without_field = ['update_time', 'create_time'];
 ```
 
 !> **get_field** 即指定显示字段，**get_without_field** 为排除的显示字段，二者无法共用
@@ -153,9 +158,10 @@ protected $get_without_field = ['update_time', 'create_time'];
 例如返回除 **update_time** 修改时间所有的字段
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\GetModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use GetModel;
 
     protected $model = 'admin';
@@ -168,31 +174,32 @@ class AdminClass extends Base {
 如自定义返回结果，则需要继承生命周期 **think\bit\lifecycle\GetCustom**
 
 ```php
-use think\bit\common\GetModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\GetCustom;
+use think\bit\common\GetModel;
 
-class AdminClass extends Base implements GetCustom {
+class AdminClass extends BaseController implements GetCustom {
     use GetModel;
 
     protected $model = 'admin';
 
-    public function __getCustomReturn($data)
+    public function getCustomReturn(array $data): array
     {
-        return json([
+        return [
             'error' => 0,
             'data' => $data
-        ]);
+        ];
     }
 }
 ```
 
-**__getCustomReturn** 需要返回整体的响应结果
+**getCustomReturn** 需要返回整体的响应结果
 
 ```php
-return json([
+[
     'error' => 0,
-    'data' => $data
-]);
+    'data' => []
+];
 ```
 
 - **data** `array` 原数据

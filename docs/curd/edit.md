@@ -30,9 +30,10 @@ EditModel 是针对修改数据的通用请求处理，请求 `body` 可使用 *
 将 **think\bit\common\EditModel** 引入，然后定义模型 **model** 的名称（即表名称）
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\EditModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use EditModel;
 
     protected $model = 'admin';
@@ -41,10 +42,10 @@ class AdminClass extends Base {
 
 #### 自定义修改验证器
 
-自定义删除验证器为 **edit_validate**，默认为
+自定义删除验证器为 **edit_default_validate**，默认为
 
 ```php
-protected $edit_validate = [
+[
     'id' => 'require',
     'switch' => 'bool'
 ];
@@ -53,14 +54,15 @@ protected $edit_validate = [
 也可以在控制器中针对性修改
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\EditModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use EditModel;
 
     protected $model = 'admin';
-    protected $edit_validate = [
-        'id' => 'require'
+    protected $edit_default_validate = [
+        'id' => 'require',
         'switch' => 'bool',
         'status' => 'require',
     ];
@@ -91,25 +93,26 @@ class AdminClass extends Validate
 如自定义前置处理（发生在验证之后与数据写入之前），则需要继承生命周期 **think\bit\lifecycle\EditBeforeHooks**
 
 ```php
-use think\bit\common\EditModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\EditBeforeHooks;
+use think\bit\common\EditModel;
 
-class AdminClass extends Base implements EditBeforeHooks {
+class AdminClass extends BaseController implements EditBeforeHooks {
     use EditModel;
 
     protected $model = 'admin';
 
-    public function __editBeforeHooks()
+    public function editBeforeHooks() :bool 
     {
         return true;
     }
 }
 ```
 
-**__editBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **edit_before_result** 属性的值，默认为：
+**editBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **edit_before_result** 属性的值，默认为：
 
 ```php
-protected $edit_before_result = [
+[
     'error' => 1,
     'msg' => 'error:before_fail'
 ];
@@ -118,15 +121,16 @@ protected $edit_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
-use think\bit\common\EditModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\EditBeforeHooks;
+use think\bit\common\EditModel;
 
-class AdminClass extends Base implements EditBeforeHooks {
+class AdminClass extends BaseController implements EditBeforeHooks {
     use EditModel;
 
     protected $model = 'admin';
 
-    public function __editBeforeHooks()
+    public function editBeforeHooks(): bool
     {
         $this->edit_before_result = [
             'error'=> 1,
@@ -142,25 +146,26 @@ class AdminClass extends Base implements EditBeforeHooks {
 如自定义后置处理（发生在写入成功之后与提交事务之前），则需要继承生命周期 **think\bit\lifecycle\EditAfterHooks**
 
 ```php
-use think\bit\common\EditModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\EditAfterHooks;
+use think\bit\common\EditModel;
 
-class AdminClass extends Base implements EditAfterHooks {
+class AdminClass extends BaseController implements EditAfterHooks {
     use EditModel;
 
     protected $model = 'admin';
 
-    public function __editAfterHooks()
+    public function editAfterHooks(): bool
     {
         return true;
     }
 }
 ```
 
-**__editAfterHooks** 的返回值为 `false` 则在此结束执行进行事务回滚，并返回 **edit_after_result** 属性的值，默认为：
+**editAfterHooks** 的返回值为 `false` 则在此结束执行进行事务回滚，并返回 **edit_after_result** 属性的值，默认为：
 
 ```php
- protected $edit_after_result = [
+[
     'error' => 1,
     'msg' => 'error:after_fail'
 ];
@@ -169,15 +174,16 @@ class AdminClass extends Base implements EditAfterHooks {
 在生命周期函数中可以通过重写自定义后置返回
 
 ```php
-use think\bit\common\EditModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\EditAfterHooks;
+use think\bit\common\EditModel;
 
-class AdminClass extends Base implements EditAfterHooks {
+class AdminClass extends BaseController implements EditAfterHooks {
     use EditModel;
 
     protected $model = 'admin';
 
-    public function __editAfterHooks()
+    public function editAfterHooks(): bool
     {
         $this->edit_after_result = [
             'error'=> 1,

@@ -13,5 +13,5 @@ interface DeleteBeforeHooks
      * 前置处理
      * @return bool
      */
-    public function __deleteBeforeHooks(): bool;
+    public function deleteBeforeHooks(): bool;
 }

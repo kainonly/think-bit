@@ -29,17 +29,14 @@ trait GetModel
             validate($this->get_default_validate)
                 ->check($this->post);
 
-            if (method_exists($this, '__getBeforeHooks') &&
-                !$this->__getBeforeHooks()) {
+            if (method_exists($this, 'getBeforeHooks') &&
+                !$this->getBeforeHooks()) {
                 return $this->get_before_result;
             }
 
             $condition = $this->get_condition;
             if (!empty($this->post['id'])) {
-                array_push(
-                    $condition,
-                    ['id', '=', $this->post['id']]
-                );
+                $condition[] = ['id', '=', $this->post['id']];
             } else {
                 $condition = array_merge(
                     $condition,
@@ -53,8 +50,8 @@ trait GetModel
                 ->withoutField($this->get_without_field)
                 ->find();
 
-            return method_exists($this, '__getCustomReturn') ?
-                $this->__getCustomReturn($data) : [
+            return method_exists($this, 'getCustomReturn') ?
+                $this->getCustomReturn($data) : [
                     'error' => 0,
                     'data' => $data
                 ];

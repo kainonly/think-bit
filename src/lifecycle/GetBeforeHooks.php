@@ -13,5 +13,5 @@ interface GetBeforeHooks
      * 前置处理
      * @return bool
      */
-    public function __getBeforeHooks(): bool;
+    public function getBeforeHooks(): bool;
 }

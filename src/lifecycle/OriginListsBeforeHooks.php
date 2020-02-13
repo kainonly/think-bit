@@ -13,5 +13,5 @@ interface OriginListsBeforeHooks
      * 前置处理
      * @return bool
      */
-    public function __originListsBeforeHooks(): bool;
+    public function originListsBeforeHooks(): bool;
 }

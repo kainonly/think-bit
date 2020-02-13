@@ -13,5 +13,5 @@ interface EditAfterHooks
      * 后置处理
      * @return bool
      */
-    public function __editAfterHooks(): bool;
+    public function editAfterHooks(): bool;
 }

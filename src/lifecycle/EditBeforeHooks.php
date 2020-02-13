@@ -13,5 +13,5 @@ interface EditBeforeHooks
      * 前置处理
      * @return bool
      */
-    public function __editBeforeHooks(): bool;
+    public function editBeforeHooks(): bool;
 }

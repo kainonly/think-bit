@@ -30,9 +30,10 @@ DeleteModel 是针对删除数据的通用请求处理，请求 `body` 可使用
 将 **think\bit\common\DeleteModel** 引入，然后定义模型 **model** 的名称（即表名称）
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\DeleteModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use DeleteModel;
 
     protected $model = 'admin';
@@ -44,7 +45,7 @@ class AdminClass extends Base {
 自定义删除验证器为 **delete_validate**，默认为
 
 ```php
-protected $delete_validate = [
+[
     'id' => 'require'
 ];
 ```
@@ -52,9 +53,10 @@ protected $delete_validate = [
 也可以在控制器中针对性修改
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\DeleteModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use DeleteModel;
 
     protected $model = 'admin';
@@ -70,25 +72,26 @@ class AdminClass extends Base {
 如自定义前置处理（发生在验证之后与数据删除之前），则需要继承生命周期 **think\bit\lifecycle\DeleteBeforeHooks**
 
 ```php
-use think\bit\common\DeleteModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\DeleteBeforeHooks;
+use think\bit\common\DeleteModel;
 
-class AdminClass extends Base implements DeleteBeforeHooks {
+class AdminClass extends BaseController implements DeleteBeforeHooks {
     use DeleteModel;
 
     protected $model = 'admin';
 
-    public function __deleteBeforeHooks()
+    public function deleteBeforeHooks(): bool
     {
         return true;
     }
 }
 ```
 
-**__deleteBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **delete_before_result** 属性的值，默认为：
+**deleteBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **delete_before_result** 属性的值，默认为：
 
 ```php
-protected $delete_before_result = [
+[
     'error' => 1,
     'msg' => 'error:before_fail'
 ];
@@ -97,15 +100,16 @@ protected $delete_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
-use think\bit\common\DeleteModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\DeleteBeforeHooks;
+use think\bit\common\DeleteModel;
 
-class AdminClass extends Base implements DeleteBeforeHooks {
+class AdminClass extends BaseController implements DeleteBeforeHooks {
     use DeleteModel;
 
     protected $model = 'admin';
 
-    public function __deleteBeforeHooks()
+    public function deleteBeforeHooks(): bool
     {
         $this->delete_before_result = [
             'error'=> 1,
@@ -121,25 +125,26 @@ class AdminClass extends Base implements DeleteBeforeHooks {
 如该周期处理，则需要继承生命周期 **think\bit\lifecycle\DeletePrepHooks**
 
 ```php
-use think\bit\common\DeleteModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\DeletePrepHooks;
+use think\bit\common\DeleteModel;
 
-class AdminClass extends Base implements DeletePrepHooks {
+class AdminClass extends BaseController implements DeletePrepHooks {
     use DeleteModel;
 
     protected $model = 'admin';
 
-    public function __deletePrepHooks()
+    public function deletePrepHooks(): bool
     {
         return true;
     }
 }
 ```
 
-**__deletePrepHooks** 的返回值为 `false` 则在此结束执行进行事务回滚，并返回 **delete_prep_result** 属性的值，默认为：
+**deletePrepHooks** 的返回值为 `false` 则在此结束执行进行事务回滚，并返回 **delete_prep_result** 属性的值，默认为：
 
 ```php
-protected $delete_prep_result = [
+[
     'error' => 1,
     'msg' => 'error:prep_fail'
 ];
@@ -148,15 +153,16 @@ protected $delete_prep_result = [
 在生命周期函数中可以通过重写自定义返回
 
 ```php
-use think\bit\common\DeleteModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\DeletePrepHooks;
+use think\bit\common\DeleteModel;
 
-class AdminClass extends Base implements DeletePrepHooks {
+class AdminClass extends BaseController implements DeletePrepHooks {
     use DeleteModel;
 
     protected $model = 'admin';
 
-    public function __deletePrepHooks()
+    public function deletePrepHooks(): bool
     {
         $this->delete_prep_result = [
             'error'=> 1,
@@ -172,25 +178,26 @@ class AdminClass extends Base implements DeletePrepHooks {
 如自定义后置处理（发生在数据删除成功之后与提交事务之前），则需要继承生命周期 **think\bit\lifecycle\DeleteAfterHooks**
 
 ```php
-use think\bit\common\DeleteModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\DeleteAfterHooks;
+use think\bit\common\DeleteModel;
 
-class AdminClass extends Base implements DeleteAfterHooks {
+class AdminClass extends BaseController implements DeleteAfterHooks {
     use DeleteModel;
 
     protected $model = 'admin';
 
-    public function __deleteAfterHooks()
+    public function deleteAfterHooks(): bool
     {
         return true;
     }
 }
 ```
 
-**__deleteAfterHooks** 的返回值为 `false` 则在此结束执行进行事务回滚，并返回 **delete_after_result** 属性的值，默认为：
+**deleteAfterHooks** 的返回值为 `false` 则在此结束执行进行事务回滚，并返回 **delete_after_result** 属性的值，默认为：
 
 ```php
-protected $delete_after_result = [
+[
     'error' => 1,
     'msg' => 'error:after_fail'
 ];
@@ -199,15 +206,16 @@ protected $delete_after_result = [
 在生命周期函数中可以通过重写自定义后置返回
 
 ```php
-use think\bit\common\DeleteModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\DeleteAfterHooks;
+use think\bit\common\DeleteModel;
 
-class AdminClass extends Base implements DeleteAfterHooks {
+class AdminClass extends BaseController implements DeleteAfterHooks {
     use DeleteModel;
 
     protected $model = 'admin';
 
-    public function __deleteAfterHooks()
+    public function deleteAfterHooks(): bool
     {
         $this->delete_after_result = [
             'error'=> 1,

@@ -32,8 +32,8 @@ trait OriginListsModel
             validate($this->origin_lists_default_validate)
                 ->check($this->post);
 
-            if (method_exists($this, '__originListsBeforeHooks') &&
-                !$this->__originListsBeforeHooks()) {
+            if (method_exists($this, 'originListsBeforeHooks') &&
+                !$this->originListsBeforeHooks()) {
                 return $this->origin_lists_before_result;
             }
 
@@ -64,8 +64,8 @@ trait OriginListsModel
                 $listsQuery->where($this->origin_lists_condition_query)
                     ->select();
 
-            return method_exists($this, '__originListsCustomReturn') ?
-                $this->__originListsCustomReturn($lists) : [
+            return method_exists($this, 'originListsCustomReturn') ?
+                $this->originListsCustomReturn($lists) : [
                     'error' => 0,
                     'data' => $lists->toArray()
                 ];

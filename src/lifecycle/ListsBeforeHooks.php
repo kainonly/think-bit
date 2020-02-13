@@ -13,5 +13,5 @@ interface ListsBeforeHooks
      * 前置处理
      * @return bool
      */
-    public function __listsBeforeHooks(): bool;
+    public function listsBeforeHooks(): bool;
 }

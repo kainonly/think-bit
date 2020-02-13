@@ -13,5 +13,5 @@ interface AddBeforeHooks
      * 前置处理
      * @return bool
      */
-    public function __addBeforeHooks(): bool;
+    public function addBeforeHooks(): bool;
 }

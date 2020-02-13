@@ -1,6 +1,6 @@
 ## Auth 登录鉴权
 
-Auth 基于 `\think\extra\service\TokenService` 服务，创建登录后将 Token 字符串存储在Cookie 中，通过主控制去引用该特性
+Auth 创建登录后将 Token 字符串存储在Cookie 中，通过主控制去引用该特性
 
 ```php
 class Main extends Base
@@ -9,7 +9,7 @@ class Main extends Base
 }
 ```
 
-#### __refreshTokenExpires()
+#### refreshTokenExpires()
 
 设置令牌自动刷新的总时效，通过重写自定义
 
@@ -20,14 +20,14 @@ class Main extends Base
 {
     use Auth;
 
-    protected function __refreshTokenExpires()
+    protected function refreshTokenExpires()
     {
         return 7200;
     }
 }
 ```
 
-#### __create(string $scene, array $symbol = [])
+#### create(string $scene, array $symbol = [])
 
 创建登录鉴权
 
@@ -48,7 +48,7 @@ class Main extends Base
         // ...
         // 登录验证成功
 
-        return $this->__create('system', [
+        return $this->create('system', [
             'user' => $raws['username'],
             'role' => explode(',', $raws['role'])
         ]);
@@ -74,7 +74,7 @@ class Main extends Base
 }
 ```
 
-#### __destory(string $scene)
+#### destory(string $scene)
 
 销毁登录鉴权
 
@@ -87,7 +87,7 @@ class Main extends Base
 
     public function logout()
     {
-        return $this->__destory('system');
+        return $this->destory('system');
     }
 }
 ```

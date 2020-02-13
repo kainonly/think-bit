@@ -32,8 +32,8 @@ trait ListsModel
             validate($this->lists_default_validate)
                 ->check($this->post);
 
-            if (method_exists($this, '__listsBeforeHooks') &&
-                !$this->__listsBeforeHooks()) {
+            if (method_exists($this, 'listsBeforeHooks') &&
+                !$this->listsBeforeHooks()) {
                 return $this->lists_before_result;
             }
 
@@ -77,17 +77,17 @@ trait ListsModel
                     ->select();
             }
 
-            if (method_exists($this, '__listsCustomReturn')) {
-                return $this->__listsCustomReturn($lists, $total);
-            } else {
-                return [
-                    'error' => 0,
-                    'data' => [
-                        'lists' => $lists->toArray(),
-                        'total' => $total
-                    ]
-                ];
+            if (method_exists($this, 'listsCustomReturn')) {
+                return $this->listsCustomReturn($lists, $total);
             }
+
+            return [
+                'error' => 0,
+                'data' => [
+                    'lists' => $lists->toArray(),
+                    'total' => $total
+                ]
+            ];
         } catch (Exception $e) {
             return [
                 'error' => 1,

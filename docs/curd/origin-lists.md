@@ -41,9 +41,10 @@ OriginListsModel 是针对列表数据的通用请求处理，请求 `body` 使�
 将 **think\bit\common\OriginListsModel** 引入，然后定义模型 **model** 的名称（即表名称）
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\OriginListsModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use OriginListsModel;
 
     protected $model = 'admin';
@@ -72,9 +73,10 @@ class AdminClass extends Validate
 可定义固定条件属性 **origin_lists_condition**，默认为 `[]`
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\OriginListsModel;
 
-class NoBodyClass extends Base {
+class NoBodyClass extends BaseController {
     use OriginListsModel;
 
     protected $model = 'nobody';
@@ -87,16 +89,19 @@ class NoBodyClass extends Base {
 如果接口的查询条件较为特殊，可以重写 **origin_lists_condition_query**
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\OriginListsModel;
+use think\App;
+use think\db\Query;
 
-class NoBodyClass extends Base {
+class NoBodyClass extends BaseController {
     use OriginListsModel;
 
     protected $model = 'nobody';
     
-    public function __construct(App $app = null)
+    public function construct(App $app = null)
     {
-        parent::__construct($app);
+        parent::construct($app);
         $this->origin_lists_condition_query = function (Query $query) {
             $query->whereOr([
                 'type' => 1
@@ -111,22 +116,23 @@ class NoBodyClass extends Base {
 如自定义前置处理，则需要继承生命周期 **think\bit\lifecycle\OriginListsBeforeHooks**
 
 ```php
-use think\bit\common\OriginListsModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\OriginListsBeforeHooks;
+use think\bit\common\OriginListsModel;
 
-class AdminClass extends Base implements OriginListsBeforeHooks {
+class AdminClass extends BaseController implements OriginListsBeforeHooks {
     use OriginListsModel;
 
     protected $model = 'admin';
 
-    public function __originListsBeforeHooks()
+    public function originListsBeforeHooks(): bool
     {
         return true;
     }
 }
 ```
 
-**__originListsBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **origin_lists_before_result** 属性的值，默认为：
+**originListsBeforeHooks** 的返回值为 `false` 则在此结束执行，并返回 **origin_lists_before_result** 属性的值，默认为：
 
 ```php
 protected $origin_lists_before_result = [
@@ -138,15 +144,16 @@ protected $origin_lists_before_result = [
 在生命周期函数中可以通过重写自定义前置返回
 
 ```php
-use think\bit\common\OriginListsModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\OriginListsBeforeHooks;
+use think\bit\common\OriginListsModel;
 
-class AdminClass extends Base implements OriginListsBeforeHooks {
+class AdminClass extends BaseController implements OriginListsBeforeHooks {
     use OriginListsModel;
 
     protected $model = 'admin';
 
-    public function __originListsBeforeHooks()
+    public function originListsBeforeHooks(): bool
     {
         $this->origin_lists_before_result = [
             'error'=> 1,
@@ -162,15 +169,16 @@ class AdminClass extends Base implements OriginListsBeforeHooks {
 如需要给接口在后端就设定固定条件，只需要重写 **origin_lists_condition**，默认为
 
 ```php
-protected $origin_lists_condition = [];
+$origin_lists_condition = [];
 ```
 
 例如加入企业主键限制
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\OriginListsModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use OriginListsModel;
 
     protected $model = 'admin';
@@ -191,9 +199,10 @@ protected $origin_lists_orders = ['create_time' => 'desc'];
 多属性排序
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\OriginListsModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use OriginListsModel;
 
     protected $model = 'admin';
@@ -213,9 +222,10 @@ protected $origin_lists_without_field = ['update_time', 'create_time'];
 例如返回除 **update_time** 修改时间所有的字段
 
 ```php
+use app\system\controller\BaseController;
 use think\bit\common\OriginListsModel;
 
-class AdminClass extends Base {
+class AdminClass extends BaseController {
     use OriginListsModel;
 
     protected $model = 'admin';
@@ -228,30 +238,31 @@ class AdminClass extends Base {
 如自定义返回结果，则需要继承生命周期 **think\bit\lifecycle\OriginListsCustom**
 
 ```php
-use think\bit\common\OriginListsModel;
+use app\system\controller\BaseController;
 use think\bit\lifecycle\OriginListsCustom;
+use think\bit\common\OriginListsModel;
 
-class AdminClass extends Base implements OriginListsCustom {
+class AdminClass extends BaseController implements OriginListsCustom {
     use OriginListsModel;
 
     protected $model = 'admin';
 
-    public function __originListsCustomReturn(Array $lists)
+    public function originListsCustomReturn(Array $lists): array
     {
-        return json([
+        return [
             'error' => 0,
             'data' => $lists
-        ]);
+        ];
     }
 }
 ```
 
-**__originListsCustomReturn** 需要返回整体的响应结果
+**originListsCustomReturn** 需要返回整体的响应结果
 
 ```php
 return json([
     'error' => 0,
-    'data' => $data
+    'data' => []
 ]);
 ```
 

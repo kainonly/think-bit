@@ -13,5 +13,5 @@ interface DeleteAfterHooks
      * 后置处理
      * @return bool
      */
-    public function __deleteAfterHooks(): bool;
+    public function deleteAfterHooks(): bool;
 }

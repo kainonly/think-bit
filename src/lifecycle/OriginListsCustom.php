@@ -14,5 +14,5 @@ interface OriginListsCustom
      * @param array $lists
      * @return array
      */
-    public function __originListsCustomReturn(array $lists): array;
+    public function originListsCustomReturn(array $lists): array;
 }
