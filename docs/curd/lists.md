@@ -1,6 +1,6 @@
 ## ListsModel 获取分页数据
 
-ListsModel 是针对分页数据的通用请求处理，请求 `body` 使用数组查询方式来定义
+ListsModel 分页数据的通用请求处理，请求 `body` 使用数组查询方式来定义
 
 - **where** `array` 查询条件
 

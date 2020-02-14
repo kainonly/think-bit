@@ -1,6 +1,6 @@
 ## DeleteModel 删除数据
 
-DeleteModel 是针对删除数据的通用请求处理，请求 `body` 可使用 **id** 或 **where** 字段进行查询，二者选一
+DeleteModel 删除数据的通用请求处理，请求 `body` 可使用 **id** 或 **where** 字段进行查询，二者选一
 
 - **id** `int|string` 主键
 - **where** `array` 查询条件

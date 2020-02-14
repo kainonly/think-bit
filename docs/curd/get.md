@@ -1,6 +1,6 @@
 ## GetModel 获取单个数据
 
-GetModel 是针对获取单条数据的通用请求处理，请求 `body` 可使用 **id** 或 **where** 字段进行查询，二者选一
+GetModel 获取单条数据的通用请求处理，请求 `body` 可使用 **id** 或 **where** 字段进行查询，二者选一
 
 - **id** `int|string` 主键
 - **where** `array` 查询条件

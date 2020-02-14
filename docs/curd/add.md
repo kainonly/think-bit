@@ -1,6 +1,6 @@
 ## AddModel 新增数据
 
-AddModel 是针对新增数据的通用请求处理
+AddModel 新增数据的通用请求处理
 
 #### 初始化
 

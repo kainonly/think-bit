@@ -1,6 +1,6 @@
 ## CurdController 模型控制器
 
-CurdController 是辅助 CURD 模型库的主控制器属性都继承于此，CurdController 控制器已经包含了默认的 BaseController，开发中可以再渡继承处理，例如
+CurdController 辅助 CURD 模型库的主控制器属性都继承于此，CurdController 控制器已经包含了默认的 BaseController，开发中可以再渡继承处理，例如
 
 ```php
 use think\bit\CurdController;

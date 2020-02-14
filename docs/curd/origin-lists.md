@@ -1,6 +1,6 @@
 ## OriginListsModel 获取列表数据
 
-OriginListsModel 是针对列表数据的通用请求处理，请求 `body` 使用数组查询方式来定义
+OriginListsModel 列表数据的通用请求处理，请求 `body` 使用数组查询方式来定义
 
 - **where** `array` 查询条件
 
