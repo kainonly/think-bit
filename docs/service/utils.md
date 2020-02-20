@@ -3,11 +3,11 @@
 Utils 是常用工具服务，此服务必须安装 `kain/think-extra`， 安装后服务将自动注册可通过依赖注入使用
 
 ```php
-use think\extra\contract\JumpInterface;
+use think\extra\contract\UtilsInterface;
 
 class Index extends BaseController
 {
-    public function index(JumpInterface $utils)
+    public function index(UtilsInterface $utils)
     {
         $utils->uuid();
     }
