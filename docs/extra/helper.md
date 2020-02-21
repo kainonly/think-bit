@@ -1,18 +1,6 @@
-## Utils 工具集
+## Helper 助手
 
-Utils 是常用工具服务，此服务必须安装 `kain/think-extra`， 安装后服务将自动注册可通过依赖注入使用
-
-```php
-use think\extra\contract\UtilsInterface;
-
-class Index extends BaseController
-{
-    public function index(UtilsInterface $utils)
-    {
-        $utils->uuid();
-    }
-}
-```
+Helper 助手函数扩展，此服务必须安装 `kain/think-extra`
 
 #### uuid()
 
@@ -21,9 +9,7 @@ class Index extends BaseController
 - **Return** `UuidInterface`
 
 ```php
-use think\support\facade\Utils;
-
-$uuid = Utils::uuid();
+$uuid = uuid();
 
 dump($uuid);
 
@@ -58,9 +44,7 @@ dump($uuid->toString());
 - **Return** `Stringy\Stringy`
 
 ```php
-use think\support\facade\Utils;
-
-Utils::stringy('abc');
+stringy('abc');
 ```
 
 **Stringy\Stringy** 对象说明

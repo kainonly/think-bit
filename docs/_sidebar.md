@@ -7,15 +7,18 @@
   - [EditModel 编辑数据](curd/edit)
   - [DeleteModel 删除数据](curd/delete)
 
-- Service 服务
-  - [Utils 工具集](service/utils)
-  - [Hash 密码](service/hash)
-  - [Cipher 数据加密](service/cipher)
-  - [Token 令牌](service/token)
-  - [Redis 缓存](service/redis)
-  - [AMQP 消息队列](service/amqp)
-  - [ElasticSearch 全文搜索](service/elastic)
-  - [阿里云相关扩展](service/aliyun)
+- Extra 扩展
+  - [Hash 密码](extra/hash)
+  - [Cipher 数据加密](extra/cipher)
+  - [Token 令牌](extra/token)
+  - [Utils 工具集](extra/utils)
+  - [Helper 助手](extra/helper)
+  
+- Component 组件
+  - [Redis 缓存](component/redis)
+  - [AMQP 消息队列](component/amqp)
+  - [ElasticSearch 全文搜索](component/elastic)
+  - [阿里云相关扩展](component/aliyun)
 
 - Middleware 中间件
   - [CORS 跨站设置](middleware/cors)
