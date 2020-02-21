@@ -2,8 +2,11 @@
   "name": "kain/think-bit",
   "description": "辅助 ThinkPHP 快速集成 CURD API 的手脚架",
   "require": {
-    "php": ">=7.2.0",
+    "php": ">=7.4.0",
     "topthink/framework": "^6.0.0"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
   },
   "autoload": {
     "psr-4": {
