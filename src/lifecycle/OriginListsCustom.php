@@ -3,6 +3,8 @@ declare (strict_types=1);
 
 namespace think\bit\lifecycle;
 
+use think\Collection;
+
 /**
  * Interface OriginListsCustom
  * @package think\bit\lifecycle
@@ -11,8 +13,8 @@ interface OriginListsCustom
 {
     /**
      * 自定义返回
-     * @param array $lists
+     * @param Collection $lists
      * @return array
      */
-    public function originListsCustomReturn(array $lists): array;
+    public function originListsCustomReturn(Collection $lists): array;
 }

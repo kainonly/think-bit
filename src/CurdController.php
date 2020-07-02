@@ -18,43 +18,43 @@ abstract class CurdController
      * Request实例
      * @var Request
      */
-    protected $request;
+    protected Request $request;
 
     /**
      * 应用实例
      * @var App
      */
-    protected $app;
+    protected App $app;
 
     /**
      * 是否批量验证
      * @var bool
      */
-    protected $batchValidate = false;
+    protected bool $batchValidate = false;
 
     /**
      * 控制器中间件
      * @var array
      */
-    protected $middleware = [];
+    protected array $middleware = [];
 
     /**
      * 模型名称
      * @var string
      */
-    protected $model;
+    protected string $model;
 
     /**
      * 请求body
      * @var array
      */
-    protected $post = [];
+    protected array $post = [];
 
     /**
      * 默认列表数据验证
      * @var array
      */
-    protected $origin_lists_default_validate = [
+    protected array $origin_lists_default_validate = [
         'where' => 'array'
     ];
 
@@ -62,7 +62,7 @@ abstract class CurdController
      * 默认前置返回结果
      * @var array
      */
-    protected $origin_lists_before_result = [
+    protected array $origin_lists_before_result = [
         'error' => 1,
         'msg' => 'error:before_fail'
     ];
@@ -71,37 +71,37 @@ abstract class CurdController
      * 列表查询条件
      * @var array
      */
-    protected $origin_lists_condition = [];
+    protected array $origin_lists_condition = [];
 
     /**
      * 列表查询闭包条件
      * @var Closure|null
      */
-    protected $origin_lists_condition_query = null;
+    protected ?Closure $origin_lists_condition_query = null;
 
     /**
      * 列表数据排序
      * @var array
      */
-    protected $origin_lists_orders = ['create_time' => 'desc'];
+    protected array $origin_lists_orders = ['create_time' => 'desc'];
 
     /**
      * 列表数据指定返回字段
      * @var array
      */
-    protected $origin_lists_field = [];
+    protected array $origin_lists_field = [];
 
     /**
      * 列表数据指定排除的返回字段
      * @var array
      */
-    protected $origin_lists_without_field = ['update_time', 'create_time'];
+    protected array $origin_lists_without_field = ['update_time', 'create_time'];
 
     /**
      * 分页数据默认验证器
      * @var array
      */
-    protected $lists_default_validate = [
+    protected array $lists_default_validate = [
         'page' => 'require',
         'page.limit' => 'require|number|between:1,50',
         'page.index' => 'require|number|min:1',
@@ -112,7 +112,7 @@ abstract class CurdController
      * 分页数据前置返回结果
      * @var array
      */
-    protected $lists_before_result = [
+    protected array $lists_before_result = [
         'error' => 1,
         'msg' => 'error:before_fail'
     ];
@@ -121,37 +121,37 @@ abstract class CurdController
      * 分页数据查询条件
      * @var array
      */
-    protected $lists_condition = [];
+    protected array $lists_condition = [];
 
     /**
      * 分页数据查询闭包条件
      * @var Closure|null
      */
-    protected $lists_condition_query = null;
+    protected ?Closure $lists_condition_query = null;
 
     /**
      * 分页数据排序
      * @var array
      */
-    protected $lists_orders = ['create_time' => 'desc'];
+    protected array $lists_orders = ['create_time' => 'desc'];
 
     /**
      * 分页数据指定返回字段
      * @var array
      */
-    protected $lists_field = [];
+    protected array $lists_field = [];
 
     /**
      * 分页数据指定排除的返回字段
      * @var array
      */
-    protected $lists_without_field = ['update_time', 'create_time'];
+    protected array $lists_without_field = ['update_time', 'create_time'];
 
     /**
      * 单条数据默认验证器
      * @var array
      */
-    protected $get_default_validate = [
+    protected array $get_default_validate = [
         'id' => 'requireWithout:where|number',
         'where' => 'requireWithout:id|array'
     ];
@@ -160,7 +160,7 @@ abstract class CurdController
      * 单条数据前置返回结果
      * @var array
      */
-    protected $get_before_result = [
+    protected array $get_before_result = [
         'error' => 1,
         'msg' => 'error:before_fail'
     ];
@@ -169,43 +169,43 @@ abstract class CurdController
      * 单条数据查询条件
      * @var array
      */
-    protected $get_condition = [];
+    protected array $get_condition = [];
 
     /**
      * 单条数据指定返回字段
      * @var array
      */
-    protected $get_field = [];
+    protected array $get_field = [];
 
     /**
      * 单条数据指定排除的返回字段
      * @var array
      */
-    protected $get_without_field = ['update_time', 'create_time'];
+    protected array $get_without_field = ['update_time', 'create_time'];
 
     /**
      * 分离新增模型名称
      * @var string
      */
-    protected $add_model;
+    protected string $add_model;
 
     /**
      * 新增数据默认验证器
      * @var array
      */
-    protected $add_default_validate = [];
+    protected array $add_default_validate = [];
 
     /**
      * 自动更新时间戳
      * @var bool
      */
-    protected $add_auto_timestamp = true;
+    protected bool $add_auto_timestamp = true;
 
     /**
      * 新增数据前置返回结果
      * @var array
      */
-    protected $add_before_result = [
+    protected array $add_before_result = [
         'error' => 1,
         'msg' => 'error:before_fail'
     ];
@@ -214,7 +214,7 @@ abstract class CurdController
      * 新增数据后置返回结果
      * @var array
      */
-    protected $add_after_result = [
+    protected array $add_after_result = [
         'error' => 1,
         'msg' => 'error:after_fail'
     ];
@@ -223,7 +223,7 @@ abstract class CurdController
      * 新增数据失败返回结果
      * @var array
      */
-    protected $add_fail_result = [
+    protected array $add_fail_result = [
         'error' => 1,
         'msg' => 'error:insert_fail'
     ];
@@ -232,13 +232,13 @@ abstract class CurdController
      * 分离修改模型名称
      * @var string
      */
-    protected $edit_model;
+    protected string $edit_model;
 
     /**
      * 编辑默认验证器
      * @var array
      */
-    protected $edit_default_validate = [
+    protected array $edit_default_validate = [
         'id' => 'require|number',
         'switch' => 'require|bool'
     ];
@@ -247,19 +247,19 @@ abstract class CurdController
      * 自动更新时间戳
      * @var bool
      */
-    protected $edit_auto_timestamp = true;
+    protected bool $edit_auto_timestamp = true;
 
     /**
      * 是否仅为状态编辑
      * @var bool
      */
-    protected $edit_switch = false;
+    protected bool $edit_switch = false;
 
     /**
      * 编辑前置返回结果
      * @var array
      */
-    protected $edit_before_result = [
+    protected array $edit_before_result = [
         'error' => 1,
         'msg' => 'error:before_fail'
     ];
@@ -268,13 +268,13 @@ abstract class CurdController
      * 编辑查询条件
      * @var array
      */
-    protected $edit_condition = [];
+    protected array $edit_condition = [];
 
     /**
      * 编辑失败返回结果
      * @var array
      */
-    protected $edit_fail_result = [
+    protected array $edit_fail_result = [
         'error' => 1,
         'msg' => 'error:fail'
     ];
@@ -283,7 +283,7 @@ abstract class CurdController
      * 编辑后置返回结果
      * @var array
      */
-    protected $edit_after_result = [
+    protected array $edit_after_result = [
         'error' => 1,
         'msg' => 'error:after_fail'
     ];
@@ -292,13 +292,13 @@ abstract class CurdController
      * 分离删除模型名称
      * @var string
      */
-    protected $delete_model;
+    protected string $delete_model;
 
     /**
      * 删除默认验证器
      * @var array
      */
-    protected $delete_default_validate = [
+    protected array $delete_default_validate = [
         'id' => 'require'
     ];
 
@@ -306,7 +306,7 @@ abstract class CurdController
      * 删除前置返回结果
      * @var array
      */
-    protected $delete_before_result = [
+    protected array $delete_before_result = [
         'error' => 1,
         'msg' => 'error:before_fail'
     ];
@@ -315,13 +315,13 @@ abstract class CurdController
      * 删除查询条件
      * @var array
      */
-    protected $delete_condition = [];
+    protected array $delete_condition = [];
 
     /**
      * 删除处理事务开始之后数据写入之前返回结果
      * @var array
      */
-    protected $delete_prep_result = [
+    protected array $delete_prep_result = [
         'error' => 1,
         'msg' => 'error:prep_fail'
     ];
@@ -330,7 +330,7 @@ abstract class CurdController
      * 删除失败返回结果
      * @var array
      */
-    protected $delete_fail_result = [
+    protected array $delete_fail_result = [
         'error' => 1,
         'msg' => 'error:fail'
     ];
@@ -339,7 +339,7 @@ abstract class CurdController
      * 删除后置返回结果
      * @var array
      */
-    protected $delete_after_result = [
+    protected array $delete_after_result = [
         'error' => 1,
         'msg' => 'error:after_fail'
     ];
@@ -359,7 +359,7 @@ abstract class CurdController
     }
 
     // 初始化
-    protected function initialize()
+    protected function initialize(): void
     {
 
     }
