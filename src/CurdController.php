@@ -172,6 +172,18 @@ abstract class CurdController
     protected array $get_condition = [];
 
     /**
+     * 单条数据查询闭包条件
+     * @var Closure|null
+     */
+    protected ?Closure $get_condition_query = null;
+
+    /**
+     * 单条数据排序
+     * @var array
+     */
+    protected array $get_orders = ['create_time' => 'desc'];
+
+    /**
      * 单条数据指定返回字段
      * @var array
      */

@@ -69,8 +69,7 @@ trait ListsModel
                 ->page($this->post['page']['index']);
 
             if (empty($this->lists_condition_query)) {
-                $lists = $listsQuery
-                    ->select();
+                $lists = $listsQuery->select();
             } else {
                 $lists = $listsQuery
                     ->where($this->lists_condition_query)
