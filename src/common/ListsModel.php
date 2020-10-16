@@ -49,7 +49,7 @@ trait ListsModel
             if (!empty($this->post['order'])) {
                 $condition = array_merge(
                     $orders,
-                    $this->post['order']
+                    (array)$this->post['order']
                 );
             }
 
