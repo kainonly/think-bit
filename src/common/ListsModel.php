@@ -47,7 +47,7 @@ trait ListsModel
 
             $orders = $this->lists_orders;
             if (!empty($this->post['order'])) {
-                $condition = array_merge(
+                $orders = array_merge(
                     $orders,
                     (array)$this->post['order']
                 );
