@@ -17,6 +17,8 @@ use think\facade\Db;
  * @property array $add_before_result 前置返回结果
  * @property array $add_after_result 后置返回结果
  * @property array $add_fail_result 新增执行失败结果
+ * @method bool addAfterHooks($id)
+ * @method bool addBeforeHooks()
  */
 trait AddModel
 {

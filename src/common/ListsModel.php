@@ -5,6 +5,7 @@ namespace think\bit\common;
 
 use Closure;
 use Exception;
+use think\Collection;
 use think\facade\Db;
 
 /**
@@ -19,6 +20,8 @@ use think\facade\Db;
  * @property array $lists_field 固定字段
  * @property array $lists_without_field 排除字段
  * @property array $lists_orders 排序设定
+ * @method bool listsBeforeHooks()
+ * @method array listsCustomReturn(Collection $lists, int $total): array
  */
 trait ListsModel
 {

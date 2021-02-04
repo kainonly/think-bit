@@ -18,6 +18,9 @@ use think\facade\Db;
  * @property array delete_condition
  * @property array delete_after_result 后置返回结果
  * @property array delete_fail_result 新增执行失败结果
+ * @method bool deleteBeforeHooks()
+ * @method bool deletePrepHooks()
+ * @method bool deleteAfterHooks()
  */
 trait DeleteModel
 {

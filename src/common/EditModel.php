@@ -19,6 +19,8 @@ use think\facade\Db;
  * @property array $edit_condition 默认条件
  * @property array $edit_after_result 后置返回结果
  * @property array $edit_fail_result 新增执行失败结果
+ * @method bool editBeforeHooks()
+ * @method bool editAfterHooks()
  */
 trait EditModel
 {

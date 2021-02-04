@@ -19,6 +19,8 @@ use think\facade\Db;
  * @property array $get_field 固定字段
  * @property array $get_without_field 排除字段
  * @property array $get_orders 排序设定
+ * @method bool getBeforeHooks()
+ * @method array getCustomReturn(array $data)
  */
 trait GetModel
 {
