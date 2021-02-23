@@ -38,7 +38,8 @@ trait EditModel
         ))->check($this->post);
 
         $this->edit_switch = $this->post['switch'];
-        if (!$this->edit_switch && validate($this->model)->hasScene('edit')) {
+
+        if (!$this->edit_switch && class_exists(app()->parseClass('validate', $this->model))) {
             validate($this->model)->scene('edit')->check($this->post);
         }
 

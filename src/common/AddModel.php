@@ -32,7 +32,7 @@ trait AddModel
         if (!empty($this->add_validate)) {
             validate($this->add_validate)->check($this->post);
         }
-        if (validate($this->model)->hasScene('add')) {
+        if (class_exists(app()->parseClass('validate', $this->model))) {
             validate($this->model)->scene('add')->check($this->post);
         }
         if ($this->add_auto_timestamp) {
