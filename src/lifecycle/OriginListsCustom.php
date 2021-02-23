@@ -8,6 +8,7 @@ use think\Collection;
 /**
  * Interface OriginListsCustom
  * @package think\bit\lifecycle
+ * @deprecated
  */
 interface OriginListsCustom
 {

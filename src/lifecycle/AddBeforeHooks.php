@@ -6,6 +6,7 @@ namespace think\bit\lifecycle;
 /**
  * Interface AddBeforeHooks
  * @package think\bit\lifecycle
+ * @deprecated
  */
 interface AddBeforeHooks
 {

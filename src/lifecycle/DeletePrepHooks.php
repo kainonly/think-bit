@@ -6,6 +6,7 @@ namespace think\bit\lifecycle;
 /**
  * Interface DeletePrepHooks
  * @package think\bit\lifecycle
+ * @deprecated
  */
 interface DeletePrepHooks
 {

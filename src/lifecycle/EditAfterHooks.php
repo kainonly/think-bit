@@ -6,6 +6,7 @@ namespace think\bit\lifecycle;
 /**
  * Interface EditAfterHooks
  * @package think\bit\lifecycle
+ * @deprecated
  */
 interface EditAfterHooks
 {

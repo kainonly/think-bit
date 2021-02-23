@@ -8,6 +8,7 @@ use think\Collection;
 /**
  * Interface ListsCustom
  * @package think\bit\lifecycle
+ * @deprecated
  */
 interface ListsCustom
 {

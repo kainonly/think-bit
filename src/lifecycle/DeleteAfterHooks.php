@@ -6,6 +6,7 @@ namespace think\bit\lifecycle;
 /**
  * Interface DeleteAfterHooks
  * @package think\bit\lifecycle
+ * @deprecated
  */
 interface DeleteAfterHooks
 {

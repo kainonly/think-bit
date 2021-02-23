@@ -6,6 +6,7 @@ namespace think\bit\lifecycle;
 /**
  * Interface ListsBeforeHooks
  * @package think\bit\lifecycle
+ * @deprecated
  */
 interface ListsBeforeHooks
 {

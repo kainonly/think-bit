@@ -6,6 +6,7 @@ namespace think\bit\lifecycle;
 /**
  * Interface OriginListsBeforeHooks
  * @package think\bit\lifecycle
+ * @deprecated
  */
 interface OriginListsBeforeHooks
 {

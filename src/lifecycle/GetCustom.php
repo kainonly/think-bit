@@ -6,6 +6,7 @@ namespace think\bit\lifecycle;
 /**
  * Interface GetCustom
  * @package think\bit\lifecycle
+ * @deprecated
  */
 interface GetCustom
 {

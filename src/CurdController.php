@@ -27,12 +27,6 @@ abstract class CurdController
     protected App $app;
 
     /**
-     * 是否批量验证
-     * @var bool
-     */
-    protected bool $batchValidate = false;
-
-    /**
      * 控制器中间件
      * @var array
      */
@@ -57,6 +51,12 @@ abstract class CurdController
     protected array $origin_lists_default_validate = [
         'where' => 'array'
     ];
+
+    /**
+     * 列表数据验证
+     * @var array
+     */
+    protected array $origin_lists_validate = [];
 
     /**
      * 默认前置返回结果
@@ -109,6 +109,12 @@ abstract class CurdController
     ];
 
     /**
+     * 分页数据验证器
+     * @var array
+     */
+    protected array $lists_validate = [];
+
+    /**
      * 分页数据前置返回结果
      * @var array
      */
@@ -155,6 +161,12 @@ abstract class CurdController
         'id' => 'requireWithout:where|number',
         'where' => 'requireWithout:id|array'
     ];
+
+    /**
+     * 单条数据验证器
+     * @var array
+     */
+    protected array $get_validate = [];
 
     /**
      * 单条数据前置返回结果
@@ -205,7 +217,7 @@ abstract class CurdController
      * 新增数据默认验证器
      * @var array
      */
-    protected array $add_default_validate = [];
+    protected array $add_validate = [];
 
     /**
      * 自动更新时间戳
@@ -251,9 +263,16 @@ abstract class CurdController
      * @var array
      */
     protected array $edit_default_validate = [
-        'id' => 'require|number',
-        'switch' => 'require|bool'
+        'id' => 'requireWithout:where|number',
+        'where' => 'requireWithout:id|array',
+        'switch' => 'require|bool',
     ];
+
+    /**
+     * 编辑验证器
+     * @var array
+     */
+    protected array $edit_validate = [];
 
     /**
      * 自动更新时间戳
@@ -311,8 +330,15 @@ abstract class CurdController
      * @var array
      */
     protected array $delete_default_validate = [
-        'id' => 'require'
+        'id' => 'requireWithout:where|array',
+        'where' => 'requireWithout:id|array',
     ];
+
+    /**
+     * 删除验证器
+     * @var array
+     */
+    protected array $delete_validate = [];
 
     /**
      * 删除前置返回结果
