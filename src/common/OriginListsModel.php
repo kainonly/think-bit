@@ -53,8 +53,8 @@ trait OriginListsModel
         $orders = $this->origin_lists_orders;
         if (!empty($this->post['order'])) {
             $orders = array_merge(
+                (array)$this->post['order'],
                 $orders,
-                (array)$this->post['order']
             );
         }
 
